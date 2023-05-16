@@ -1,0 +1,34 @@
+{
+    "User Name": "windows os",
+    "EIIN": "2212",
+    "School Name": "Govt Lab High School",
+    "PC ID": "1455",
+    "Lab ID": "12",
+    "School": [
+      {
+        "start_time": "5/10/2023, 12:23:42 PM",
+        "end_time": "5/10/2023, 8:46:32 PM",
+        "total_time": "7 hours 35 minutes"
+      },
+      {
+        "start_time": "5/11/2023, 9:19:01 AM",
+        "end_time": "5/11/2023, 5:47:01 PM",
+        "total_time": "8 hours 28 minutes"
+      },
+      {
+        "start_time": "5/13/2023, 11:31:48 AM",
+        "end_time": "5/13/2023, 7:19:46 PM",
+        "total_time": "7 hours 1 minute"
+      },
+      {
+        "start_time": "5/14/2023, 12:11:32 PM",
+        "end_time": "5/14/2023, 12:35:53 PM",
+        "total_time": "24 minutes"
+      },
+      {
+        "start_time": "5/14/2023, 12:11:32 PM",
+        "end_time": "5/14/2023, 12:35:53 PM",
+        "total_time": "28 minutes"
+      }
+    ]
+  }

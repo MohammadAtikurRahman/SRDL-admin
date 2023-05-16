@@ -13,6 +13,7 @@ import "./Login.css";
 import File from "./File";
 import Allcontent from "./Allcontent.js";
 import Pctable from "./Pctable.js"
+import Videotable from "./Videotable"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path="/previous" element={<Previous />} />
       <Route path="/allcontent" element={<Allcontent />} />
       <Route path="/pctable" element={<Pctable />} />
+      <Route path="/videotable" element={<Videotable />} />
 
       <Route path="/profile/:id" element={<Profile />} />
     </Routes>

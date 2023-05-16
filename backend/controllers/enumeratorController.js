@@ -46,13 +46,22 @@ async function userLogin(req, res) {
 }
 
 async function saveCsvpc(req, res) {
-  let data = [];
+  let schoolData = [];
+  let videoData = [];
 
   try {
     const stream = fs.createReadStream(req.file.path);
     for await (const row of stream.pipe(csv())) {
-      data.push(row);
+      // Check if the row has a 'Location' field
+      if(row.hasOwnProperty('Location')) {
+        // If it does, add it to the videoData array
+        videoData.push(row);
+      } else {
+        // If it doesn't have a 'Location' field, add it to the schoolData array
+        schoolData.push(row);
+      }
     }
+    
     console.log('CSV file successfully processed');
 
     const userId = userid;
@@ -64,20 +73,39 @@ async function saveCsvpc(req, res) {
     if (users.length > 0) {
       // Update the first user found with the new data
       const user = users[0];
-      const newData = {
-        pc_name: data[0]['User Name'],
-        eiin: data[0]['EIIN'],
-        school_name: data[0]['School Name'],
-        pc_id: data[0]['PC ID'],
-        lab_id: data[0]['Lab ID'],
-        track: data.slice(2).map((row) => ({
-          start_time: row['User Name'],
-          end_time: row['EIIN'],
-          total_time: row['School Name'],
-        })),
-      };
 
-      user.school.push(newData);
+      // Check if schoolData is not empty
+      if(schoolData.length > 0) {
+        // Prepare new school data
+        const newSchoolData = {
+          pc_name: schoolData[0]['User Name'],
+          eiin: schoolData[0]['EIIN'],
+          school_name: schoolData[0]['School Name'],
+          pc_id: schoolData[0]['PC ID'],
+          lab_id: schoolData[0]['Lab ID'],
+          track: schoolData.slice(2).map((row) => ({
+            start_time: row['User Name'],
+            end_time: row['EIIN'],
+            total_time: row['School Name'],
+          })),
+        };
+        user.school.push(newSchoolData);
+      }
+
+      // Check if videoData is not empty
+      if(videoData.length > 0) {
+        // Prepare new video data
+        const newVideoData = videoData.map((row) => ({
+          video_name: row['Video Name'],
+          location: row['Location'],
+          pl_start: row['Player Time'],
+          start_date_time: row['PC Time Start'],
+          pl_end: row['Player End Time'],
+          end_date_time: row['PC End Time'],
+          duration: row['Total Time'],
+        }));
+        user.video.push(...newVideoData);
+      }
 
       try {
         await user.save();
@@ -95,6 +123,8 @@ async function saveCsvpc(req, res) {
     res.status(500).send({ message: 'There was an error processing the CSV file.' });
   }
 }
+
+
 
 
 // async function savevideoCsvpc(req, res) {

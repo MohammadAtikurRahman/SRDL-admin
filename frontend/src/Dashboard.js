@@ -729,7 +729,7 @@ export default class Dashboard extends Component {
                 </Button>
               </div>
             ))}
-            <div style={{ flexGrow: 1 }} />
+            {/* <div style={{ flexGrow: 1 }} /> */}
             <div style={{ flexGrow: 1 }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 &nbsp; &nbsp; &nbsp; &nbsp;

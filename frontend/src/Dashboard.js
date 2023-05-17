@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import logo from "./logo.png"; // adjust the path as necessary
 
 import {
   TextField,
@@ -672,9 +673,19 @@ export default class Dashboard extends Component {
         )}
         <AppBar position="static" style={{ backgroundColor: "#1F8A70" }}>
           <Toolbar>
-            <h5>SRDL Dashboard</h5>
-            &nbsp;
-            &nbsp;
+            <h5 style={{ paddingTop: "10px" }}>
+              <img src={logo} alt="Logo" width="50" height="50" />
+            </h5>
+            <h5
+              style={{
+                paddingTop: "10px",
+                fontFamily: "Arial",
+                fontWeight: "bold",
+              }}
+            >
+              <b> SRDL Dashboard </b>
+            </h5>
+            &nbsp; &nbsp;
             <div>
               <input
                 accept=".csv"

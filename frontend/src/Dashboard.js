@@ -20,6 +20,8 @@ import { EditBeneficiary } from "./EditBeneficiary";
 import { AddBeneficiary } from "./AddBeneficiary";
 import Previous from "./Previous";
 import Pctable from "./Pctable";
+
+import Videotable from "./Videotable";
 import {
   AppBar,
   Toolbar,
@@ -128,8 +130,7 @@ export default class Dashboard extends Component {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
-      window.location.reload();
-
+    window.location.reload();
   };
 
   handleFileUploadvd = (event) => {
@@ -150,11 +151,8 @@ export default class Dashboard extends Component {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
-      window.location.reload();
-
+    window.location.reload();
   };
-
-
 
   handleClick(event) {
     this.setState({ anchorEl: event.currentTarget });
@@ -674,7 +672,9 @@ export default class Dashboard extends Component {
         )}
         <AppBar position="static" style={{ backgroundColor: "#1F8A70" }}>
           <Toolbar>
-
+            <h5>SRDL Dashboard</h5>
+            &nbsp;
+            &nbsp;
             <div>
               <input
                 accept=".csv"
@@ -690,8 +690,6 @@ export default class Dashboard extends Component {
                 </Button>
               </label>
             </div>
-
-
             &nbsp;&nbsp;
             <div>
               <input
@@ -941,7 +939,13 @@ export default class Dashboard extends Component {
                   ))}
               </TableBody>
             </Table>
-             <Pctable />
+
+            <div style={{ display: "inline" }}>
+              <Videotable />
+
+              <Pctable />
+            </div>
+
             {/* <Previous /> */}
 
             <Pagination

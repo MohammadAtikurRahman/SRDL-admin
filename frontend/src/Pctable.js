@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Videotable from "./Videotable";
 import {
   AppBar,
   Toolbar,
@@ -52,6 +53,7 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
+
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -60,6 +62,9 @@ const Pctable = () => {
                   <b> PC INFO </b> &nbsp;
                   {school.school_name}
                 </Button>
+
+                            {/* <Videotable /> */}
+
                 <br />
                 <br />
                 &nbsp; &nbsp; &nbsp;

@@ -10,7 +10,11 @@ import {
 const Videotable = () => {
   const [data, setData] = useState([]);
   const [showTable, setShowTable] = useState([]);
-
+  const [dataCount, setDataCount] = useState(1);
+  const incrementCount = () => {
+    setDataCount(dataCount + 1);
+  }
+  
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("http://localhost:2000/get-all");
@@ -34,15 +38,44 @@ const Videotable = () => {
     <div key={user._id}>
       <hr/>
       <Button
+  variant="contained"
+  color="primary"
+  size="small"
+>
+  Data count: {dataCount}
+</Button>
+
+      <Button
         className="button_style"
         variant="contained"
         color="primary"
         size="small"
-        style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
+        // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
         onClick={() => toggleTable(index)}
       >
-        {showTable[index] ? `Hide ${user.school[0].school_name}'s Table` : `Video Info ${user.school[0].school_name}`}
+        {showTable[index] ? `Hide ${user.school[0].eiin}'s Table` : `Eiin ${user.school[0].eiin}`}
       </Button>
+      <Button
+        className="button_style"
+        variant="contained"
+        color="primary"
+        size="small"
+        // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
+        onClick={() => toggleTable(index)}
+      >
+        {showTable[index] ? `Hide ${user.school[0].school_name}'s Table` : ` ${user.school[0].school_name}`}
+      </Button>
+      <Button
+        className="button_style"
+        variant="contained"
+        color="primary"
+        size="small"
+        // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
+        onClick={() => toggleTable(index)}
+      >
+        {showTable[index] ? `Hide ${user.school[0].updatedat}'s Table` : ` ${user.school[0].updatedat}`}
+      </Button>
+
       <br/>
       <br/>
       {showTable[index] && (

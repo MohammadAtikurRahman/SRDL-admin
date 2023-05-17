@@ -92,7 +92,7 @@ export default function Login(props) {
        paddingTop: "10px",
        fontFamily: "Arial",
        fontWeight: "bold"
-       }}>LOGIN</h5>
+       }}>Admin Login</h5>
 
         <br />
       </div>
@@ -155,6 +155,8 @@ export default function Login(props) {
             color: "white",
             marginRight: "-17px",
             width: "175px",
+            textTransform: "none" // Add this line
+
           }}
         >
           Login

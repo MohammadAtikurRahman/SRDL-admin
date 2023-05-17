@@ -46,8 +46,8 @@ const Videotable = () => {
       <br/>
       <br/>
       {showTable[index] && (
-        <table style={{ width: '60%', fontSize: '0.8rem', borderCollapse: 'collapse',
-        margin: "0 auto",
+        <table style={{ width: '98%', fontSize: '0.8rem', borderCollapse: 'collapse',
+        margin: "0 auto", 
         }}>
           <thead>
             <tr>
@@ -61,7 +61,7 @@ const Videotable = () => {
             </tr>
           </thead>
           <tbody>
-            {user.video.map(video => (
+            {user.video.reverse().map(video => (
               <tr key={video._id}>
                 <td style={{ border: '1px solid black' }}>{video.video_name}</td>
                 <td style={{ border: '1px solid black' }}>{video.location}</td>

@@ -4,8 +4,7 @@ import { Button, TextField, Link } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import backgroundImage from './bg.png'; // adjust the path to match your file structure
-
+import backgroundImage from "./bg.png"; // adjust the path to match your file structure
 
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
@@ -72,102 +71,105 @@ export default function Login(props) {
   const inputStyle = { WebkitBoxShadow: "0 0 0 1000px white inset" };
 
   return (
-    <div     style={{ 
+    <div
+      style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'fixed',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%'
-      }}>
- <div style={{ marginTop: "100px", position: 'relative' }}>
-
-            <br />
-
-      <div>
-        <h5 style={{ color: "#1C6758",
-       paddingTop: "10px",
-       fontFamily: "Arial",
-       fontWeight: "bold"
-       }}>Admin Login</h5>
-
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <div style={{ marginTop: "100px", position: "relative" }}>
         <br />
+
+        <div>
+          <h5
+            style={{
+              color: "#1C6758",
+              paddingTop: "10px",
+              fontFamily: "Arial",
+              fontWeight: "bold",
+            }}
+          >
+            Admin Login
+          </h5>
+
+          <br />
+        </div>
+
+        <div>
+          <TextField
+            id="standard-basic"
+            type="text"
+            autoComplete="off"
+            name="username"
+            value={user.username}
+            onChange={onChange}
+            placeholder="Username"
+            required
+            variant="outlined"
+            style={{ width: "180px" }} // Inline CSS to reduce width
+            size="small"
+            inputProps={{
+              style: {
+                height: "30px",
+                padding: "0px 10px", // Reducing vertical padding (first value) can reduce overall height
+                fontSize: "12px", // Reducing font size can also reduce overall height
+              },
+            }}
+          />
+          <br />
+          <br />
+          <TextField
+            size="small"
+            id="standard-basic"
+            type="password"
+            autoComplete="off"
+            name="password"
+            variant="outlined"
+            value={user.password}
+            onChange={onChange}
+            style={{ width: "180px" }} // Inline CSS to reduce width
+            placeholder="Password"
+            required
+            inputProps={{
+              style: {
+                height: "30px",
+                padding: "0px 10px", // Reduce vertical padding
+                fontSize: "12px", // Reduce font size
+              },
+            }}
+          />
+          <br />
+          <br />
+          <Button
+            className="button_style"
+            variant="contained"
+            color="primary"
+            size="normal"
+            disabled={user.username === "" && user.password === ""}
+            onClick={login}
+            style={{
+              backgroundColor: "#1C6758",
+              color: "white",
+              marginRight: "-17px",
+              width: "175px",
+              textTransform: "none", // Add this line
+            }}
+          >
+            Login
+          </Button>{" "}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {/* <Link href="/register" size="normal" style={{ color: "#1C6758" }}>
+            Register
+          </Link> */}
+        </div>
       </div>
-
-      <div>
-        <TextField
-          id="standard-basic"
-          type="text"
-          autoComplete="off"
-          name="username"
-          value={user.username}
-          onChange={onChange}
-          placeholder="Username"
-          required
-          variant="outlined"
-          style={{ width: "180px" }} // Inline CSS to reduce width
-
-          size="small"
-          inputProps={{
-            style: {
-              height: "30px",
-              padding: "0px 10px", // Reducing vertical padding (first value) can reduce overall height
-              fontSize: "12px", // Reducing font size can also reduce overall height
-            },
-          }}
-        />
-        <br />
-        <br />
-        <TextField
-          size="small"
-          id="standard-basic"
-          type="password"
-          autoComplete="off"
-          name="password"
-          variant="outlined"
-          value={user.password}
-          onChange={onChange}
-          style={{ width: "180px" }} // Inline CSS to reduce width
-          placeholder="Password"
-          required
-          inputProps={{
-            style: {
-              height: "30px",
-              padding: "0px 10px", // Reduce vertical padding
-              fontSize: "12px", // Reduce font size
-            },
-          }}
-        />
-        <br />
-        <br />
-        <Button
-          className="button_style"
-          variant="contained"
-          color="primary"
-          size="normal"
-          disabled={user.username === "" && user.password === ""}
-          onClick={login}
-          style={{
-            backgroundColor: "#1C6758",
-            color: "white",
-            marginRight: "-17px",
-            width: "175px",
-            textTransform: "none" // Add this line
-
-          }}
-        >
-          Login
-        </Button>{" "}
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {/* <Link href="/register" size="normal" style={{ color: "#1C6758" }}>
-          Register
-        </Link> */}
-      </div>
-      </div>
-
     </div>
   );
 }

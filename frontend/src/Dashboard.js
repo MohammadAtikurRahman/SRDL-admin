@@ -271,7 +271,7 @@ export default class Dashboard extends Component {
 
   sendData = async () => {
     const data = {
-      userId: 47701543,
+      userId: 11839395,
       win_start: this.state.timeData.firstStartTime,
       win_end: this.state.timeData.lastStartTime,
       total_time: this.state.timeData.totalDuration,

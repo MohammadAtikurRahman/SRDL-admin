@@ -164,6 +164,9 @@ app.get("/api", (req, res) => {
         }
     });
 });
+
+
+
 app.get("/get-all", (req, res) => {
     user.find((err, val) => {
         if (err) {
@@ -301,95 +304,95 @@ app.get("/get-testscore", async (req, res) => {
     return res.status(200).json(extact_data);
 });
 
-app.get("/get-pc", async (req, res) => {
-    let users = await user
-        .find({})
-        .select("-username")
-        .select("-password")
-        .select("-createdAt")
-        .select("-updatedAt")
-        .select("-__v")
+// app.get("/get-pc", async (req, res) => {
+//     let users = await user
+//         .find({})
+//         .select("-username")
+//         .select("-password")
+//         .select("-createdAt")
+//         .select("-updatedAt")
+//         .select("-__v")
 
-        .select("-id")
-        .select("-_id")
-        .select("-userId")
-        .select("-beneficiary")
+//         .select("-id")
+//         .select("-_id")
+//         .select("-userId")
+//         .select("-beneficiary")
 
-    // const data = users;
+//     // const data = users;
 
-    // const formatted_data = data[0];
-    // extact_data = formatted_data["beneficiary"];
-    const formattedData = users[0].pc;
+//     // const formatted_data = data[0];
+//     // extact_data = formatted_data["beneficiary"];
+//     const formattedData = users[0].pc;
 
-    // console.log(formattedData);
+//     // console.log(formattedData);
   
-    return res.status(200).json(formattedData);
-});
+//     return res.status(200).json(formattedData);
+// });
 
 
 
 
-app.get("/get-download", async (req, res) => {
-  let users = await user.find({})
-    .select("-username")
-    .select("-password")
-    .select("-createdAt")
-    .select("-updatedAt")
-    .select("-__v")
-    .select("-id")
-    .select("-_id")
-    .select("-userId")
-    .select("-beneficiary");
+// app.get("/get-download", async (req, res) => {
+//   let users = await user.find({})
+//     .select("-username")
+//     .select("-password")
+//     .select("-createdAt")
+//     .select("-updatedAt")
+//     .select("-__v")
+//     .select("-id")
+//     .select("-_id")
+//     .select("-userId")
+//     .select("-beneficiary");
 
-  const formattedData = users[0].track;
+//   const formattedData = users[0].track;
 
-  // Group data by date
-  let dataByDate = {};
-  for (let data of formattedData) {
-    let dateObject = moment(data.win_end, "M/D/YYYY, h:mm:ss A");
+//   // Group data by date
+//   let dataByDate = {};
+//   for (let data of formattedData) {
+//     let dateObject = moment(data.win_end, "M/D/YYYY, h:mm:ss A");
 
-    // Check if the date is valid
-    if (!dateObject.isValid()) {
-      // If the date is not valid, skip this entry
-      continue;
-    }
+//     // Check if the date is valid
+//     if (!dateObject.isValid()) {
+//       // If the date is not valid, skip this entry
+//       continue;
+//     }
 
-    let date = dateObject.format('YYYY-MM-DD');
-    if (!dataByDate[date]) {
-      dataByDate[date] = [];
-    }
-    dataByDate[date].push(data);
-  }
+//     let date = dateObject.format('YYYY-MM-DD');
+//     if (!dataByDate[date]) {
+//       dataByDate[date] = [];
+//     }
+//     dataByDate[date].push(data);
+//   }
 
-  // For each date, sort by time and select the earliest start and latest end
-  let result = [];
-  for (let date in dataByDate) {
-    dataByDate[date].sort((a, b) => moment(a.win_start, "M/D/YYYY, h:mm:ss A").toDate() - moment(b.win_start, "M/D/YYYY, h:mm:ss A").toDate());
-    let earliestStart = dataByDate[date][0].win_start;
+//   // For each date, sort by time and select the earliest start and latest end
+//   let result = [];
+//   for (let date in dataByDate) {
+//     dataByDate[date].sort((a, b) => moment(a.win_start, "M/D/YYYY, h:mm:ss A").toDate() - moment(b.win_start, "M/D/YYYY, h:mm:ss A").toDate());
+//     let earliestStart = dataByDate[date][0].win_start;
 
-    dataByDate[date].sort((a, b) => moment(b.win_end, "M/D/YYYY, h:mm:ss A").toDate() - moment(a.win_end, "M/D/YYYY, h:mm:ss A").toDate());
-    let latestEnd = dataByDate[date][0].win_end;
+//     dataByDate[date].sort((a, b) => moment(b.win_end, "M/D/YYYY, h:mm:ss A").toDate() - moment(a.win_end, "M/D/YYYY, h:mm:ss A").toDate());
+//     let latestEnd = dataByDate[date][0].win_end;
 
-    let total_time = dataByDate[date][0].total_time;
-    let formattedTotalTime = '';
+//     let total_time = dataByDate[date][0].total_time;
+//     let formattedTotalTime = '';
 
-    if (total_time < 60) {
-      formattedTotalTime = `${total_time} minute${total_time !== 1 ? 's' : ''}`;
-    } else {
-      const hours = Math.floor(total_time / 60);
-      const minutes = total_time % 60;
-      formattedTotalTime = `${hours} hour${hours !== 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`;
-    }
+//     if (total_time < 60) {
+//       formattedTotalTime = `${total_time} minute${total_time !== 1 ? 's' : ''}`;
+//     } else {
+//       const hours = Math.floor(total_time / 60);
+//       const minutes = total_time % 60;
+//       formattedTotalTime = `${hours} hour${hours !== 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+//     }
 
-    result.push({
-      earliestStart,
-      latestEnd,
-      total_time: formattedTotalTime
-    });
-  }
+//     result.push({
+//       earliestStart,
+//       latestEnd,
+//       total_time: formattedTotalTime
+//     });
+//   }
 
-  return res.status(200).json(result);
-});
+//   return res.status(200).json(result);
+// });
 
 
 

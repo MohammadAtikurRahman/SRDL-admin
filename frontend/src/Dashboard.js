@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import logo from "./logo.png"; // adjust the path as necessary
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import {
   TextField,
@@ -676,7 +677,7 @@ export default class Dashboard extends Component {
             <h5 style={{ paddingTop: "10px" }}>
               <img src={logo} alt="Logo" width="50" height="50" />
             </h5>
-            <h5
+            <h6
               style={{
                 paddingTop: "10px",
                 fontFamily: "Arial",
@@ -684,25 +685,41 @@ export default class Dashboard extends Component {
               }}
             >
               <b> SRDL Dashboard </b>
-            </h5>
+            </h6>
             &nbsp; &nbsp;
             <div>
-              <input
-                accept=".csv"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={this.handleFileUpload}
-              />
-              <label htmlFor="raised-button-file">
-                <Button variant="contained" color="primary" component="span">
-                  Upload CSV
-                </Button>
-              </label>
-            </div>
-            &nbsp;&nbsp;
-            <div>
+  <input
+    accept=".csv"
+    style={{ display: "none" }}
+    id="raised-button-file"
+    multiple
+    type="file"
+    onChange={this.handleFileUpload}
+  />
+  <label htmlFor="raised-button-file">
+    <Button 
+      variant="contained" 
+      color="primary" 
+      component="span"
+      startIcon={<CloudUploadIcon />}  // Add this line
+    >
+      Upload CSV
+    </Button>
+  </label>
+</div>
+
+            <IconButton>
+                  <SearchIcon style={{ color: "white" }} />
+                </IconButton>
+                <InputBase
+                  placeholder="Search..."
+                  style={{ marginLeft: 1, color: "white" }}
+                  inputProps={{
+                    style: { color: "white" },
+                    placeholder: "Search by Eiin & School",
+                  }}
+                />
+           {/* <div>
               <input
                 accept=".csv"
                 style={{ display: "none" }}
@@ -716,7 +733,7 @@ export default class Dashboard extends Component {
                   Upload Video Info
                 </Button>
               </label>
-            </div>
+            </div> */}
             {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
               <div key={index}>
                 <Button variant="contained" color="primary" href="/video">
@@ -736,7 +753,7 @@ export default class Dashboard extends Component {
                 <Button
                   variant="contained"
                   size="small"
-                  onClick={this.handleProductOpen}
+                  // onClick={this.handleProductOpen}
                 >
                   <b>Download Video Info</b>
                 </Button>
@@ -748,51 +765,7 @@ export default class Dashboard extends Component {
                 >
                   <b> Download Pc Info </b>
                 </Button>
-                {/* &nbsp; &nbsp; */}
-                {/* <Button variant="contained" size="small">
-                  <b> Details </b>
-                </Button> */}
-                {/* &nbsp; */}
-                {/* <IconButton>
-                  <SearchIcon style={{ color: "white" }} />
-                </IconButton>
-                <InputBase
-                  placeholder="Search..."
-                  style={{ marginLeft: 1, color: "white" }}
-                  inputProps={{
-                    style: { color: "white" },
-                    placeholder: "SEARCH",
-                  }}
-                /> */}
-                {/* {dataSent ? (
-                  <p></p>
-                ) : (
-                  <Button
-                    className="button_style"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={this.handleClick1}
-                  >
-                    Pc Usages
-                  </Button>
-                )} */}
-                {/* <Button
-                  className="button_style"
-                  variant="contained"
-                  size="small"
-                  onClick={this.logOut}
-                >
-                  <MaterialLink
-                    style={{
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    href="/"
-                  >
-                    <b> Logout </b>
-                  </MaterialLink>
-                </Button> */}
+               
               </div>
             </div>
           </Toolbar>

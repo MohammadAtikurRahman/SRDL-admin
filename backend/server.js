@@ -66,6 +66,9 @@ app.use("/", (req, res, next) => {
             req.path == "/enumerator" ||
             req.path == "/get-enumerator" ||
             req.path == "/get-all" ||
+            req.path == "/get-all/:id" ||
+            req.path === "/get-vd" ||
+
             req.path == "/get-login" ||
             req.path == "/get-pc" ||
             req.path === "/get-vd" ||
@@ -176,6 +179,54 @@ app.get("/get-all", (req, res) => {
         }
     });
 });
+
+// app.get("/get-vd", async (req, res) => {
+//     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+//   res.setHeader("Pragma", "no-cache");
+//   res.setHeader("Expires", "0");
+//     let users = await user
+//       .find({})
+//       .select("-username")
+//       .select("-password")
+//       .select("-createdAt")
+//       .select("-updatedAt")
+//       .select("-__v")
+//       .select("-id")
+//       .select("-_id")
+//       .select("-userId")
+//       .select("-beneficiary")
+//       .select("-pc._id")
+//       .select("-pc.win_start")
+//       .select("-pc.win_end")
+//       .select("-pc.total_time");
+  
+//     const formattedData = users[0].track;
+//     const filteredData = formattedData.filter((obj, index, self) => {
+//       return (
+//         JSON.stringify(obj) !== JSON.stringify({}) &&
+//         index === self.findIndex((o) => {
+//           return JSON.stringify(o) === JSON.stringify(obj);
+//         })
+//       );
+//     });
+  
+//     return res.status(200).json(filteredData);
+//   });
+
+
+app.get("/get-all/:userId", (req, res) => {
+    const userId = req.params.userId;
+  
+    user.findById(userId, (err, val) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(val);
+      }
+    });
+  });
+
+
 
 app.get("/get-enumerator", async (req, res) => {
     let users = await user.find({}).select("-beneficiary");

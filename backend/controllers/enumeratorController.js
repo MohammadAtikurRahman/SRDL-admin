@@ -124,39 +124,30 @@ async function saveCsvpc(req, res) {
   }
 }
 
+async function findUserid(req,res){
 
 
+  console.log("userid",userid);
+  res.send({userid});
 
-// async function savevideoCsvpc(req, res) {
-//    let data = [];
-//     fs.createReadStream(req.file.path)
-//         .pipe(csv())
-//         .on('data', (row) => {
-//             data.push(row);
-//         })
-//         .on('end', () => {
-//             console.log('CSV file successfully processed');
+}
 
-//             // Convert data to JSON string with indentation
-//             const jsonData = JSON.stringify(data, null, 2);
+async function getAllbyid(req, res){
+  const userId = req.params.userId;
 
-//             // Write JSON data to a file
-//             const filePath = 'data2.json';
-//             fs.writeFile(filePath, jsonData, (err) => {
-//                 if (err) {
-//                     console.error(err);
-//                     res.status(500).send({ message: 'There was an error processing the file.' });
-//                 } else {
-//                     console.log('Data written to file:', filePath);
-//                     res.status(200).send({ message: 'CSV file successfully processed and saved as JSON.' });
-//                 }
-//             });
-//         });
-// }
-  
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404).send('User not found');
+  } else {
+    res.json(user);
+  }
+};
 
 module.exports = {getEnumerator, userLogin,
     saveCsvpc,
+    findUserid,
+    getAllbyid
     
 
 };

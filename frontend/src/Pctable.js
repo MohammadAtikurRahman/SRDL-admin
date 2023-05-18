@@ -76,7 +76,7 @@ const Pctable = () => {
                     variant="contained"
                     // color="primary"
                     size="small"
-                    style={{ backgroundColor: "#138D75", color: "white"}}
+                    style={{ backgroundColor: "#34495E", color: "white"}}
                     // onClick={() => handleButtonClick(school._id)}
                     className={`school-button ${
                       selectedSchool === school._id ? "active" : ""
@@ -90,25 +90,26 @@ const Pctable = () => {
 
                   <table
                     style={{
+                      width: "98%",
                       borderCollapse: "collapse",
-                      border: "1px solid #ccc",
+                      border: "1px solid #000000",
                       margin: "0 auto",
                     }}
                   >
                     <thead>
                       <tr>
                         <th
-                          style={{ border: "1px solid #ccc", padding: "5px" }}
+                          style={{ border: "1px solid #000000", padding: "5px" }}
                         >
                           Start Time
                         </th>
                         <th
-                          style={{ border: "1px solid #ccc", padding: "5px" }}
+                          style={{ border: "1px solid  #000000", padding: "5px" }}
                         >
                           End Time
                         </th>
                         <th
-                          style={{ border: "1px solid #ccc", padding: "5px" }}
+                          style={{ border: "1px solid #000000", padding: "5px" }}
                         >
                           Total Time
                         </th>
@@ -119,17 +120,17 @@ const Pctable = () => {
                       {school.track.map((track) => (
                         <tr key={track._id}>
                           <td
-                            style={{ border: "1px solid #ccc", padding: "5px" }}
+                            style={{ border: "1px solid  #000000", padding: "5px" }}
                           >
                             {track.start_time}
                           </td>
                           <td
-                            style={{ border: "1px solid #ccc", padding: "5px" }}
+                            style={{ border: "1px solid  #000000", padding: "5px" }}
                           >
                             {track.end_time}
                           </td>
                           <td
-                            style={{ border: "1px solid #ccc", padding: "5px" }}
+                            style={{ border: "1px solid  #000000", padding: "5px" }}
                           >
                             {track.total_time}
                           </td>

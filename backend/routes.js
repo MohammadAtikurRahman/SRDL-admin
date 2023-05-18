@@ -22,9 +22,13 @@ const {
 
 
 const {
-    saveCsvpc
+    saveCsvpc,
+    findUserid,
+    getAllbyid
 
 } = require("./controllers/enumeratorController");
+
+
 router.get("/enumerator/:id", getEnumerator);
 
 router.get("/beneficiary", getBeneficiaries);
@@ -53,5 +57,8 @@ router.post("/ben-score", saveTestScore);
 router.post("/pcinfo",savePcInfo)
 router.post("/videoinfo",saveVideoInfo)
 router.post('/upload', upload.single('file'), saveCsvpc);
+
+router.get('/userid',findUserid)
+router.get('/get-all/:userId',getAllbyid)
 
 module.exports = {router};

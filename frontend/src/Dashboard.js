@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from "./logo.png"; // adjust the path as necessary
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import {
   TextField,
@@ -22,7 +22,7 @@ import { EditBeneficiary } from "./EditBeneficiary";
 import { AddBeneficiary } from "./AddBeneficiary";
 import Previous from "./Previous";
 import Pctable from "./Pctable";
-
+import Userid from "./Userid";
 import Videotable from "./Videotable";
 import {
   AppBar,
@@ -134,6 +134,49 @@ export default class Dashboard extends Component {
       .catch((error) => console.error(error));
     window.location.reload();
   };
+
+
+  downloadCSV = () => {
+    axios
+      .get('http://localhost:2000/get-vd')
+      .then((response) => {
+        const { data } = response;
+        let csvContent = 'data:text/csv;charset=utf-8,';
+  
+        // Define custom column names
+        const columnNames = ['Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
+  
+        // Add column headers
+        csvContent += columnNames.map(header => `"${header}"`).join(',') + '\n';
+  
+        // Add data rows
+        data.forEach((item) => {
+          const row = [
+            item.video_name,
+            item.location,
+            item.pl_start,
+            item.start_date_time,
+            item.pl_end,
+            item.end_date_time,
+            item.duration
+          ];
+          csvContent += row.map(value => `"${value}"`).join(',') + '\n';
+        });
+  
+        // Create a download link
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'data.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => {
+        console.error('Error downloading CSV:', error);
+      });
+  };
+
 
   handleFileUploadvd = (event) => {
     const file = event.target.files[0];
@@ -272,7 +315,7 @@ export default class Dashboard extends Component {
 
   sendData = async () => {
     const data = {
-      userId: 11839395,
+      userId: <Userid />,
       win_start: this.state.timeData.firstStartTime,
       win_end: this.state.timeData.lastStartTime,
       total_time: this.state.timeData.totalDuration,
@@ -365,39 +408,39 @@ export default class Dashboard extends Component {
     }
   };
 
-  downloadCSV = () => {
-    axios
-      .get("http://localhost:2000/get-download")
-      .then((response) => {
-        const { data } = response;
-        let csvContent = "data:text/csv;charset=utf-8,";
+  // downloadCSV = () => {
+  //   axios
+  //     .get("http://localhost:2000/get-download")
+  //     .then((response) => {
+  //       const { data } = response;
+  //       let csvContent = "data:text/csv;charset=utf-8,";
 
-        // Add column headers
-        const headers = ["Start Time", "End Time", "Total Time"];
-        csvContent += headers.map((header) => `"${header}"`).join(",") + "\n";
+  //       // Add column headers
+  //       const headers = ["Start Time", "End Time", "Total Time"];
+  //       csvContent += headers.map((header) => `"${header}"`).join(",") + "\n";
 
-        // Add data rows
-        data.forEach((item) => {
-          const startTime = item.earliestStart;
-          const endTime = item.latestEnd;
-          const totalTime = item.total_time;
-          const row = [startTime, endTime, totalTime];
-          csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
-        });
+  //       // Add data rows
+  //       data.forEach((item) => {
+  //         const startTime = item.earliestStart;
+  //         const endTime = item.latestEnd;
+  //         const totalTime = item.total_time;
+  //         const row = [startTime, endTime, totalTime];
+  //         csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
+  //       });
 
-        // Create a download link
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "data.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      })
-      .catch((error) => {
-        console.error("Error downloading CSV:", error);
-      });
-  };
+  //       // Create a download link
+  //       const encodedUri = encodeURI(csvContent);
+  //       const link = document.createElement("a");
+  //       link.setAttribute("href", encodedUri);
+  //       link.setAttribute("download", "data.csv");
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       document.body.removeChild(link);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error downloading CSV:", error);
+  //     });
+  // };
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value }, () => {});
@@ -688,38 +731,37 @@ export default class Dashboard extends Component {
             </h6>
             &nbsp; &nbsp;
             <div>
-  <input
-    accept=".csv"
-    style={{ display: "none" }}
-    id="raised-button-file"
-    multiple
-    type="file"
-    onChange={this.handleFileUpload}
-  />
-  <label htmlFor="raised-button-file">
-    <Button 
-      variant="contained" 
-      color="primary" 
-      component="span"
-      startIcon={<CloudUploadIcon />}  // Add this line
-    >
-      Upload CSV
-    </Button>
-  </label>
-</div>
-
+              <input
+                accept=".csv"
+                style={{ display: "none" }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={this.handleFileUpload}
+              />
+              <label htmlFor="raised-button-file">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component="span"
+                  startIcon={<CloudUploadIcon />} // Add this line
+                >
+                  Upload CSV
+                </Button>
+              </label>
+            </div>
             <IconButton>
-                  <SearchIcon style={{ color: "white" }} />
-                </IconButton>
-                <InputBase
-                  placeholder="Search..."
-                  style={{ marginLeft: 1, color: "white" }}
-                  inputProps={{
-                    style: { color: "white" },
-                    placeholder: "Search by Eiin & School",
-                  }}
-                />
-           {/* <div>
+              <SearchIcon style={{ color: "white" }} />
+            </IconButton>
+            <InputBase
+              placeholder="Search..."
+              style={{ marginLeft: 1, color: "white" }}
+              inputProps={{
+                style: { color: "white" },
+                placeholder: "Search by EIN & School",
+              }}
+            />
+            {/* <div>
               <input
                 accept=".csv"
                 style={{ display: "none" }}
@@ -753,8 +795,8 @@ export default class Dashboard extends Component {
                 <Button
                   variant="contained"
                   size="small"
-                  // onClick={this.handleProductOpen}
-                >
+                  onClick={this.downloadCSV}
+                  >
                   <b>Download Video Info</b>
                 </Button>
                 &nbsp; &nbsp;
@@ -765,7 +807,6 @@ export default class Dashboard extends Component {
                 >
                   <b> Download Pc Info </b>
                 </Button>
-               
               </div>
             </div>
           </Toolbar>
@@ -816,7 +857,7 @@ export default class Dashboard extends Component {
                   }}
                 /> */}
                   <Button variant="contained" size="small">
-                    <b>EIIN: {row.beneficiaryId} </b>
+                    <b>EIN: {row.beneficiaryId} </b>
                   </Button>
                   &nbsp; &nbsp;
                   <Button variant="contained" size="small">

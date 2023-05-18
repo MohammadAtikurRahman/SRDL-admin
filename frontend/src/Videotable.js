@@ -109,8 +109,8 @@ const Videotable = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Video infromation</MenuItem>
-        <MenuItem onClick={handleClose}>Pc infromation</MenuItem>
+        <MenuItem onClick={handleClose}>video infromation</MenuItem>
+        <MenuItem onClick={handleClose}>pc infromation</MenuItem>
       </Menu>
 
           <br />

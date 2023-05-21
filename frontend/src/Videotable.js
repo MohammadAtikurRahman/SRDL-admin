@@ -9,17 +9,23 @@ import {
 } from "@material-ui/core";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
+import Pctable from "./Pctable";
 const Videotable = () => {
   const [data, setData] = useState([]);
   const [showTable, setShowTable] = useState([]);
   const [dataCount, setDataCount] = useState(1);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [schoolAnchorEl, setSchoolAnchorEl] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const incrementCount = () => {
     setDataCount(dataCount + 1);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:2000/get-all");
+      const response = await fetch("http://localhost:2000/get-allnew");
       const json = await response.json();
       setData(json);
       setShowTable(new Array(json.length).fill(false)); // Initialize showTable state with false for each user
@@ -33,15 +39,25 @@ const Videotable = () => {
     newShowTable[index] = !newShowTable[index];
     setShowTable(newShowTable);
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setIsMenuOpen(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setIsMenuOpen(false);
   };
+
+  const handleClickSchool = (event) => {
+    setSchoolAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseSchool = () => {
+    setSchoolAnchorEl(null);
+  };
+
   return (
     <div style={{}}>
       {data.map((user, index) => (
@@ -57,11 +73,11 @@ const Videotable = () => {
             color="primary"
             size="small"
             // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
-            onClick={() => toggleTable(index)}
-          >
-            {showTable[index]
-              ? `Hide ${user.school[0].eiin}'s Table`
-              : `Ein ${user.school[0].eiin}`}
+            aria-controls={`school-menu-${index}`}
+            aria-haspopup="true"
+            onClick={handleClickSchool}          >
+                     {user.school[0].eiin}
+
           </Button>
 
 
@@ -71,47 +87,71 @@ const Videotable = () => {
             variant="contained"
             color="primary"
             size="small"
-            // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
-            onClick={() => toggleTable(index)}
+            // onClick={() => toggleTable(index)}
+            aria-controls={`school-menu-${index}`}
+            aria-haspopup="true"
+            onClick={handleClickSchool}
           >
-            {showTable[index]
-              ? `Hide ${user.school[0].school_name}'s Table`
-              : ` ${user.school[0].school_name}`}
+            {user.school[0].school_name}
           </Button>
+
+          <Menu
+            id={`school-menu-${index}`}
+            anchorEl={schoolAnchorEl}
+            keepMounted
+            open={Boolean(schoolAnchorEl)}
+            onClose={handleCloseSchool}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            getContentAnchorEl={null}
+          >
+            <MenuItem onClick={() => toggleTable(index)}>
+              Video Information
+            </MenuItem>
+            <MenuItem onClick={handleCloseSchool}>PC Information</MenuItem>
+          </Menu>
+
           <Button
             className="button_style"
             variant="contained"
             color="primary"
             size="small"
-            // style={{ position: "absolute", right: "74.2%" }} // adjust these values as you need
-            onClick={() => toggleTable(index)}
+            style={{ background: "#5D6D7E" }}
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
           >
-            {showTable[index]
-              ? `Hide ${user.school[0].updatedat}'s Table`
-              : ` ${user.school[0].updatedat}`}
+            Download
           </Button>
-          <Button
-        className="button_style"
-        variant="contained"
-        color="primary"
-        size="small"
-        style={{ background: "#5D6D7E"}}
-        aria-controls="simple-menu" 
-        aria-haspopup="true" 
-        onClick={handleClick}
-      >
-        Download
-      </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>video infromation</MenuItem>
-        <MenuItem onClick={handleClose}>pc infromation</MenuItem>
-      </Menu>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            getContentAnchorEl={null}
+          >
+            <MenuItem onClick={handleClose}>Video Information</MenuItem>
+            <MenuItem onClick={handleClose}>PC Information</MenuItem>
+          </Menu>
+
+
+
+
 
           <br />
           <br />
@@ -139,8 +179,9 @@ const Videotable = () => {
                   <th style={{ border: "1px solid black" }}>Duration</th>
                 </tr>
               </thead>
+              
               <tbody>
-                {user.video.reverse().map((video) => (
+                {user.video.slice().reverse().map((video) => (
                   <tr key={video._id}>
                     <td style={{ border: "1px solid black" }}>
                       {video.video_name}
@@ -166,10 +207,39 @@ const Videotable = () => {
                   </tr>
                 ))}
               </tbody>
+              {/* <tbody>
+                {user.school.reverse().map((school) => (
+                  <tr key={school._id}>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.pc_name}
+                    </td>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.eiin}
+                    </td>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.school_name}
+                    </td>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.start_date_time}
+                    </td>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.pc_id}
+                    </td>
+                    <td style={{ border: "1px solid black" }}>
+                      {school.lab_id}
+                    </td>
+                 
+                  </tr>
+                ))}
+              </tbody> */}
             </table>
           )}
+       
         </div>
       ))}
+
+
+
     </div>
   );
 };

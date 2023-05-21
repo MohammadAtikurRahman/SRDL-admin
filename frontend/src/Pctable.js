@@ -14,7 +14,7 @@ const Pctable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:2000/get-all");
+      const response = await fetch("http://localhost:2000/get-allnew");
       const json = await response.json();
       setData(json);
     };

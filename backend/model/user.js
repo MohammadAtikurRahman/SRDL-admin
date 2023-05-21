@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const videoSchema = new Schema({
+  pc_name: String,
+  eiin: Number,
+  school_name: String,
+  pc_id: Number,
+  lab_id: Number,
   video_name: String,
   location: String,
   pl_start: String,

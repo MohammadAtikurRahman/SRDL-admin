@@ -65,10 +65,12 @@ app.use("/", (req, res, next) => {
             req.path == "/user-details" ||
             req.path == "/enumerator" ||
             req.path == "/get-enumerator" ||
+            req.path == "/get-testscore" ||
+
             req.path == "/get-all" ||
             req.path == "/get-all/:id" ||
             req.path === "/get-vd" ||
-
+            req.path === "/get-allnew" ||
             req.path == "/get-login" ||
             req.path == "/get-pc" ||
             req.path === "/get-vd" ||
@@ -170,7 +172,17 @@ app.get("/api", (req, res) => {
 
 
 
-app.get("/get-all", (req, res) => {
+// app.get("/get-all", (req, res) => {
+//     user.find((err, val) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.json(val);
+//         }
+//     });
+// });
+
+app.get("/get-allnew", (req, res) => {
     user.find((err, val) => {
         if (err) {
             console.log(err);
@@ -234,126 +246,9 @@ app.get("/get-enumerator", async (req, res) => {
 });
 
 app.get("/get-testscore", async (req, res) => {
-    let users = await user
-        .find({})
-        .select("-username")
-        .select("-password")
-        .select("-id")
-        .select("-_id")
-        .select("-userId")
-        .select("-createdAt")
-        .select("-updatedAt")
-        .select("-__v")
-        .select("-beneficiary._id")
-        .select("-beneficiary.f_nm")
-        .select("-beneficiary.ben_nid")
-        .select("-beneficiary.ben_id")
-        .select("-beneficiary.sl")
-        .select("-beneficiary.m_nm")
-        .select("-beneficiary.age")
-        .select("-beneficiary.dis")
-        .select("-beneficiary.sub_dis")
-        .select("-beneficiary.uni")
-        .select("-beneficiary.vill")
-        .select("-beneficiary.relgn")
-        .select("-beneficiary.job")
-        .select("-beneficiary.gen")
-        .select("-beneficiary.test")
-        .select("-beneficiary.createdAt")
-        .select("-beneficiary.updatedAt")
-
-        .select("-beneficiary.mob")
-        .select("-beneficiary.pgm")
-        .select("-beneficiary.pass")
-        .select("-beneficiary.bank")
-        .select("-beneficiary.branch")
-        .select("-beneficiary.r_out")
-
-        .select("-beneficiary.mob_1")
-        .select("-beneficiary.ben_sts")
-        .select("-beneficiary.nid_sts")
-        .select("-beneficiary.a_sts")
-        .select("-beneficiary.u_nm")
-
-        .select("-beneficiary.dob")
-        .select("-beneficiary.accre")
-        .select("-beneficiary.f_allow")
-        .select("-beneficiary.mob_own");
-
-    const data = users;
-    const data1 = users;
-
-    const formatted_data = data[0];
-    extact_data = formatted_data["beneficiary"];
-
-    extact_data.forEach(item => {
-        if (item.timeanddate) {
-            const date = item.timeanddate;
-
-            var dateString = date.toLocaleString();
-            var date_time = dateString.split(" ");
-
-            var options = {
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-                hour12: true,
-            };
-
-            const time = date_time[4];
-            var timeArray = time.split(":");
-            var hour = parseInt(timeArray[0]);
-            var minute = timeArray[1];
-            var second = timeArray[2];
-            var amPm = hour >= 12 ? "PM" : "AM";
-            hour = hour % 12;
-            hour = hour ? hour : 12;
-            console.log(
-                date_time[0] +
-                    " " +
-                    date_time[2] +
-                    " " +
-                    date_time[1] +
-                    " " +
-                    date_time[3] +
-                    " " +
-                    hour +
-                    ":" +
-                    minute +
-                    ":" +
-                    second +
-                    " " +
-                    amPm,
-            );
-
-            item.timeanddate =
-                date_time[0] +
-                " " +
-                date_time[2] +
-                " " +
-                date_time[1] +
-                " " +
-                date_time[3] +
-                " " +
-                hour +
-                ":" +
-                minute +
-                ":" +
-                second +
-                " " +
-                amPm;
-        }
-        if (item.duration) {
-            const minutes = Math.floor(item.duration / 60);
-            const seconds = item.duration % 60;
-            item.duration = `${minutes} minutes and ${seconds} seconds`;
-        } else {
-            item.duration = null;
-        }
-    });
-
-    return res.status(200).json(extact_data);
-});
+   
+  });
+  
 
 // app.get("/get-pc", async (req, res) => {
 //     let users = await user

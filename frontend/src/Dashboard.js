@@ -138,44 +138,53 @@ export default class Dashboard extends Component {
 
   downloadCSV = () => {
     axios
-      .get('http://localhost:2000/get-vd')
+      .get('http://localhost:2000/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
   
         // Define custom column names
-        const columnNames = ['Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
+        const columnNames = ['School Name', 'EIIN', 'Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
   
         // Add column headers
-        csvContent += columnNames.map(header => `"${header}"`).join(',') + '\n';
+        csvContent += columnNames.join(',') + '\n';
   
-        // Add data rows
-        data.forEach((item) => {
-          const row = [
-            item.video_name,
-            item.location,
-            item.pl_start,
-            item.start_date_time,
-            item.pl_end,
-            item.end_date_time,
-            item.duration
-          ];
-          csvContent += row.map(value => `"${value}"`).join(',') + '\n';
+        // Iterate over each user
+        data.forEach((user) => {
+          // Iterate over each school
+          user.school.forEach((school) => {
+            const schoolName = school.school_name;
+            const eiin = school.eiin;
+  
+            // Iterate over each video
+            user.video.forEach((video) => {
+              const row = [
+                schoolName,
+                eiin,
+                video.video_name.replace(/,/g, ';'),
+                video.location.replace(/,/g, ';'),
+                video.pl_start.replace(/,/g, ';'),
+                video.start_date_time.replace(/,/g, ';'),
+                video.pl_end.replace(/,/g, ';'),
+                video.end_date_time.replace(/,/g, ';'),
+                video.duration.replace(/,/g, ';')
+              ];
+              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
+            });
+          });
         });
   
-        // Create a download link
+        // Download the CSV file
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
         link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'data.csv');
+        link.setAttribute('download', 'my_data.csv');
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
-      })
-      .catch((error) => {
-        console.error('Error downloading CSV:', error);
       });
-  };
+  }
+  
+  
 
 
   handleFileUploadvd = (event) => {

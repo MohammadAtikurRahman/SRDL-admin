@@ -184,8 +184,49 @@ export default class Dashboard extends Component {
       });
   }
   
+  downloadCSV1 = () => {
+    axios
+      .get('http://localhost:2000/get-allnew')
+      .then((response) => {
+        const { data } = response;
+        let csvContent = 'data:text/csv;charset=utf-8,';
   
-
+        // Define custom column names
+        const columnNames = ['School Name', 'EIIN', 'Track Start Time', 'Track End Time', 'Track Total Time'];
+        // Add column headers
+        csvContent += columnNames.join(',') + '\n';
+  
+        // Iterate over each user
+        data.forEach((user) => {
+          // Iterate over each school
+          user.school.forEach((school) => {
+            const schoolName = school.school_name;
+            const eiin = school.eiin;
+  
+            // Iterate over each track
+            school.track.forEach((track) => {
+              const row = [
+                schoolName,
+                eiin,
+                track.start_time.replace(/,/g, ';'),
+                track.end_time.replace(/,/g, ';'),
+                track.total_time.replace(/,/g, ';')
+              ];
+              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
+            });
+          });
+        });
+  
+        // Download the CSV file
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'my_data.csv');
+        document.body.appendChild(link);
+        link.click();
+      });
+  }
+  
 
   handleFileUploadvd = (event) => {
     const file = event.target.files[0];
@@ -812,7 +853,7 @@ export default class Dashboard extends Component {
                 <Button
                   variant="contained"
                   size="small"
-                  onClick={this.downloadCSV}
+                  onClick={this.downloadCSV1}
                 >
                   <b> Download Pc Info </b>
                 </Button>

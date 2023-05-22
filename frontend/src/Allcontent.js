@@ -223,7 +223,7 @@ export default class Allcontent extends Component {
   
   sendData = async () => {
     const data = {
-      userId: 11839395,
+      userId: 16633644,
       win_start: this.state.timeData.firstStartTime,
       win_end: this.state.timeData.lastStartTime,
       total_time: this.state.timeData.totalDuration,

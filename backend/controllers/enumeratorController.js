@@ -55,9 +55,12 @@ async function saveCsvpc(req, res) {
       // Check if the row has a 'Location' field
       if(row.hasOwnProperty('Location')) {
         // If it does, add it to the videoData array
+        console.log(videoData)
+
         videoData.push(row);
       } else {
-        // If it doesn't have a 'Location' field, add it to the schoolData array
+
+        console.log(schoolData)
         schoolData.push(row);
       }
     }
@@ -103,6 +106,13 @@ async function saveCsvpc(req, res) {
           pl_end: row['Player End Time'],
           end_date_time: row['PC End Time'],
           duration: row['Total Time'],
+          pc_name:row['User Name'],
+          eiin: row['EIIN'],
+          school_name: row['School Name'],
+          pc_id: row['PC ID'],
+          lab_id: row['Lab ID'],
+
+
         }));
         user.video.push(...newVideoData);
       }

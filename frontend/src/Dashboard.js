@@ -1016,7 +1016,7 @@ export default class Dashboard extends Component {
             </Table>
 
             <div style={{ display: "inline" }}>
-              <Videotable />
+              {/* <Videotable /> */}
 
               <Pctable />
             </div>

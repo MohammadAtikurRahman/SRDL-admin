@@ -38,7 +38,7 @@ const Pctable = () => {
             <div key={school._id}>
               <div
                 style={{
-                  display: "flex",
+                  paddingTop: "30px",
                   alignItems: "center",
                   border: "1px solid #ccc",
                 }}
@@ -59,11 +59,70 @@ const Pctable = () => {
                     selectedSchool === school._id ? "active" : ""
                   }`}
                 >
-                  <b> PC INFO </b> &nbsp;
-                  {school.school_name}
+                  <b> EIN </b> &nbsp;
+                  {school.eiin} 
                 </Button>
+                &nbsp;
+                &nbsp;
 
-                            {/* <Videotable /> */}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+
+                  onClick={() => handleButtonClick(school._id)}
+                  className={`school-button ${
+                    selectedSchool === school._id ? "active" : ""
+                  }`}
+                >
+                  <b> School Name </b> &nbsp;
+                {school.school_name}
+                </Button>
+                &nbsp;
+                &nbsp;
+               <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+
+                  onClick={() => handleButtonClick(school._id)}
+                  className={`school-button ${
+                    selectedSchool === school._id ? "active" : ""
+                  }`}
+                >
+                  <b>PC ID</b> &nbsp;
+                {school.pc_id}
+                </Button>
+                &nbsp;
+                &nbsp;
+               <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+
+                  onClick={() => handleButtonClick(school._id)}
+                  className={`school-button ${
+                    selectedSchool === school._id ? "active" : ""
+                  }`}
+                >
+                  <b>PC ID</b> &nbsp;
+                {school.lab_id}
+                </Button>
+                &nbsp;
+                &nbsp;
+               <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  style={{  backgroundColor: "#088A4B" }}
+
+                  onClick={() => handleButtonClick(school._id)}
+                  className={`school-button ${
+                    selectedSchool === school._id ? "active" : ""
+                  }`}
+                >
+                  <b>Download Pc Info</b> &nbsp;
+                </Button>
 
                 <br />
                 <br />
@@ -75,14 +134,14 @@ const Pctable = () => {
                   <Button
                     variant="contained"
                     // color="primary"
-                    size="small"
-                    style={{ backgroundColor: "#34495E", color: "white"}}
+                    size="medium"
+                    style={{ backgroundColor: "#34495E", color: "white", paddingRight: "400px"}}
                     // onClick={() => handleButtonClick(school._id)}
                     className={`school-button ${
                       selectedSchool === school._id ? "active" : ""
                     }`}
                   >
-                    Pc Name: {school.pc_name} &nbsp; EIIN: {school.eiin} &nbsp;
+                    &nbsp;   &nbsp;     &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  Pc Name: {school.pc_name} &nbsp; EIIN: {school.eiin} &nbsp;
                     PC ID: {school.pc_id} &nbsp; Lab ID: {school.lab_id}
                   </Button>
                   <br/>

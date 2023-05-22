@@ -37,7 +37,7 @@ import { Search as SearchIcon } from "@material-ui/icons";
 const axios = require("axios");
 const baseUrl = process.env.REACT_APP_URL;
 
-export default class Dashboard extends Component {
+export default class Alternative extends Component {
   constructor() {
     super();
     this.state = {
@@ -800,21 +800,18 @@ export default class Dashboard extends Component {
                 </Button>
               </label>
             </div>
-
             <Button
                   className="button_style"
                   variant="contained"
                   color="secondary"
                   size="small"
-                  href="/alternative"
+                  href="/dashboard"
                 >
-                  Video Info
+                  Pc Info
                 </Button>
             <IconButton>
               <SearchIcon style={{ color: "white" }} />
             </IconButton>
-
-          
             <InputBase
               placeholder="Search..."
               style={{ marginLeft: 1, color: "white" }}
@@ -1028,7 +1025,7 @@ export default class Dashboard extends Component {
             </Table>
 
             <div style={{ display: "inline" }}>
-              <Videotable />
+              <Pctable />
 
             </div>
 

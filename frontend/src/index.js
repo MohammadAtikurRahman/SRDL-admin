@@ -15,6 +15,7 @@ import Allcontent from "./Allcontent.js";
 import Pctable from "./Pctable.js"
 import Videotable from "./Videotable"
 import Userid from "./Userid";
+import Alternative from "./Alternative";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -32,6 +33,7 @@ ReactDOM.render(
       <Route path="/pctable" element={<Pctable />} />
       <Route path="/videotable" element={<Videotable />} />
       <Route path="/userid" element={<Userid />} />
+      <Route path="/alternative" element={<Alternative />} />
 
       <Route path="/profile/:id" element={<Profile />} />
     </Routes>

@@ -33,7 +33,7 @@ const Pctable = () => {
   };
 
   return (
-    <div>
+    <div style={{}}>
       {data.map((user) => (
         <div key={user._id}>
           {user.school.map((school) => (
@@ -111,7 +111,7 @@ const Pctable = () => {
                     selectedSchool === school._id ? "active" : ""
                   }`}
                 >
-                  <b>PC ID</b> &nbsp;
+                  <b>LAB ID</b> &nbsp;
                 {school.lab_id}
                 </Button>
                 &nbsp;

@@ -41,7 +41,12 @@ const Videotable = () => {
             return acc;
           }, []).map((eiin) => (
             <React.Fragment key={eiin}>
-               <div style={{ paddingTop: "30.5px"}}>
+               <div style={{ paddingTop: "30.5px",
+              
+                                alignItems: "center",
+
+              
+              }}>
 
                </div>
               <Button

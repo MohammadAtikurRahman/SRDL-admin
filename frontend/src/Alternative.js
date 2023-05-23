@@ -558,198 +558,6 @@ export default class Alternative extends Component {
 
     return (
       <div>
-        {/* <div>
-                    <br></br>
-                    <h2>Dashboard</h2>
-
-                    <Button
-                        className="button_style"
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={this.handleProductOpen}>
-                        Add Beneficiary
-                    </Button>
-
-                    <Button
-                        className="button_style"
-                        variant="contained"
-                        color="primary"
-                        size="small">
-                        <MaterialLink
-                            style={{ textDecoration: "none", color: "white" }}
-                            href="/enumerator">
-                            List Of Enumerator
-                        </MaterialLink>
-                    </Button>
-
-                    <Button
-                        className="button_style"
-                        variant="contained"
-                        color="inherit"
-                        size="small">
-                        <MaterialLink
-                            style={{ textDecoration: "none", color: "black" }}
-                            href="/test">
-                            List Of Test
-                        </MaterialLink>
-                    </Button>
-
-                    <Button
-                        className="button_style"
-                        variant="contained"
-                        color="inherit"
-                        size="small">
-                        <MaterialLink
-                            style={{ textDecoration: "none", color: "black" }}
-                            href="/test">
-                            Transactions
-                        </MaterialLink>
-                    </Button>
-
-                    <Button
-                        className="button_style"
-                        variant="contained"
-                        size="small"
-                        onClick={this.logOut}>
-                        <MaterialLink
-                            style={{
-                                textDecoration: "none",
-                                color: "black",
-                            }}
-                            href="/">
-                            logout
-                        </MaterialLink>
-                    </Button>
-                </div>
-                <br />
-                <TableContainer>
-                    <div className="search-container">
-                        <TextField
-                            id="standard-basic"
-                            type="search"
-                            autoComplete="off"
-                            name="search"
-                            value={this.state.search}
-                            onChange={this.onChange}
-                            placeholder="Search by Beneficiary"
-                            required
-                            style={{ border: "1px solid grey", padding: "1px" }}
-                            InputProps={{
-                                disableUnderline: true,
-                                style: { paddingRight: "5px", paddingLeft: "50px" },
-                            }}
-                        />
-                    </div>
-
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">
-                                    <b> Beneficiary Created Time </b>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <b> Beneficiary Name </b>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <b> Beneficiary Id </b>
-                                </TableCell>
-
-                                <TableCell align="center">
-                                    <b> Test Score </b>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <b> Action </b>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <b> View BeneFiciary </b>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
-                                <TableRow key={index}>
-                                    <TableCell align="center">
-                                        {new Date(row.updatedAt).toLocaleString("en-US", {
-                                            hour: "numeric",
-                                            minute: "numeric",
-                                            hour12: true,
-                                        })}
-                                        &nbsp; &nbsp; &nbsp; &nbsp;
-                                        {new Date(row.updatedAt).toLocaleString("en-GB", {
-                                            month: "2-digit",
-                                            day: "2-digit",
-                                            year: "numeric",
-                                        })}
-                                    </TableCell>
-                                    <TableCell align="center">{row.name}</TableCell>
-
-                                    <TableCell align="center" component="th" scope="row">
-                                        {row.beneficiaryId}
-                                    </TableCell>
-
-                                    <TableCell align="center">{row.score1}</TableCell>
-
-                                    <TableCell align="center">
-                                        <Button
-                                            className="button_style"
-                                            variant="outlined"
-                                            color="primary"
-                                            size="small"
-                                            onClick={() => this.handleProductEditOpen(row)}>
-                                            Edit
-                                        </Button>
-
-                                        <BeneficiaryDelete row={row} />
-                                    </TableCell>
-
-                                    <TableCell align="center">
-                                        <Button
-                                            className="button_style"
-                                            variant="contained"
-                                            color="primary"
-                                            size="small">
-                
-                                            <Link
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "white",
-                                                }}
-                                                to={`/profile/${row._id}`}
-                                                state={row}>
-                                                BeneFiciary Details
-                                            </Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-
-                    <br />
-                    <Pagination
-                        count={this.state.pages}
-                        page={this.state.page}
-                        onChange={this.pageChange}
-                        color="primary"
-                    />
-                </TableContainer>
-                {this.state.openProductEditModal && (
-                    <EditBeneficiary
-                        beneficiary={this.state.currentBeneficiary}
-                        isEditModalOpen={this.state.openProductEditModal}
-                        handleEditModalClose={this.handleProductEditClose}
-                        getBeneficiaries={this.getBeneficiaries}
-                    />
-                )}
-                {this.state.openProductModal && (
-                    <AddBeneficiary
-                        isEditModalOpen={this.state.openProductModal}
-                        handleEditModalClose={this.handleProductClose}
-                        getBeneficiaries={this.getBeneficiaries}
-                    />
-                )} */}
 
         {this.state.openProductEditModal && (
           <EditBeneficiary
@@ -822,21 +630,7 @@ export default class Alternative extends Component {
                 placeholder: "Search by EIN & School",
               }}
             />
-            {/* <div>
-              <input
-                accept=".csv"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={this.handleFileUploadvd}
-              />
-              <label htmlFor="raised-button-file">
-                <Button variant="contained" color="primary" component="span">
-                  Upload Video Info
-                </Button>
-              </label>
-            </div> */}
+          
             {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
               <div key={index}>
                 <Button variant="contained" color="primary" href="/video">
@@ -871,6 +665,23 @@ export default class Alternative extends Component {
 
                 >
                   <b> Download Pc Info </b>
+                </Button>
+                <Button
+                  className="button_style"
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={this.logOut}
+                >
+                  <MaterialLink
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                    }}
+                    href="/"
+                  >
+                    Logout
+                  </MaterialLink>
                 </Button>
               </div>
             </div>
@@ -910,17 +721,7 @@ export default class Alternative extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               <div style={{ flexGrow: 1 }}>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {/* <IconButton>
-                  <SearchIcon style={{ color: "white" }} />
-                </IconButton>
-                <InputBase
-                  placeholder="Search..."
-                  style={{ marginLeft: 8, color: "white" }}
-                  inputProps={{
-                    style: { color: "white" },
-                    placeholder: "SEARCH",
-                  }}
-                /> */}
+                 
                   <Button variant="contained" size="small">
                     <b>EIN: {row.beneficiaryId} </b>
                   </Button>
@@ -952,36 +753,10 @@ export default class Alternative extends Component {
 
         <div>
           <TableContainer>
-            {/* <div className="search-container">
-                        <TextField
-                            id="standard-basic"
-                            type="search"
-                            autoComplete="off"
-                            name="search"
-                            value={this.state.search}
-                            onChange={this.onChange}
-                            placeholder="Search by Beneficiary"
-                            required
-                            style={{ border: "1px solid grey", padding: "1px" }}
-                            InputProps={{
-                                disableUnderline: true,
-                                style: { paddingRight: "5px", paddingLeft: "50px" },
-                            }}
-                        />
-                    </div> */}
-
+      
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  {/* <TableCell align="center">
-                    <b> Start Date & Time </b>
-                  </TableCell>
-                  <TableCell align="center">
-                    <b> Last Usage Date & Time </b>
-                  </TableCell>
-                  <TableCell align="center">
-                    <b> Duration </b>
-                  </TableCell> */}
                 </TableRow>
               </TableHead>
 
@@ -1002,29 +777,6 @@ export default class Alternative extends Component {
                       <TableCell align="center" component="th" scope="row">
                         {this.convertToHoursAndMinutes(ttime.total_time)}
                       </TableCell>
-
-                      {/* <TableCell align="center">{row.name}</TableCell> */}
-
-                      {/* <TableCell align="center">
-                        <Button
-                          className="button_style"
-                          variant="contained"
-                          // color="primary"
-                          size="small"
-                        >
-                          <Link
-                            style={{
-                              // backgroundColor: "#1C6758",
-                              textDecoration: "none",
-                              color: "black",
-                            }}
-                            to={`/profile/${row._id}`}
-                            state={row}
-                          >
-                             Details
-                          </Link>
-                        </Button>
-                      </TableCell> */}
                     </TableRow>
                   ))}
               </TableBody>
@@ -1032,9 +784,7 @@ export default class Alternative extends Component {
 
             <div style={{ display: "inline" }}>
               <Pctable />
-
             </div>
-
             {/* <Previous /> */}
 
             <Pagination
@@ -1044,101 +794,7 @@ export default class Alternative extends Component {
               color="primary"
             />
           </TableContainer>
-          {/* 
-          <div className="App">
-            <header className="App-header">
-              <h1>React Frontend</h1>
-              {dataSent ? (
-                <p></p>
-              ) : (
-                <button onClick={this.handleClick1}>Computer Usages</button>
-              )}
-            </header>
-          </div>
-
-          <div>
-            <p>win_start: {lastData.win_start}</p>
-            <p>win_end: {lastData.win_end}</p>
-            <p>total_time: {lastData.total_time}</p>
-          </div> */}
         </div>
-
-        <AppBar
-          position="static"
-          style={{ backgroundColor: "#ffff", marginTop: "22%" }}
-          elevation={0}
-        >
-          <Toolbar>
-            {/* <div>
-              <Button variant="contained" color="primary" href="/video">
-                PC INFO
-              </Button>
-            </div> */}
-
-            <div style={{ flexGrow: 1 }} />
-            <div style={{ flexGrow: -2 }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {/* <Button
-                  variant="contained"
-                  size="small"
-                  onClick={this.handleProductOpen}
-                >
-                  <b> Add School</b>
-                </Button>
-                &nbsp; &nbsp;
-                <Button variant="contained" size="small">
-                  <b> Download </b>
-                </Button>
-                &nbsp; &nbsp;
-                <Button variant="contained" size="small">
-                  <b> Details </b>
-                </Button> */}
-                &nbsp;
-                {/* <IconButton>
-                  <SearchIcon style={{ color: "white" }} />
-                </IconButton>
-                <InputBase
-                  placeholder="Search..."
-                  style={{ marginLeft: 1, color: "white" }}
-                  inputProps={{
-                    style: { color: "white" },
-                    placeholder: "SEARCH",
-                  }}
-                /> */}
-                {/* {dataSent ? (
-                  <p></p>
-                ) : (
-                  <Button
-                    className="button_style"
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={this.handleClick1}
-                  >
-                    Exit
-                  </Button>
-                )} */}
-                <Button
-                  className="button_style"
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={this.logOut}
-                >
-                  <MaterialLink
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                    }}
-                    href="/"
-                  >
-                    Logout
-                  </MaterialLink>
-                </Button>
-              </div>
-            </div>
-          </Toolbar>
-        </AppBar>
       </div>
     );
   }

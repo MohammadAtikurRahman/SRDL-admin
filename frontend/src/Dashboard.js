@@ -874,6 +874,23 @@ export default class Dashboard extends Component {
                 >
                   <b> Download Pc Info </b>
                 </Button>
+                <Button
+                  className="button_style"
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={this.logOut}
+                >
+                  <MaterialLink
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                    }}
+                    href="/"
+                  >
+                    Logout
+                  </MaterialLink>
+                </Button>
               </div>
             </div>
           </Toolbar>
@@ -954,37 +971,10 @@ export default class Dashboard extends Component {
 
         <div>
           <TableContainer>
-            {/* <div className="search-container">
-                        <TextField
-                            id="standard-basic"
-                            type="search"
-                            autoComplete="off"
-                            name="search"
-                            value={this.state.search}
-                            onChange={this.onChange}
-                            placeholder="Search by Beneficiary"
-                            required
-                            style={{ border: "1px solid grey", padding: "1px" }}
-                            InputProps={{
-                                disableUnderline: true,
-                                style: { paddingRight: "5px", paddingLeft: "50px" },
-                            }}
-                        />
-                    </div> */}
-
+           
             <Table aria-label="simple table">
               <TableHead>
-                <TableRow>
-                  {/* <TableCell align="center">
-                    <b> Start Date & Time </b>
-                  </TableCell>
-                  <TableCell align="center">
-                    <b> Last Usage Date & Time </b>
-                  </TableCell>
-                  <TableCell align="center">
-                    <b> Duration </b>
-                  </TableCell> */}
-                </TableRow>
+             
               </TableHead>
 
               <TableBody>
@@ -1005,28 +995,7 @@ export default class Dashboard extends Component {
                         {this.convertToHoursAndMinutes(ttime.total_time)}
                       </TableCell>
 
-                      {/* <TableCell align="center">{row.name}</TableCell> */}
-
-                      {/* <TableCell align="center">
-                        <Button
-                          className="button_style"
-                          variant="contained"
-                          // color="primary"
-                          size="small"
-                        >
-                          <Link
-                            style={{
-                              // backgroundColor: "#1C6758",
-                              textDecoration: "none",
-                              color: "black",
-                            }}
-                            to={`/profile/${row._id}`}
-                            state={row}
-                          >
-                             Details
-                          </Link>
-                        </Button>
-                      </TableCell> */}
+                      
                     </TableRow>
                   ))}
               </TableBody>
@@ -1065,82 +1034,12 @@ export default class Dashboard extends Component {
           </div> */}
         </div>
 
-        <AppBar
-          position="static"
-          style={{ backgroundColor: "#ffff", marginTop: "22%" }}
-          elevation={0}
-        >
-          <Toolbar>
-            {/* <div>
-              <Button variant="contained" color="primary" href="/video">
-                PC INFO
-              </Button>
-            </div> */}
-
-            <div style={{ flexGrow: 1 }} />
-            <div style={{ flexGrow: -2 }}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {/* <Button
-                  variant="contained"
-                  size="small"
-                  onClick={this.handleProductOpen}
-                >
-                  <b> Add School</b>
-                </Button>
-                &nbsp; &nbsp;
-                <Button variant="contained" size="small">
-                  <b> Download </b>
-                </Button>
-                &nbsp; &nbsp;
-                <Button variant="contained" size="small">
-                  <b> Details </b>
-                </Button> */}
-                &nbsp;
-                {/* <IconButton>
-                  <SearchIcon style={{ color: "white" }} />
-                </IconButton>
-                <InputBase
-                  placeholder="Search..."
-                  style={{ marginLeft: 1, color: "white" }}
-                  inputProps={{
-                    style: { color: "white" },
-                    placeholder: "SEARCH",
-                  }}
-                /> */}
-                {/* {dataSent ? (
-                  <p></p>
-                ) : (
-                  <Button
-                    className="button_style"
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    onClick={this.handleClick1}
-                  >
-                    Exit
-                  </Button>
-                )} */}
-                <Button
-                  className="button_style"
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={this.logOut}
-                >
-                  <MaterialLink
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                    }}
-                    href="/"
-                  >
-                    Logout
-                  </MaterialLink>
-                </Button>
-              </div>
-            </div>
-          </Toolbar>
-        </AppBar>
+       
+     
+      
+     
+     
+     
       </div>
     );
   }

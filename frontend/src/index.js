@@ -15,6 +15,7 @@ import Allcontent from "./Allcontent.js";
 import Pctable from "./Pctable.js"
 import Videotable from "./Videotable"
 import Userid from "./Userid";
+import Sticky from "./Sticky"
 import Alternative from "./Alternative";
 
 ReactDOM.render(
@@ -34,6 +35,7 @@ ReactDOM.render(
       <Route path="/videotable" element={<Videotable />} />
       <Route path="/userid" element={<Userid />} />
       <Route path="/alternative" element={<Alternative />} />
+      <Route path="/sticky" element={<Sticky />} />
 
       <Route path="/profile/:id" element={<Profile />} />
     </Routes>

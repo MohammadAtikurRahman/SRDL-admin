@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
 import {
   AppBar,
   Toolbar,
@@ -119,13 +121,15 @@ const Videotable = () => {
                     variant="contained"
                     color="primary"
                     size="small"
+                    startIcon={<CloudDownloadIcon />}
+
                     style={{
                       position: "absolute", right: "8.5%", width: '150px',  // Add fixed width
                       height: '30px', backgroundColor: "#2E8B57"
                     }} // adjust these values as needed
                     onClick={() => toggleTable(eiin)}
                   >
-                    Download Video Info       </Button>
+                    Download  Info       </Button>
 
 
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Videotable from "./Videotable";
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+
 import {
   AppBar,
   Toolbar,
@@ -118,6 +120,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
+                  startIcon={<CloudDownloadIcon />}
+
                   style={{  backgroundColor: "#2E8B57", width: '150px',  // Add fixed width
           }}
                   onClick={() => handleButtonClick(school._id)}
@@ -125,7 +129,7 @@ const Pctable = () => {
                     selectedSchool === school._id ? "active" : ""
                   }`}
                 >
-                  <b>Download Pc Info</b> &nbsp;
+                  <b>Download Info</b> &nbsp;
                 </Button>
                 {/* <div> faka
                   </div> */}

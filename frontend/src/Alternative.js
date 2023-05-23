@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.png"; // adjust the path as necessary
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import ComputerIcon from '@material-ui/icons/Computer';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 import {
   TextField,
@@ -142,20 +144,20 @@ export default class Alternative extends Component {
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
-  
+
         // Define custom column names
         const columnNames = ['School Name', 'EIIN', 'Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
-  
+
         // Add column headers
         csvContent += columnNames.join(',') + '\n';
-  
+
         // Iterate over each user
         data.forEach((user) => {
           // Iterate over each school
           user.school.forEach((school) => {
             const schoolName = school.school_name;
             const eiin = school.eiin;
-  
+
             // Iterate over each video
             user.video.forEach((video) => {
               const row = [
@@ -173,7 +175,7 @@ export default class Alternative extends Component {
             });
           });
         });
-  
+
         // Download the CSV file
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
@@ -183,26 +185,26 @@ export default class Alternative extends Component {
         link.click();
       });
   }
-  
+
   downloadCSV1 = () => {
     axios
       .get('http://localhost:2000/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
-  
+
         // Define custom column names
         const columnNames = ['School Name', 'EIIN', 'Track Start Time', 'Track End Time', 'Track Total Time'];
         // Add column headers
         csvContent += columnNames.join(',') + '\n';
-  
+
         // Iterate over each user
         data.forEach((user) => {
           // Iterate over each school
           user.school.forEach((school) => {
             const schoolName = school.school_name;
             const eiin = school.eiin;
-  
+
             // Iterate over each track
             school.track.forEach((track) => {
               const row = [
@@ -216,7 +218,7 @@ export default class Alternative extends Component {
             });
           });
         });
-  
+
         // Download the CSV file
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement('a');
@@ -226,7 +228,7 @@ export default class Alternative extends Component {
         link.click();
       });
   }
-  
+
 
   handleFileUploadvd = (event) => {
     const file = event.target.files[0];
@@ -286,9 +288,8 @@ export default class Alternative extends Component {
     const hours = Math.floor(totalTime / 60);
     const minutes = totalTime % 60;
     if (hours > 0) {
-      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${
-        minutes > 1 ? "s" : ""
-      }`;
+      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${minutes > 1 ? "s" : ""
+        }`;
     }
     return `${minutes} minute${minutes > 1 ? "s" : ""}`;
   }
@@ -408,7 +409,7 @@ export default class Alternative extends Component {
         });
         this.setState(
           { loading: false, beneficiaries: [], userinfo: [] },
-          () => {}
+          () => { }
         );
       });
   };
@@ -493,7 +494,7 @@ export default class Alternative extends Component {
   // };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value }, () => {});
+    this.setState({ [e.target.name]: e.target.value }, () => { });
 
     if (e.target.name === "search") {
       const needle = e.target.value;
@@ -801,14 +802,15 @@ export default class Alternative extends Component {
               </label>
             </div>
             <Button
-                  className="button_style"
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  href="/dashboard"
-                >
-                  Pc Info
-                </Button>
+              className="button_style"
+              variant="contained"
+              color="secondary"
+              size="medium"
+              href="/dashboard"
+              startIcon={<ComputerIcon />}
+            >
+              Pc Info
+            </Button>
             <IconButton>
               <SearchIcon style={{ color: "white" }} />
             </IconButton>
@@ -855,7 +857,9 @@ export default class Alternative extends Component {
                   variant="contained"
                   size="small"
                   onClick={this.downloadCSV}
-                  >
+                  startIcon={<CloudDownloadIcon />}
+
+                >
                   <b>Download Video Info</b>
                 </Button>
                 &nbsp; &nbsp;
@@ -863,6 +867,8 @@ export default class Alternative extends Component {
                   variant="contained"
                   size="small"
                   onClick={this.downloadCSV1}
+                  startIcon={<CloudDownloadIcon />}
+
                 >
                   <b> Download Pc Info </b>
                 </Button>

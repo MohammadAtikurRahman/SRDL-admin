@@ -33,7 +33,7 @@ const Videotable = () => {
   return (
     <div style={{}}>
       {data.map((user) => (
-        <div key={user._id }>
+        <div key={user._id}>
           {user.video.reduce((acc, video) => {
             if (!acc.includes(video.eiin)) {
               acc.push(video.eiin);
@@ -41,14 +41,15 @@ const Videotable = () => {
             return acc;
           }, []).map((eiin) => (
             <React.Fragment key={eiin}>
-               <div style={{ paddingTop: "30.5px",
-              
-                                alignItems: "center",
+              <div style={{
+                paddingTop: "30.5px",
 
-              
+                alignItems: "center",
+
+
               }}>
 
-               </div>
+              </div>
               <Button
                 className="button_style"
                 variant="contained"
@@ -201,7 +202,7 @@ const Videotable = () => {
                           <td style={{ border: "1px solid black" }}>
                             {v.duration}
                           </td>
-                         
+
                         </tr>
                       ))}
                   </tbody>

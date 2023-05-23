@@ -683,6 +683,9 @@ export default class Alternative extends Component {
                     Logout
                   </MaterialLink>
                 </Button>
+
+
+                
               </div>
             </div>
           </Toolbar>

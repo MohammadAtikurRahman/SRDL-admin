@@ -40,7 +40,6 @@ const Pctable = () => {
                 style={{
                   paddingTop: "30px",
                   alignItems: "center",
-                  border: "1px solid #ccc",
                 }}
               >
                 {" "}
@@ -54,7 +53,7 @@ const Pctable = () => {
                   color="primary"
                   size="small"
                   style={{   width: '150px',  // Add fixed width
-                  height: '30px'}}
+                  }}
 
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
@@ -72,7 +71,7 @@ const Pctable = () => {
                   color="primary"
                   size="small"
                   style={{   width: '350px',  // Add fixed width
-                  height: '30px'}}
+                 }}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -88,7 +87,7 @@ const Pctable = () => {
                   color="primary"
                   size="small"
                   style={{   width: '150px',  // Add fixed width
-                  height: '30px'}}
+             }}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -104,7 +103,7 @@ const Pctable = () => {
                   color="primary"
                   size="small"
                   style={{   width: '150px',  // Add fixed width
-                  height: '30px'}}
+            }}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -119,8 +118,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
-                  style={{  backgroundColor: "#088A4B", width: '150px',  // Add fixed width
-                  height: '30px' }}
+                  style={{  backgroundColor: "#2E8B57", width: '150px',  // Add fixed width
+          }}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -128,15 +127,15 @@ const Pctable = () => {
                 >
                   <b>Download Pc Info</b> &nbsp;
                 </Button>
-
-                <br />
-                <br />
+                {/* <div> faka
+                  </div> */}
+             
                 &nbsp; &nbsp; &nbsp;
               </div>
               {selectedSchool === school._id && (
                 <div style={{ clear: "both" }}>
                   <br></br>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     // color="primary"
                     size="medium"
@@ -148,9 +147,9 @@ const Pctable = () => {
                   >
                     &nbsp;   &nbsp;     &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  Pc Name: {school.pc_name} &nbsp; EIIN: {school.eiin} &nbsp;
                     PC ID: {school.pc_id} &nbsp; Lab ID: {school.lab_id}
-                  </Button>
-                  <br/>
-                  <br/>
+                  </Button> */}
+                  {/* <br/>
+                  <br/> */}
 
                   <table
                     style={{

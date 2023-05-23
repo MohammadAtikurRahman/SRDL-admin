@@ -30,7 +30,7 @@ const Videotable = () => {
 
   return (
    <div style={{}}>
-  {data.map((user) => (
+{data.map((user) => (
     <div key={user._id}>
       <hr />
       {user.video.reduce((acc, video) => {
@@ -45,14 +45,65 @@ const Videotable = () => {
             variant="contained"
             color="primary"
             size="small"
-            style={{ position: "absolute", right: "74.2%" }} // adjust these values as needed
+            style={{ position: "absolute", right: "74.2%",
+            width: '150px',  // Add fixed width
+            height: '30px'  // Add fixed height
+          
+          }} // adjust these values as needed
             onClick={() => toggleTable(eiin)}
           >
             {showTable[eiin]
               ? `Hide ${eiin}'s Table`
               : `Video Info ${eiin}`}
            </Button>
-            
+           {/* Add your new button here */}
+           <Button
+            className="button_style"
+            variant="contained"
+            color="secondary"
+            size="small"
+            style={{ position: "absolute", right: "60.2%",
+            width: '150px',  // Add fixed width
+            height: '30px'  // Add fixed height
+          }} // adjust these values as needed
+            onClick={() => { /* Add your button's onClick function here */ }}
+          >
+            Button Text
+           </Button>
+           <Button
+            className="button_style"
+            variant="contained"
+            color="secondary"
+            size="small"
+            style={{ position: "absolute", right: "46.2%",    width: '150px',  // Add fixed width
+            height: '30px' }} // adjust these values as needed
+            onClick={() => { /* Add your button's onClick function here */ }}
+          >
+            Button Text
+           </Button>
+           <Button
+            className="button_style"
+            variant="contained"
+            color="secondary"
+            size="small"
+            style={{ position: "absolute", right: "32.2%",    width: '150px',  // Add fixed width
+            height: '30px' }} // adjust these values as needed
+            onClick={() => { /* Add your button's onClick function here */ }}
+          >
+            Button Text
+           </Button>
+
+           <Button
+            className="button_style"
+            variant="contained"
+            color="secondary"
+            size="small"
+            style={{ position: "absolute", right: "18.2%",    width: '150px',  // Add fixed width
+            height: '30px' }} // adjust these values as needed
+            onClick={() => { /* Add your button's onClick function here */ }}
+          >
+            Button Text
+           </Button>
            &nbsp;
            &nbsp;
 
@@ -124,7 +175,8 @@ const Videotable = () => {
         </React.Fragment>
       ))}
     </div>
-  ))}
+))}
+
    </div>
 
 

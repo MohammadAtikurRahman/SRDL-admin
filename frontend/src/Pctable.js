@@ -53,6 +53,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
+                  style={{   width: '150px',  // Add fixed width
+                  height: '30px'}}
 
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
@@ -69,7 +71,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
-
+                  style={{   width: '350px',  // Add fixed width
+                  height: '30px'}}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -84,7 +87,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
-
+                  style={{   width: '150px',  // Add fixed width
+                  height: '30px'}}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -99,7 +103,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
-
+                  style={{   width: '150px',  // Add fixed width
+                  height: '30px'}}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""
@@ -114,8 +119,8 @@ const Pctable = () => {
                   variant="contained"
                   color="primary"
                   size="small"
-                  style={{  backgroundColor: "#088A4B" }}
-
+                  style={{  backgroundColor: "#088A4B", width: '150px',  // Add fixed width
+                  height: '30px' }}
                   onClick={() => handleButtonClick(school._id)}
                   className={`school-button ${
                     selectedSchool === school._id ? "active" : ""

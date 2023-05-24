@@ -3,7 +3,7 @@ import logo from "./logo.png"; // adjust the path as necessary
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ComputerIcon from '@material-ui/icons/Computer';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
   TextField,
   TableBody,
@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import swal from "sweetalert";
+
 
 import { Link as MaterialLink } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -35,6 +36,7 @@ import {
   InputBase,
 } from "@material-ui/core";
 import { Search as SearchIcon } from "@material-ui/icons";
+import Dropdownbutton from "./Dropdownbutton";
 
 const axios = require("axios");
 const baseUrl = process.env.REACT_APP_URL;
@@ -609,17 +611,10 @@ export default class Alternative extends Component {
                 </Button>
               </label>
             </div>
-            <Button
-              className="button_style"
-              variant="contained"
-              color="secondary"
-              size="medium"
-              href="/dashboard"
-              startIcon={<ComputerIcon />}
-            >
-              Pc Info
-            </Button>
-            <IconButton>
+            <div style={{ paddingLeft: "20px"}} >            <Dropdownbutton />
+
+              </div>
+            {/* <IconButton>
               <SearchIcon style={{ color: "white" }} />
             </IconButton>
             <InputBase
@@ -629,8 +624,36 @@ export default class Alternative extends Component {
                 style: { color: "white" },
                 placeholder: "Search by EIN & School",
               }}
-            />
-          
+            /> */}
+          &nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp; 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
             {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
               <div key={index}>
                 <Button variant="contained" color="primary" href="/video">
@@ -656,6 +679,10 @@ export default class Alternative extends Component {
                 >
                   <b>Download Video Info</b>
                 </Button>
+
+
+
+                
                 &nbsp; &nbsp;
                 <Button
                   variant="contained"
@@ -671,16 +698,21 @@ export default class Alternative extends Component {
                   variant="contained"
                   color="primary"
                   size="small"
+                  style={{ width: "140px"}}
                   onClick={this.logOut}
                 >
+                      <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
+
+
                   <MaterialLink
                     style={{
                       textDecoration: "none",
                       color: "white",
+                      paddingTop: "3px"
                     }}
                     href="/"
                   >
-                    Logout
+                  LOG OUT
                   </MaterialLink>
                 </Button>
 

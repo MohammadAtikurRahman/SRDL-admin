@@ -25,6 +25,7 @@
         "moment": "^2.29.4",
         "papaparse": "^5.4.1",
         "react": "^16.13.1",
+        "react-bootstrap": "^2.7.4",
         "react-bootstrap-sweetalert": "^5.2.0",
         "react-datepicker": "^4.8.0",
         "react-dom": "^16.13.1",

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import ComputerIcon from "@material-ui/icons/Computer";
 
-const Sticky = () => {
+const Dropdownbutton= () => {
   const [open, setOpen] = useState(false);
 
   const handleToggleMenu = () => {
@@ -13,11 +13,11 @@ const Sticky = () => {
     <div>
     <Dropdown show={open} onToggle={handleToggleMenu}>
       <Dropdown.Toggle variant="secondary" size="medium">
-        <VideoLibraryIcon /> Video Info
+      <ComputerIcon /> Pc Info
       </Dropdown.Toggle>
       <Dropdown.Menu
         style={{
-          minWidth: "140px",
+          minWidth: "120px",
           maxWidth: "150px",
           backgroundColor: "#3949ab",
           color: "white",
@@ -44,7 +44,7 @@ const Sticky = () => {
             }
           `}
         </style>
-        <Dropdown.Item href="/alternative">PC Info</Dropdown.Item>
+        <Dropdown.Item href="/dashboard">Video Info</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   </div>
@@ -52,4 +52,4 @@ const Sticky = () => {
   );
 };
 
-export default Sticky;
+export default Dropdownbutton;

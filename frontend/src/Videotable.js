@@ -46,18 +46,15 @@ const Videotable = () => {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" style={{ height: "60px"}}>
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
           >
-            <CloudDownloadIcon />
           </IconButton>
-          <Typography variant="h6">
-            Video
-          </Typography>
+        
           <div>
             <InputBase
               placeholder="Search…"

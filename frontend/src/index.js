@@ -17,6 +17,7 @@ import Videotable from "./Videotable"
 import Userid from "./Userid";
 import Sticky from "./Sticky"
 import Alternative from "./Alternative";
+import Dropdownbutton from "./Dropdownbutton";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -36,6 +37,7 @@ ReactDOM.render(
       <Route path="/userid" element={<Userid />} />
       <Route path="/alternative" element={<Alternative />} />
       <Route path="/sticky" element={<Sticky />} />
+      <Route path="/dropdownbutton" element={<Dropdownbutton />} />
 
       <Route path="/profile/:id" element={<Profile />} />
     </Routes>

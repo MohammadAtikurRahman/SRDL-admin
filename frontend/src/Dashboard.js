@@ -3,7 +3,8 @@ import logo from "./logo.png"; // adjust the path as necessary
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Sticky from "./Sticky";
 import {
   TextField,
   TableBody,
@@ -802,7 +803,7 @@ export default class Dashboard extends Component {
               </label>
             </div>
 
-            <Button
+            {/* <Button
               className="button_style"
               variant="contained"
               color="secondary"
@@ -811,20 +812,54 @@ export default class Dashboard extends Component {
               startIcon={<VideoLibraryIcon />}
             >
               Video Info
-            </Button>
-            <IconButton>
+            </Button> */}
+            <div style={{ paddingLeft: "20px"}} >
+            <Sticky />
+
+              </div>
+            
+            {/* <IconButton>
               <SearchIcon style={{ color: "white" }} />
-            </IconButton>
+            </IconButton> */}
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp; 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 
 
-            <InputBase
+            {/* <InputBase
               placeholder="Search..."
               style={{ marginLeft: 1, color: "white" }}
               inputProps={{
                 style: { color: "white" },
                 placeholder: "Search by EIN & School",
               }}
-            />
+            /> */}
             {/* <div>
               <input
                 accept=".csv"
@@ -879,16 +914,22 @@ export default class Dashboard extends Component {
                   variant="contained"
                   color="primary"
                   size="small"
+                  style={{ width: "140px"}}
                   onClick={this.logOut}
                 >
+                      <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
+
+
                   <MaterialLink
                     style={{
                       textDecoration: "none",
                       color: "white",
+                      paddingTop: "3px"
+
                     }}
                     href="/"
                   >
-                    Logout
+                  LOG OUT
                   </MaterialLink>
                 </Button>
               </div>

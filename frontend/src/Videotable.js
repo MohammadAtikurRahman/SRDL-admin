@@ -8,11 +8,12 @@ import {
   IconButton,
   InputBase,
 } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 const Videotable = () => {
   const [data, setData] = useState([]);
   const [showTable, setShowTable] = useState({});
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +26,10 @@ const Videotable = () => {
   }, []);
 
   const toggleTable = (eiin) => {
-    setShowTable((prevShowTable) => ({ ...prevShowTable, [eiin]: !prevShowTable[eiin] }));
+    setShowTable((prevShowTable) => ({
+      ...prevShowTable,
+      [eiin]: !prevShowTable[eiin],
+    }));
   };
 
   const handleChange = (event) => {
@@ -33,38 +37,60 @@ const Videotable = () => {
   };
 
   const filteredData = searchTerm
-    ? data.map(user => ({
+    ? data
+        .map((user) => ({
           ...user,
           video: user.video.filter(
             (video) =>
               video.eiin.toString().includes(searchTerm) ||
               (video.school_name &&
-                video.school_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                video.school_name
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()))
           ),
-        })).filter(user => user.video.length > 0)
+        }))
+        .filter((user) => user.video.length > 0)
     : data;
 
   return (
     <div>
-      <AppBar position="static" style={{ height: "60px"}}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
-          >
-          </IconButton>
-        
-          <div>
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchTerm}
-              onChange={handleChange}
-            />
+          ></IconButton>
+
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              style={{
+                height: "45px",
+                width: "360px",
+                border: "2px solid #000000", // Change the border color here
+                display: "flex",
+                borderRadius: "30px",
+                alignItems: "center",
+              }}
+            >
+              <SearchIcon style={{ marginLeft: "10px", color: "#000000" }} />{" "}
+              {/* Change the color of the search icon */}
+              <InputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                value={searchTerm}
+                onChange={handleChange}
+                style={{
+                  flex: 1,
+                  marginLeft: "10px",
+                  fontSize: "14px", // Change the font size here
+                  color: "#000000", // Change the placeholder color here
+                }}
+              />
+            </div>
           </div>
         </Toolbar>
-      </AppBar>
+      </div>
 
       <div style={{}}>
         {filteredData.map((user) => (
@@ -129,55 +155,60 @@ const Videotable = () => {
                         marginTop: "30px",
                       }}
                     >
-
-<thead>
-                    <tr>
-                      <th style={{ border: "1px solid black" }}>Video Name</th>
-                      <th style={{ border: "1px solid black" }}>Location</th>
-                      <th style={{ border: "1px solid black" }}>
-                        Player Start Time
-                      </th>
-                      <th style={{ border: "1px solid black" }}>
-                        Start Time & Date
-                      </th>
-                      <th style={{ border: "1px solid black" }}>
-                        Player End Time
-                      </th>
-                      <th style={{ border: "1px solid black" }}>
-                        End Time & Date
-                      </th>
-                      <th style={{ border: "1px solid black" }}>Duration</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {user.video
-                      .filter((v) => v.eiin === eiin)
-                      .map((v) => (
-                        <tr key={v._id}>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.video_name}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.location}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.pl_start}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.start_date_time}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.pl_end}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.end_date_time}
-                          </td>
-                          <td style={{ border: "1px solid black" }}>
-                            {v.duration}
-                          </td>
+                      <thead>
+                        <tr>
+                          <th style={{ border: "1px solid black" }}>
+                            Video Name
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Location
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Player Start Time
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Start Time & Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Player End Time
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            End Time & Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Duration
+                          </th>
                         </tr>
-                      ))}
-                  </tbody>
+                      </thead>
+                      <tbody>
+                        {user.video
+                          .filter((v) => v.eiin === eiin)
+                          .map((v) => (
+                            <tr key={v._id}>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.video_name}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.location}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.pl_start}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.start_date_time}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.pl_end}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.end_date_time}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.duration}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
                     </table>
                   )}
                 </React.Fragment>

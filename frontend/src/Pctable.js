@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Videotable from "./Videotable";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Fuse from "fuse.js";
+import SearchIcon from "@material-ui/icons/Search";
 
 import {
   AppBar,
@@ -50,7 +51,35 @@ const Pctable = () => {
 
   return (
     <div>
-      <input type="text" placeholder="Search..." onChange={handleSearch} />
+
+<div style={{ display: "flex", justifyContent: "center", paddingTop: '10px' }}>
+      <div
+        style={{
+          height: "45px",
+          width: "360px",
+          border: "2px solid #000000",
+          display: "flex",
+          borderRadius: "30px",
+          alignItems: "center",
+          padding: "0 10px",
+        }}
+      >
+        <SearchIcon style={{ marginRight: "10px" }} />
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={handleSearch}
+          style={{
+            flex: 1,
+            border: "none",
+            outline: "none",
+            fontSize: "14px",
+          }}
+        />
+      </div>
+    </div>
+
+
       {(searchResults.length > 0 ? searchResults.map(result => result.item) : data).map(school => (
         <div key={school._id}>
           <div style={{ paddingTop: "30px", alignItems: "center" }}>

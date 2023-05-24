@@ -11,24 +11,21 @@ import {
 
 const Videotable = () => {
   const [data, setData] = useState([]);
-  const [showTable, setShowTable] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [showTable, setShowTable] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("http://localhost:2000/get-allnew");
       const json = await response.json();
       setData(json);
-      setShowTable(new Array(json.length).fill(false));
     };
 
     fetchData();
   }, []);
 
-  const toggleTable = (index) => {
-    const newShowTable = [...showTable];
-    newShowTable[index] = !newShowTable[index];
-    setShowTable(newShowTable);
+  const toggleTable = (eiin) => {
+    setShowTable((prevShowTable) => ({ ...prevShowTable, [eiin]: !prevShowTable[eiin] }));
   };
 
   const handleChange = (event) => {
@@ -36,33 +33,35 @@ const Videotable = () => {
   };
 
   const filteredData = searchTerm
-    ? data
-        .map((user) => ({
+    ? data.map(user => ({
           ...user,
           video: user.video.filter(
             (video) =>
               video.eiin.toString().includes(searchTerm) ||
               (video.school_name &&
-                video.school_name
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase()))
+                video.school_name.toLowerCase().includes(searchTerm.toLowerCase()))
           ),
-        }))
-        .filter((user) => user.video.length > 0)
+        })).filter(user => user.video.length > 0)
     : data;
 
   return (
     <div>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+          >
             <CloudDownloadIcon />
           </IconButton>
-          <Typography variant="h6">Video</Typography>
+          <Typography variant="h6">
+            Video
+          </Typography>
           <div>
             <InputBase
               placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
               value={searchTerm}
               onChange={handleChange}
             />
@@ -101,15 +100,7 @@ const Videotable = () => {
                     }}
                     onClick={() => toggleTable(eiin)}
                   >
-                    {showTable[eiin] ? (
-                      <>
-                        <strong>EIN </strong> &nbsp; {eiin}
-                      </>
-                    ) : (
-                      <>
-                        <strong>EIN </strong> &nbsp; {eiin}
-                      </>
-                    )}
+                    <strong>EIN </strong> &nbsp; {eiin}
                   </Button>
                   {/* Button for school_name */}
                   <Button
@@ -119,20 +110,81 @@ const Videotable = () => {
                     size="small"
                     style={{
                       position: "absolute",
-                      right: "30.2%", // Adjust position as needed
+                      right: "30.2%",
                       width: "350px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
-                    onClick={() => toggleTable(eiin)} // Adjust function as needed
+                    onClick={() => toggleTable(eiin)}
                   >
                     <strong>School Name </strong> &nbsp;
                     {user.video.find((video) => video.eiin === eiin)
                       ?.school_name || "N/A"}
                   </Button>
                   <br />
+
+                  {showTable[eiin] && (
+                    <table
+                      style={{
+                        width: "98%",
+                        fontSize: "0.8rem",
+                        borderCollapse: "collapse",
+                        margin: "0 auto",
+                        marginTop: "30px",
+                      }}
+                    >
+
+<thead>
+                    <tr>
+                      <th style={{ border: "1px solid black" }}>Video Name</th>
+                      <th style={{ border: "1px solid black" }}>Location</th>
+                      <th style={{ border: "1px solid black" }}>
+                        Player Start Time
+                      </th>
+                      <th style={{ border: "1px solid black" }}>
+                        Start Time & Date
+                      </th>
+                      <th style={{ border: "1px solid black" }}>
+                        Player End Time
+                      </th>
+                      <th style={{ border: "1px solid black" }}>
+                        End Time & Date
+                      </th>
+                      <th style={{ border: "1px solid black" }}>Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {user.video
+                      .filter((v) => v.eiin === eiin)
+                      .map((v) => (
+                        <tr key={v._id}>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.video_name}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.location}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.pl_start}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.start_date_time}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.pl_end}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.end_date_time}
+                          </td>
+                          <td style={{ border: "1px solid black" }}>
+                            {v.duration}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                    </table>
+                  )}
                 </React.Fragment>
               ))}
-
           </div>
         ))}
       </div>

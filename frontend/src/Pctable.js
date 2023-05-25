@@ -42,7 +42,6 @@ const Pctable = () => {
       setSelectedSchool(schoolId);
     }
   };
-  
 
   const handleSearch = (e) => {
     if (!fuse) return;
@@ -51,45 +50,54 @@ const Pctable = () => {
 
   return (
     <div>
-
-<div style={{ display: "flex", justifyContent: "center", paddingTop: '10px' }}>
       <div
         style={{
-          height: "45px",
-          width: "360px",
-          border: "2px solid #000000",
           display: "flex",
-          borderRadius: "30px",
-          alignItems: "center",
-          padding: "0 10px",
+          justifyContent: "center",
+          paddingTop: "10px",
         }}
       >
-        <SearchIcon style={{ marginRight: "10px" }} />
-        <input
-          type="text"
-          placeholder="Search..."
-          onChange={handleSearch}
+        <div
           style={{
-            flex: 1,
-            border: "none",
-            outline: "none",
-            fontSize: "14px",
+            height: "45px",
+            width: "360px",
+            border: "2px solid #000000",
+            display: "flex",
+            borderRadius: "30px",
+            alignItems: "center",
+            padding: "0 10px",
           }}
-        />
+        >
+          <SearchIcon style={{ marginRight: "10px" }} />
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={handleSearch}
+            style={{
+              flex: 1,
+              border: "none",
+              outline: "none",
+              fontSize: "14px",
+            }}
+          />
+        </div>
       </div>
-    </div>
 
-
-      {(searchResults.length > 0 ? searchResults.map(result => result.item) : data).map(school => (
+      {(searchResults.length > 0
+        ? searchResults.map((result) => result.item)
+        : data
+      ).map((school) => (
         <div key={school._id}>
           <div style={{ paddingTop: "30px", alignItems: "center" }}>
             <Button
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: '150px' }}
+              style={{ width: "150px" }}
               onClick={() => handleButtonClick(school._id)}
-              className={`school-button ${selectedSchool === school._id ? "active" : ""}`}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
             >
               <b>EIN</b>&nbsp;
               {school.eiin}
@@ -99,64 +107,88 @@ const Pctable = () => {
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: '350px' }}
+              style={{ width: "350px" }}
               onClick={() => handleButtonClick(school._id)}
-              className={`school-button ${selectedSchool === school._id ? "active" : ""}`}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
             >
               <b>School Name</b>&nbsp;
               {school.school_name}
-            </Button>
-
+            </Button>{" "}
             &nbsp;
-                &nbsp;
-               <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  style={{   width: '150px',  // Add fixed width
-             }}
-                  onClick={() => handleButtonClick(school._id)}
-                  className={`school-button ${
-                    selectedSchool === school._id ? "active" : ""
-                  }`}
-                >
-                  <b>PC ID</b> &nbsp;
-                {school.pc_id}
-                </Button>
-                &nbsp;
-                &nbsp;
-               <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  style={{   width: '150px',  // Add fixed width
-            }}
-                  onClick={() => handleButtonClick(school._id)}
-                  className={`school-button ${
-                    selectedSchool === school._id ? "active" : ""
-                  }`}
-                >
-                  <b>LAB ID</b> &nbsp;
-                {school.lab_id}
-                </Button>
-                &nbsp;
-                &nbsp;
-               <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  startIcon={<CloudDownloadIcon />}
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{
+                width: "150px", // Add fixed width
+              }}
+              onClick={() => handleButtonClick(school._id)}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
+            >
+              <b>PC ID</b> &nbsp;
+              {school.pc_id}
+            </Button>
+            &nbsp;&nbsp;
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{
+                width: "150px", // Add fixed width
+              }}
+              onClick={() => handleButtonClick(school._id)}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
+            >
+              <b>LAB ID</b> &nbsp;
+              {school.lab_id}
+            </Button>{" "}
+            &nbsp;
+            <Button
+  variant="contained"
+  color="primary"
+  size="small"
+  startIcon={<CloudDownloadIcon />}
+  style={{
+    backgroundColor: "#2E8B57",
+    width: "150px", // Add fixed width
+  }}
+  onClick={() => {
+    const csvData = school.track.map(({ start_time, end_time, total_time }) => ({
+      "Start Time": `"${start_time}"`,
+      "End Time": `"${end_time}"`,
+      "Total Time": `"${total_time}"`,
+    }));
+    
+    
+    const fileName = `pc_info_${school.school_name.replace(/ /g, '_')}_${school.eiin}.csv`;    
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += [
+        Object.keys(csvData[0]).join(','),
+        ...csvData.map(row => Object.values(row).join(','))
+    ].join('\r\n');
 
-                  style={{  backgroundColor: "#2E8B57", width: '150px',  // Add fixed width
-          }}
-                  onClick={() => handleButtonClick(school._id)}
-                  className={`school-button ${
-                    selectedSchool === school._id ? "active" : ""
-                  }`}
-                >
-                  <b>Download Info</b> &nbsp;
-                </Button>
-            
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }}
+>
+  <b>Download Info</b> &nbsp;
+</Button>
+
+
+
+
+
             {selectedSchool === school._id && (
               <div style={{ clear: "both" }}>
                 <br></br>
@@ -187,22 +219,31 @@ const Pctable = () => {
                       </th>
                     </tr>
                   </thead>
-  
+
                   <tbody>
                     {school.track.map((track) => (
                       <tr key={track._id}>
                         <td
-                          style={{ border: "1px solid  #000000", padding: "5px" }}
+                          style={{
+                            border: "1px solid  #000000",
+                            padding: "5px",
+                          }}
                         >
                           {track.start_time}
                         </td>
                         <td
-                          style={{ border: "1px solid  #000000", padding: "5px" }}
+                          style={{
+                            border: "1px solid  #000000",
+                            padding: "5px",
+                          }}
                         >
                           {track.end_time}
                         </td>
                         <td
-                          style={{ border: "1px solid  #000000", padding: "5px" }}
+                          style={{
+                            border: "1px solid  #000000",
+                            padding: "5px",
+                          }}
                         >
                           {track.total_time}
                         </td>
@@ -217,11 +258,6 @@ const Pctable = () => {
       ))}
     </div>
   );
-  
-
-
-
-
 };
 
 export default Pctable;

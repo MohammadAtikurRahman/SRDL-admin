@@ -13,8 +13,11 @@ const Sticky = () => {
     <div>
     <Dropdown show={open} onToggle={handleToggleMenu}>
       <Dropdown.Toggle variant="secondary" size="medium">
-        <VideoLibraryIcon /> Video Info
+        <VideoLibraryIcon /> Vid Info  &nbsp;
+     
       </Dropdown.Toggle>
+  
+
       <Dropdown.Menu
         style={{
           minWidth: "140px",

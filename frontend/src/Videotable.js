@@ -133,7 +133,7 @@ const Videotable = () => {
                     size="small"
                     style={{
                       position: "absolute",
-                      right: "30.2%",
+                      right: "48.2%",
                       width: "350px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
@@ -143,6 +143,92 @@ const Videotable = () => {
                     {user.video.find((video) => video.eiin === eiin)
                       ?.school_name || "N/A"}
                   </Button>
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      right: "35.9%",
+                      width: "150px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => toggleTable(eiin)}
+                  >
+                    <strong>PC ID </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)?.pc_id ||
+                      "N/A"}
+                  </Button>
+
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      right: "23.6%",
+                      width: "150px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => toggleTable(eiin)}
+                  >
+                    <strong>LAB ID </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)?.lab_id ||
+                      "N/A"}
+                  </Button>
+
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      backgroundColor: "#2E8B57",
+                      position: "absolute",
+                      right: "11.4%",
+                      width: "150px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => {
+                      const csvData = user.video.filter((v) => v.eiin === eiin);
+                      const replacer = (key, value) =>
+                        value === null ? "" : value;
+                      const header = Object.keys(csvData[0]);
+                      const csv = [
+                        header.join(","),
+                        ...csvData.map((row) =>
+                          header
+                            .map((fieldName) =>
+                              JSON.stringify(row[fieldName], replacer)
+                            )
+                            .join(",")
+                        ),
+                      ].join("\r\n");
+
+                      const schoolName =
+                        user.video.find((video) => video.eiin === eiin)
+                          ?.school_name || "Unknown";
+                      const fileName = `video_info_${schoolName.replace(
+                        / /g,
+                        "_"
+                      )}_${eiin}.csv`;
+
+                      var link = document.createElement("a");
+                      link.setAttribute(
+                        "href",
+                        "data:text/csv;charset=utf-8," + encodeURIComponent(csv)
+                      );
+                      link.setAttribute("download", fileName);
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                  >
+                    <strong>Download </strong> &nbsp;
+                  </Button>
+
                   <br />
 
                   {showTable[eiin] && (

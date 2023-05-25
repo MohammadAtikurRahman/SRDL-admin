@@ -13,7 +13,7 @@ const Dropdownbutton= () => {
     <div>
     <Dropdown show={open} onToggle={handleToggleMenu}>
       <Dropdown.Toggle variant="secondary" size="medium">
-      <ComputerIcon /> Pc Info
+      <ComputerIcon /> Pc Info &nbsp;
       </Dropdown.Toggle>
       <Dropdown.Menu
         style={{

@@ -39,14 +39,10 @@
     },
     "main": "public/electron.js",
     "scripts": {
-        "start": "cross-env PORT=3002 BROWSER=none react-scripts start",
-        "start-electron": "node start-electron.js",
+        "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "electron-start": "electron .",
-        "electron-pack": "electron-builder --dir",
-        "electron-build": "electron-builder"
+        "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": "react-app"

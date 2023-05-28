@@ -135,9 +135,7 @@ async function saveCsvpc(req, res) {
 }
 
 async function findUserid(req,res){
-
-
-  console.log("userid",userid);
+   console.log("userid",userid);
   res.send({userid});
 
 }

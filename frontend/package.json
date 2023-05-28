@@ -39,7 +39,7 @@
     },
     "main": "public/electron.js",
     "scripts": {
-        "start": "cross-env BROWSER=none react-scripts start",
+        "start": "cross-env PORT=3002 BROWSER=none react-scripts start",
         "start-electron": "node start-electron.js",
         "build": "react-scripts build",
         "test": "react-scripts test",

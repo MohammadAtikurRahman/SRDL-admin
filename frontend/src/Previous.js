@@ -21,7 +21,7 @@ class Previous extends Component {
 
   fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/get-download");
+      const response = await axios.get("http://172.104.191.159:2002/get-download");
       this.setState({ data: response.data });
     } catch (error) {
       console.error("Error fetching data:", error);

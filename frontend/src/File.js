@@ -36,7 +36,7 @@ const File = () => {
   
     const fetchData = () => {
       axios
-        .get('http://localhost:2000/get-vd')
+        .get('http://172.104.191.159:2002/get-vd')
         .then((response) => {
           setData(response.data);
         })
@@ -47,7 +47,7 @@ const File = () => {
   
     const insertAndFetchData = () => {
       axios
-        .post('http://localhost:2000/videoinfo', {
+        .post('http://172.104.191.159:2002/videoinfo', {
           userId: 16633644,
           videos: videoInfo
         })

@@ -5,7 +5,7 @@ const Userid = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:2000/userid")
+    fetch("http://172.104.191.159:2002/userid")
       .then((response) => response.json())
       .then((data) => setUser(data));
   }, []);

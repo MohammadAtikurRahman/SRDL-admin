@@ -127,7 +127,7 @@ export default class Dashboard extends Component {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:2000/upload", {
+    fetch("http://172.104.191.159:2002/upload", {
       // replace with the URL of your server-side script
       method: "POST",
       body: formData,
@@ -141,7 +141,7 @@ export default class Dashboard extends Component {
 
   downloadCSV = () => {
     axios
-      .get('http://localhost:2000/get-allnew')
+      .get('http://172.104.191.159:2002/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
@@ -189,7 +189,7 @@ export default class Dashboard extends Component {
 
   downloadCSV1 = () => {
     axios
-      .get('http://localhost:2000/get-allnew')
+      .get('http://172.104.191.159:2002/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
@@ -241,7 +241,7 @@ export default class Dashboard extends Component {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:2000/uploadcsv", {
+    fetch("http://172.104.191.159:2002/uploadcsv", {
       // replace with the URL of your server-side script
       method: "POST",
       body: formData,
@@ -267,7 +267,7 @@ export default class Dashboard extends Component {
 
   sendPcData = async (data) => {
     try {
-      const response = await fetch("http://localhost:2000/pcinfo", {
+      const response = await fetch("http://172.104.191.159:2002/pcinfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -374,7 +374,7 @@ export default class Dashboard extends Component {
     };
 
     try {
-      const response = await axios.post("http://localhost:2000/pcinfo", data);
+      const response = await axios.post("http://172.104.191.159:2002/pcinfo", data);
       console.log(response.data);
       this.setState({ dataSent: true }, () => {
         window.location.reload();
@@ -421,7 +421,7 @@ export default class Dashboard extends Component {
 
   fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/get-pc");
+      const response = await axios.get("http://172.104.191.159:2002/get-pc");
       const data = response.data;
       const ttime = data[data.length - 1];
       this.setState({ ttime });
@@ -462,7 +462,7 @@ export default class Dashboard extends Component {
 
   // downloadCSV = () => {
   //   axios
-  //     .get("http://localhost:2000/get-download")
+  //     .get("http://172.104.191.159:2002/get-download")
   //     .then((response) => {
   //       const { data } = response;
   //       let csvContent = "data:text/csv;charset=utf-8,";

@@ -66,6 +66,8 @@ app.use("/", (req, res, next) => {
             req.path == "/enumerator" ||
             req.path == "/get-enumerator" ||
             req.path == "/get-testscore" ||
+            req.path == "/get-testscore" ||
+            req.path == "/insert-data" ||
 
             req.path == "/get-all" ||
             req.path == "/get-all/:id" ||
@@ -169,6 +171,40 @@ app.get("/api", (req, res) => {
         }
     });
 });
+
+app.post('/insert-data', (req, res) => {
+    const { schoolData } = req.body;
+
+    if (schoolData.length > 0) {
+        // Prepare new school data
+        const newSchoolData = {
+            pc_name: schoolData[0]['User Name'],
+            eiin: schoolData[0]['EIIN'],
+            school_name: schoolData[0]['School Name'],
+            pc_id: schoolData[0]['PC ID'],
+            lab_id: schoolData[0]['Lab ID'],
+            track: schoolData.slice(2).map((row) => ({
+                start_time: row['User Name'],
+                end_time: row['EIIN'],
+                total_time: row['School Name'],
+            })),
+        };
+
+        // Insert the data into the database
+        user.create({ school: [newSchoolData] })
+            .then(() => {
+                res.status(200).json({ message: 'Data inserted successfully' });
+            })
+            .catch((error) => {
+                console.error('Error inserting data:', error);
+                res.status(500).json({ message: 'Error inserting data' });
+            });
+    } else {
+        res.status(400).json({ message: 'Invalid request body' });
+    }
+});
+
+
 
 
 

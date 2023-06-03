@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const moment = require('moment');
 const expressJwt = require('express-jwt');
+const os = require('os');
 
 const csv = require('csv-parser');
 const fs = require('fs');
@@ -68,6 +69,7 @@ app.use("/", (req, res, next) => {
             req.path == "/get-testscore" ||
             req.path == "/get-testscore" ||
             req.path == "/insert-data" ||
+            req.path == "/insert-video-data" ||
 
             req.path == "/get-all" ||
             req.path == "/get-all/:id" ||
@@ -159,6 +161,62 @@ app.post("/register", async (req, res) => {
         });
     }
 });
+
+
+
+
+
+app.post("/insert-video-data", (req, res) => {
+    const videoData = req.body; // Assuming the videoData is sent in the request body
+  
+    // Get the PC name from the system
+    const pcName = os.hostname();
+  
+    // Create a new video document using the videoData and PC name
+    const newVideo = {
+      pc_name: pcName,
+      eiin: videoData.eiin,
+      school_name: videoData.school_name,
+      pc_id: videoData.pc_id,
+      lab_id: videoData.lab_id,
+      video_name: videoData.video_name,
+      location: videoData.location,
+      pl_start: videoData.pl_start,
+      start_date_time: videoData.start_date_time,
+      pl_end: videoData.pl_end,
+      end_date_time: videoData.end_date_time,
+      duration: videoData.duration,
+    };
+  
+    // Find the user document by userId and update the pc array with the new video
+    user.findOneAndUpdate(
+      { userId: videoData.userId },
+      { $push: { pc: newVideo } },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        console.log("Data inserted successfully:", updatedUser.pc);
+        res.status(200).json({ message: "Data inserted successfully", pc: updatedUser.pc });
+      })
+      .catch((error) => {
+        console.error("Error inserting data:", error);
+        res.status(500).json({ error: "Error inserting data" });
+      });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

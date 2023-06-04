@@ -70,7 +70,6 @@ app.use("/", (req, res, next) => {
             req.path == "/get-testscore" ||
             req.path == "/insert-data" ||
             req.path == "/insert-video-data" ||
-
             req.path == "/get-all" ||
             req.path == "/get-all/:id" ||
             req.path === "/get-vd" ||
@@ -190,7 +189,7 @@ app.post("/insert-video-data", (req, res) => {
         };
 
         // Find the user document by userId and update the video array with the new video
-        User.findOneAndUpdate(
+        user.findOneAndUpdate(
             { userId: videoData.userId },
             { $push: { video: newVideo } },
             { new: true }

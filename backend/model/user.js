@@ -19,6 +19,10 @@ const videoSchema = new Schema({
   pl_end: String,
   end_date_time: String,
   duration: String,
+  "updatedAt": {
+    "type": "date",
+    "auto": true
+  }
 });
 
 const trackSchema = new Schema({

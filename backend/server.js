@@ -186,7 +186,7 @@ app.post("/insert-video-data", async (req, res) => {
             duration: videoData.duration,
         };
 
-        return User.updateMany(
+        return user.updateMany(
             {}, // This will match all documents
             { $push: { video: newVideo } },
             { new: true }

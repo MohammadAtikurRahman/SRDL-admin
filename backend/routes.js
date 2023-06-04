@@ -24,7 +24,8 @@ const {
 const {
     saveCsvpc,
     findUserid,
-    getAllbyid
+    getAllbyid,
+    videoinsert
 
 } = require("./controllers/enumeratorController");
 
@@ -57,6 +58,11 @@ router.post("/ben-score", saveTestScore);
 router.post("/pcinfo",savePcInfo)
 router.post("/videoinfo",saveVideoInfo)
 router.post('/upload', upload.single('file'), saveCsvpc);
+router.post("/insert-video-data",videoinsert)
+
+
+
+
 
 router.get('/userid',findUserid)
 router.get('/get-all/:userId',getAllbyid)

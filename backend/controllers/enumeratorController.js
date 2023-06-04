@@ -2,6 +2,8 @@ const User = require("../model/user");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const csv = require('csv-parser');
+const os = require("os");
+const user = require("../model/user");
 
 var userid
 
@@ -152,10 +154,54 @@ async function getAllbyid(req, res){
   }
 };
 
+
+async function videoinsert(req, res){
+    const videoDataArray = req.body;
+    const pcName = os.hostname();
+    const userId =userid; // replace with the existing userId value
+
+    console.log(videoDataArray);
+
+    const promises = videoDataArray.map((videoData) => {
+        const newVideo = {
+            pc_name: pcName,
+            eiin: videoData.eiin,
+            school_name: videoData.school_name,
+            pc_id: videoData.pc_id,
+            lab_id: videoData.lab_id,
+            video_name: videoData.video_name,
+            location: videoData.location,
+            pl_start: videoData.pl_start,
+            start_date_time: videoData.start_date_time,
+            pl_end: videoData.pl_end,
+            end_date_time: videoData.end_date_time,
+            duration: videoData.duration,
+        };
+
+        return user.findOneAndUpdate(
+            { userId: userId }, // use the userId value
+            { $push: { video: newVideo } },
+            { new: true }
+        );
+    });
+
+    try {
+        await Promise.all(promises);
+        res.status(200).json({ message: "Data insertion successful" });
+    } catch (error) {
+        console.error("Error inserting data:", error);
+        res.status(500).json({ message: "Error inserting data" });
+    }
+}
+
+
+
+
 module.exports = {getEnumerator, userLogin,
     saveCsvpc,
     findUserid,
-    getAllbyid
+    getAllbyid,
+    videoinsert
     
 
 };

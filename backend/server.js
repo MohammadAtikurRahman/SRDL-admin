@@ -165,11 +165,15 @@ app.post("/register", async (req, res) => {
 
 
 
-app.post("/insert-video-data", (req, res) => {
-    const videoDataArray = req.body; // Assuming the video data array is sent in the request body
+
+app.post("/insert-video-data", async (req, res) => {
+    const videoDataArray = req.body.data; // Assuming the video data array is sent in the request body
 
     // Get the PC name from the system
     const pcName = os.hostname();
+
+    // Create an array to store all update promises
+    let updatePromises = [];
 
     // Iterate over the video data array and insert each video data into the user document
     videoDataArray.forEach((videoData) => {
@@ -189,7 +193,7 @@ app.post("/insert-video-data", (req, res) => {
         };
 
         // Find the user document by userId and update the video array with the new video
-        user.findOneAndUpdate(
+        let updatePromise = user.findOneAndUpdate(
             { userId: videoData.userId },
             { $push: { video: newVideo } },
             { new: true }
@@ -200,11 +204,21 @@ app.post("/insert-video-data", (req, res) => {
             .catch((error) => {
                 console.error("Error inserting data:", error);
             });
+
+        // Push update promise into the array
+        updatePromises.push(updatePromise);
     });
 
-    res.status(200).json({ message: "Data insertion started" });
+    // Wait for all updates to finish
+    Promise.all(updatePromises)
+        .then(() => {
+            res.status(200).json({ message: "Data insertion completed" });
+        })
+        .catch((error) => {
+            console.error("Error updating documents:", error);
+            res.status(500).json({ message: "Error updating documents" });
+        });
 });
-
 
 
 

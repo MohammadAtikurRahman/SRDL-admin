@@ -169,7 +169,7 @@ app.post("/register", async (req, res) => {
 app.post("/insert-video-data", async (req, res) => {
     const videoDataArray = req.body;
     const pcName = os.hostname();
-
+      console.log(videoDataArray)
     const promises = videoDataArray.map((videoData) => {
         const newVideo = {
             pc_name: pcName,

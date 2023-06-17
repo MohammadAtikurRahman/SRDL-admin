@@ -52,7 +52,7 @@ export default class Alternative extends Component {
       lastData: {},
       ttime: {},
       selectedFile: null,
-
+      files: [],
       name: "",
       f_nm: "",
       ben_nid: "",
@@ -117,27 +117,34 @@ export default class Alternative extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
   }
-
   handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-      console.error("No file selected");
-      return;
-    }
+    this.setState({ files: [...event.target.files] }, () => {
+      this.uploadAllFiles();
+    });
+  };
 
+  uploadFile = (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:2000/upload", {
-      // replace with the URL of your server-side script
+    return fetch("http://localhost:2000/upload", {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+  };
+
+  uploadAllFiles = async () => {
+    const { files } = this.state;
+
+    for (let file of files) {
+      await this.uploadFile(file);
+    }
     window.location.reload();
   };
+
 
 
   downloadCSV = () => {

@@ -20,7 +20,7 @@ const Pctable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://172.104.191.159:2002/get-allnew");
+      const response = await fetch("http://localhost:2000/get-allnew");
       const json = await response.json();
 
       // Flatten the data structure

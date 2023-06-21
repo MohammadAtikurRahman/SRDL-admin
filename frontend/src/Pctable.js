@@ -3,6 +3,9 @@ import Videotable from "./Videotable";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Fuse from "fuse.js";
 import SearchIcon from "@material-ui/icons/Search";
+import moment from 'moment-timezone';
+
+
 
 import {
   AppBar,
@@ -22,7 +25,7 @@ const Pctable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(baseUrl +"/get-allnew");
+      const response = await fetch(baseUrl + "/get-allnew");
       const json = await response.json();
 
       // Flatten the data structure
@@ -150,43 +153,86 @@ const Pctable = () => {
               <b>LAB ID</b> &nbsp;
               {school.lab_id}
             </Button>{" "}
+
+
+
+
+
             &nbsp;
             <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              startIcon={<CloudDownloadIcon />}
+              style={{
+                backgroundColor: "#2E8B57",
+                width: "150px", // Add fixed width
+              }}
+              onClick={() => {
+                const csvData = school.track.map(
+                  ({ start_time, end_time, total_time }) => ({
+                    "Start Time": `"${start_time}"`,
+                    "End Time": `"${end_time}"`,
+                    "Total Time": `"${total_time}"`,
+                  })
+                );
+
+                const fileName = `pc_info_${school.school_name.replace(
+                  / /g,
+                  "_"
+                )}_${school.eiin}.csv`;
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += [
+                  Object.keys(csvData[0]).join(","),
+                  ...csvData.map((row) => Object.values(row).join(",")),
+                ].join("\r\n");
+
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
+            >
+              <b>Download Info</b> &nbsp;
+            </Button>
+                <br/>
+                <br/>
+                <Button
   variant="contained"
   color="primary"
   size="small"
-  startIcon={<CloudDownloadIcon />}
-  style={{
-    backgroundColor: "#2E8B57",
-    width: "150px", // Add fixed width
-  }}
-  onClick={() => {
-    const csvData = school.track.map(({ start_time, end_time, total_time }) => ({
-      "Start Time": `"${start_time}"`,
-      "End Time": `"${end_time}"`,
-      "Total Time": `"${total_time}"`,
-    }));
-    
-    
-    const fileName = `pc_info_${school.school_name.replace(/ /g, '_')}_${school.eiin}.csv`;    
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += [
-        Object.keys(csvData[0]).join(','),
-        ...csvData.map(row => Object.values(row).join(','))
-    ].join('\r\n');
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', fileName);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }}
+  style={{ width: "480px" }}
+  onClick={() => handleButtonClick(school._id)}
+  className={`school-button ${
+    selectedSchool === school._id ? "active" : ""
+  }`}
 >
-  <b>Download Info</b> &nbsp;
-</Button>
+  <b>Last Sync Time</b> &nbsp;
+  {school.updatedAt 
+    ? moment(school.updatedAt).tz('Asia/Dhaka').locale('en-gb').format('LLL')
+    : "N/A"}
+</Button>{" "}
+&nbsp;
+&nbsp;
 
+<Button
+  variant="contained"
+  color="primary"
+  size="small"
+  style={{ width: "480px" }}
+  onClick={() => handleButtonClick(school._id)}
+  className={`school-button ${
+    selectedSchool === school._id ? "active" : ""
+  }`}
+>
+  <b>Last Sync</b> &nbsp;
+  {school.updatedAt 
+    ? moment(school.updatedAt).tz('Asia/Dhaka').fromNow()
+    : "N/A"}
+</Button>{" "}
 
 
 

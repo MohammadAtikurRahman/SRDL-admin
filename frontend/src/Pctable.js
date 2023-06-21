@@ -3,9 +3,7 @@ import Videotable from "./Videotable";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import Fuse from "fuse.js";
 import SearchIcon from "@material-ui/icons/Search";
-import moment from 'moment-timezone';
-
-
+import moment from "moment-timezone";
 
 import {
   AppBar,
@@ -91,9 +89,12 @@ const Pctable = () => {
       {(searchResults.length > 0
         ? searchResults.map((result) => result.item)
         : data
-      ).map((school) => (
+      ).map((school,index) => (
         <div key={school._id}>
           <div style={{ paddingTop: "30px", alignItems: "center" }}>
+            {/* <Button>
+            <b>Serial {index * 1 + 1}</b>
+            </Button> */}
             <Button
               variant="contained"
               color="primary"
@@ -153,11 +154,6 @@ const Pctable = () => {
               <b>LAB ID</b> &nbsp;
               {school.lab_id}
             </Button>{" "}
-
-
-
-
-
             &nbsp;
             <Button
               variant="contained"
@@ -198,45 +194,42 @@ const Pctable = () => {
             >
               <b>Download Info</b> &nbsp;
             </Button>
-                <br/>
-                <br/>
-                <Button
-  variant="contained"
-  color="primary"
-  size="small"
-  style={{ width: "480px" }}
-  onClick={() => handleButtonClick(school._id)}
-  className={`school-button ${
-    selectedSchool === school._id ? "active" : ""
-  }`}
->
-  <b>Last Sync Time</b> &nbsp;
-  {school.updatedAt 
-    ? moment(school.updatedAt).tz('Asia/Dhaka').locale('en-gb').format('LLL')
-    : "N/A"}
-</Button>{" "}
-&nbsp;
-&nbsp;
-
-<Button
-  variant="contained"
-  color="primary"
-  size="small"
-  style={{ width: "480px" }}
-  onClick={() => handleButtonClick(school._id)}
-  className={`school-button ${
-    selectedSchool === school._id ? "active" : ""
-  }`}
->
-  <b>Last Sync</b> &nbsp;
-  {school.updatedAt 
-    ? moment(school.updatedAt).tz('Asia/Dhaka').fromNow()
-    : "N/A"}
-</Button>{" "}
-
-
-
-
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ width: "500px" }}
+              onClick={() => handleButtonClick(school._id)}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
+            >
+              <b>Last Sync Time</b> &nbsp;
+              {school.updatedAt
+                ? moment(school.updatedAt)
+                    .tz("Asia/Dhaka")
+                    .locale("en-gb")
+                    .format("LLL")
+                : "N/A"}
+            </Button>{" "}
+            &nbsp; &nbsp;
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ width: "460px" }}
+              onClick={() => handleButtonClick(school._id)}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
+            >
+              <b>Last Sync</b> &nbsp;
+              {school.updatedAt
+                ? moment(school.updatedAt).tz("Asia/Dhaka").fromNow()
+                : "N/A"}
+            </Button>{" "}
             {selectedSchool === school._id && (
               <div style={{ clear: "both" }}>
                 <br></br>
@@ -304,6 +297,9 @@ const Pctable = () => {
           </div>
         </div>
       ))}
+
+
+
     </div>
   );
 };

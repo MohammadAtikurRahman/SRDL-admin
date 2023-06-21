@@ -9,6 +9,7 @@ import {
   InputBase,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+const baseUrl = process.env.REACT_APP_URL;
 
 const Videotable = () => {
   const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const Videotable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:2000/get-allnew");
+      const response = await fetch(baseUrl + "/get-allnew");
       const json = await response.json();
       setData(json);
     };

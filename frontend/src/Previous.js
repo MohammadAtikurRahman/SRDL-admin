@@ -9,6 +9,8 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+const baseUrl = process.env.REACT_APP_URL;
+
 
 class Previous extends Component {
   state = {
@@ -21,7 +23,7 @@ class Previous extends Component {
 
   fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/get-download");
+      const response = await axios.get(baseUrl +"/get-download");
       this.setState({ data: response.data });
     } catch (error) {
       console.error("Error fetching data:", error);

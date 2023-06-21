@@ -123,7 +123,7 @@ export default class Allcontent extends Component {
 
   sendPcData = async (data) => {
     try {
-      const response = await fetch("http://localhost:2000/pcinfo", {
+      const response = await fetch(baseUrl+ "/pcinfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -230,7 +230,7 @@ export default class Allcontent extends Component {
     };
 
     try {
-      const response = await axios.post("http://localhost:2000/pcinfo", data);
+      const response = await axios.post(baseUrl +"/pcinfo", data);
       console.log(response.data);
       this.setState({ dataSent: true }, () => {
         window.location.reload();
@@ -277,7 +277,7 @@ export default class Allcontent extends Component {
 
   fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/get-pc");
+      const response = await axios.get(baseUrl + "/get-pc");
       const data = response.data;
       const ttime = data[data.length - 1];
       this.setState({ ttime });
@@ -321,7 +321,7 @@ export default class Allcontent extends Component {
 
   downloadCSV = () => {
     axios
-      .get('http://localhost:2000/get-download')
+      .get(baseUrl +'/get-download')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';

@@ -12,6 +12,8 @@ import {
   IconButton,
   InputBase,
 } from "@material-ui/core";
+const baseUrl = process.env.REACT_APP_URL;
+
 const Pctable = () => {
   const [data, setData] = useState([]);
   const [selectedSchool, setSelectedSchool] = useState(null);
@@ -20,7 +22,7 @@ const Pctable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:2000/get-allnew");
+      const response = await fetch(baseUrl +"/get-allnew");
       const json = await response.json();
 
       // Flatten the data structure

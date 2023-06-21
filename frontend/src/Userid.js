@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+const baseUrl = process.env.REACT_APP_URL;
 
 const Userid = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:2000/userid")
+    fetch(baseUrl +"/userid")
       .then((response) => response.json())
       .then((data) => setUser(data));
   }, []);

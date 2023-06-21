@@ -9,6 +9,8 @@ import {
     IconButton,
     InputBase,
 } from "@material-ui/core";
+const baseUrl = process.env.REACT_APP_URL;
+
 const File = () => {
     const [data, setData] = useState([]);
     const [videoInfo, setVideoInfo] = useState([]);
@@ -36,7 +38,7 @@ const File = () => {
   
     const fetchData = () => {
       axios
-        .get('http://localhost:2000/get-vd')
+        .get(baseUrl+'/get-vd')
         .then((response) => {
           setData(response.data);
         })
@@ -47,7 +49,7 @@ const File = () => {
   
     const insertAndFetchData = () => {
       axios
-        .post('http://localhost:2000/videoinfo', {
+        .post(baseUrl +'/videoinfo', {
           userId: 16633644,
           videos: videoInfo
         })

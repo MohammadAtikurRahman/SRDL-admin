@@ -128,7 +128,7 @@ export default class Dashboard extends Component {
     const formData = new FormData();
     formData.append("file", file);
 
-    return fetch("http://localhost:2000/upload", {
+    return fetch(baseUrl + "/upload", {
       method: "POST",
       body: formData,
     })
@@ -150,7 +150,7 @@ export default class Dashboard extends Component {
 
   downloadCSV = () => {
     axios
-      .get('http://172.104.191.159:2002/get-allnew')
+      .get(baseUrl +'/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
@@ -198,7 +198,7 @@ export default class Dashboard extends Component {
 
   downloadCSV1 = () => {
     axios
-      .get('http://172.104.191.159:2002/get-allnew')
+      .get( baseUrl + '/get-allnew')
       .then((response) => {
         const { data } = response;
         let csvContent = 'data:text/csv;charset=utf-8,';
@@ -256,7 +256,7 @@ export default class Dashboard extends Component {
 
   sendPcData = async (data) => {
     try {
-      const response = await fetch("http://172.104.191.159:2002/pcinfo", {
+      const response = await fetch(baseUrl + "/pcinfo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -363,7 +363,7 @@ export default class Dashboard extends Component {
     };
 
     try {
-      const response = await axios.post("http://172.104.191.159:2002/pcinfo", data);
+      const response = await axios.post( baseUrl + "/pcinfo", data);
       console.log(response.data);
       this.setState({ dataSent: true }, () => {
         window.location.reload();
@@ -410,7 +410,7 @@ export default class Dashboard extends Component {
 
   fetchData = async () => {
     try {
-      const response = await axios.get("http://172.104.191.159:2002/get-pc");
+      const response = await axios.get(baseUrl + "/get-pc");
       const data = response.data;
       const ttime = data[data.length - 1];
       this.setState({ ttime });
@@ -864,7 +864,7 @@ export default class Dashboard extends Component {
                 </Button>
               </label>
             </div> */}
-            {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
+            {this.state?.filteredBeneficiary?.slice().reverse().map((row, index) => (
               <div key={index}>
                 <Button variant="contained" color="primary" href="/video">
                   PC INFO

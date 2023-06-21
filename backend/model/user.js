@@ -25,7 +25,7 @@ const trackSchema = new Schema({
   start_time: String,
   end_time: String,
   total_time: String,
-});
+}, { timestamps: true }  );
 
 const schoolSchema = new Schema({
   pc_name: String,

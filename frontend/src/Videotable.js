@@ -9,6 +9,8 @@ import {
   InputBase,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import moment from "moment-timezone";
+
 const baseUrl = process.env.REACT_APP_URL;
 
 const Videotable = () => {
@@ -229,7 +231,57 @@ const Videotable = () => {
                   >
                     <strong>Download </strong> &nbsp;
                   </Button>
+                  <br />
+                  <br />
 
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      right: "48.1%",
+                      width: "527px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => toggleTable(eiin)}
+                  >
+                    <strong>Last Sync Time </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)
+                      ? moment(
+                          user.video.find((video) => video.eiin === eiin)
+                            .updatedAt
+                        )
+                          .tz("Asia/Dhaka")
+                          .locale("en-gb")
+                          .format("LLL")
+                      : "N/A"}
+                  </Button>
+
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      right: "11.5%",
+                      width: "480px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => toggleTable(eiin)}
+                  >
+                    <strong>Last Sync </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)
+                      ? moment(
+                          user.video.find((video) => video.eiin === eiin)
+                            .updatedAt
+                        )
+                          .tz("Asia/Dhaka")
+                          .fromNow()
+                      : "N/A"}
+                  </Button>
                   <br />
 
                   {showTable[eiin] && (

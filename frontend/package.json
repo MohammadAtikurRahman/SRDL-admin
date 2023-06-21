@@ -23,6 +23,7 @@
         "jwt-decode": "^3.1.2",
         "material-ui": "^0.15.0",
         "moment": "^2.29.4",
+        "moment-timezone": "^0.5.43",
         "papaparse": "^5.4.1",
         "react": "^16.13.1",
         "react-bootstrap": "^2.7.4",

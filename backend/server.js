@@ -551,7 +551,7 @@ app.post("/api", async (req, res) => {
 
 
 
-app.listen(2000, (err, data) => {
+app.listen(2002, (err, data) => {
     // console.log(err);
-    console.log("Server is Runing On port 2000");
+    console.log("Server is Runing On port 2002");
 });

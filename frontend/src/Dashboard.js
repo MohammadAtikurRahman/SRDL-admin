@@ -594,6 +594,8 @@ export default class Dashboard extends Component {
                   variant="contained"
                   color="primary"
                   component="span"
+                  style={{ fontSize: "13px" }}
+
                   startIcon={<CloudUploadIcon />} // Add this line
                 >
                   Upload CSV

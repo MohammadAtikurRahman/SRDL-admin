@@ -89,7 +89,7 @@ const Pctable = () => {
       {(searchResults.length > 0
         ? searchResults.map((result) => result.item)
         : data
-      ).map((school,index) => (
+      ).map((school, index) => (
         <div key={school._id}>
           <div style={{ paddingTop: "30px", alignItems: "center" }}>
             {/* <Button>
@@ -99,7 +99,7 @@ const Pctable = () => {
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: "150px" }}
+              style={{ width: "110px" }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
                 selectedSchool === school._id ? "active" : ""
@@ -128,7 +128,7 @@ const Pctable = () => {
               color="primary"
               size="small"
               style={{
-                width: "150px", // Add fixed width
+                width: "110px", // Add fixed width
               }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
@@ -144,7 +144,7 @@ const Pctable = () => {
               color="primary"
               size="small"
               style={{
-                width: "150px", // Add fixed width
+                width: "110px", // Add fixed width
               }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
@@ -155,14 +155,39 @@ const Pctable = () => {
               {school.lab_id}
             </Button>{" "}
             &nbsp;
+            
+        
+
             <Button
               variant="contained"
               color="primary"
               size="small"
-              startIcon={<CloudDownloadIcon />}
+              style={{ width: "370px" }}
+              onClick={() => handleButtonClick(school._id)}
+              className={`school-button ${
+                selectedSchool === school._id ? "active" : ""
+              }`}
+            >
+              <b>Last Sync Time</b> &nbsp;
+              {school.updatedAt
+                ? moment(school.updatedAt)
+                    .tz("Asia/Dhaka")
+                    .locale("en-gb")
+                    .format("LLL")
+                : "N/A"}
+               &nbsp; <b>Sync</b> &nbsp;
+              {school.updatedAt
+                ? moment(school.updatedAt).tz("Asia/Dhaka").fromNow()
+                : "N/A"}
+            </Button>{" "}
+            &nbsp; 
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
               style={{
                 backgroundColor: "#2E8B57",
-                width: "150px", // Add fixed width
+                width: "110px", // Add fixed width
               }}
               onClick={() => {
                 const csvData = school.track.map(
@@ -192,30 +217,11 @@ const Pctable = () => {
                 document.body.removeChild(link);
               }}
             >
-              <b>Download Info</b> &nbsp;
+              <b>Download</b> &nbsp;
             </Button>
-            <br />
-            <br />
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={{ width: "500px" }}
-              onClick={() => handleButtonClick(school._id)}
-              className={`school-button ${
-                selectedSchool === school._id ? "active" : ""
-              }`}
-            >
-              <b>Last Sync Time</b> &nbsp;
-              {school.updatedAt
-                ? moment(school.updatedAt)
-                    .tz("Asia/Dhaka")
-                    .locale("en-gb")
-                    .format("LLL")
-                : "N/A"}
-            </Button>{" "}
-            &nbsp; &nbsp;
-            <Button
+            &nbsp;
+            &nbsp;
+            {/* <Button
               variant="contained"
               color="primary"
               size="small"
@@ -225,11 +231,8 @@ const Pctable = () => {
                 selectedSchool === school._id ? "active" : ""
               }`}
             >
-              <b>Last Sync</b> &nbsp;
-              {school.updatedAt
-                ? moment(school.updatedAt).tz("Asia/Dhaka").fromNow()
-                : "N/A"}
-            </Button>{" "}
+           
+            </Button>{" "} */}
             {selectedSchool === school._id && (
               <div style={{ clear: "both" }}>
                 <br></br>
@@ -297,9 +300,6 @@ const Pctable = () => {
           </div>
         </div>
       ))}
-
-
-
     </div>
   );
 };

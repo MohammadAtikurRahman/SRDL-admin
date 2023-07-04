@@ -34,7 +34,7 @@ const schoolSchema = new Schema({
   pc_id: Number,
   lab_id: Number,
   track: [trackSchema],
-});
+   }  , { timestamps: true }  );
 
 const userSchema = new Schema(
   {

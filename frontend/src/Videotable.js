@@ -119,9 +119,9 @@ const Videotable = () => {
                     color="primary"
                     size="small"
                     style={{
-                      position: "absolute",
-                      right: "76.2%",
-                      width: "150px", // Add fixed width
+                      // position: "absolute",
+                      // right: "87.2%",
+                      width: "110px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -135,8 +135,8 @@ const Videotable = () => {
                     color="primary"
                     size="small"
                     style={{
-                      position: "absolute",
-                      right: "48.2%",
+                      // position: "absolute",
+                      // right: "63.2%",
                       width: "350px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
@@ -152,9 +152,9 @@ const Videotable = () => {
                     color="primary"
                     size="small"
                     style={{
-                      position: "absolute",
-                      right: "35.9%",
-                      width: "150px", // Add fixed width
+                      // position: "absolute",
+                      // right: "52.6%",
+                      width: "110px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -170,9 +170,9 @@ const Videotable = () => {
                     color="primary"
                     size="small"
                     style={{
-                      position: "absolute",
-                      right: "23.6%",
-                      width: "150px", // Add fixed width
+                      // position: "absolute",
+                      // right: "41.99%",
+                      width: "110px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -182,6 +182,41 @@ const Videotable = () => {
                       "N/A"}
                   </Button>
 
+
+                  <Button
+                    className="button_style"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{
+                      // position: "absolute",
+                      // right: "14.59%",
+                      width: "370px", // Add fixed width
+                      height: "30px", // Add fixed height
+                    }}
+                    onClick={() => toggleTable(eiin)}
+                  >
+                    <strong>Last Sync Time </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)
+                      ? moment(
+                          user.video.find((video) => video.eiin === eiin)
+                            .updatedAt
+                        )
+                          .tz("Asia/Dhaka")
+                          .locale("en-gb")
+                          .format("LLL")
+                      : "N/A"}
+                &nbsp;    <strong>Sync </strong> &nbsp;
+                    {user.video.find((video) => video.eiin === eiin)
+                      ? moment(
+                          user.video.find((video) => video.eiin === eiin)
+                            .updatedAt
+                        )
+                          .tz("Asia/Dhaka")
+                          .fromNow()
+                      : "N/A"}
+                  </Button>
+
                   <Button
                     className="button_style"
                     variant="contained"
@@ -189,9 +224,9 @@ const Videotable = () => {
                     size="small"
                     style={{
                       backgroundColor: "#2E8B57",
-                      position: "absolute",
-                      right: "11.4%",
-                      width: "150px", // Add fixed width
+                      // position: "absolute",
+                      // right: "3.9%",
+                      width: "110px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => {
@@ -231,35 +266,7 @@ const Videotable = () => {
                   >
                     <strong>Download </strong> &nbsp;
                   </Button>
-                  <br />
-                  <br />
-
-                  <Button
-                    className="button_style"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{
-                      position: "absolute",
-                      right: "48.1%",
-                      width: "527px", // Add fixed width
-                      height: "30px", // Add fixed height
-                    }}
-                    onClick={() => toggleTable(eiin)}
-                  >
-                    <strong>Last Sync Time </strong> &nbsp;
-                    {user.video.find((video) => video.eiin === eiin)
-                      ? moment(
-                          user.video.find((video) => video.eiin === eiin)
-                            .updatedAt
-                        )
-                          .tz("Asia/Dhaka")
-                          .locale("en-gb")
-                          .format("LLL")
-                      : "N/A"}
-                  </Button>
-
-                  <Button
+                  {/* <Button
                     className="button_style"
                     variant="contained"
                     color="primary"
@@ -267,7 +274,7 @@ const Videotable = () => {
                     style={{
                       position: "absolute",
                       right: "11.5%",
-                      width: "480px", // Add fixed width
+                      width: "160px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -281,7 +288,7 @@ const Videotable = () => {
                           .tz("Asia/Dhaka")
                           .fromNow()
                       : "N/A"}
-                  </Button>
+                  </Button> */}
                   <br />
 
                   {showTable[eiin] && (

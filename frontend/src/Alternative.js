@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import logo from "./logo.png"; // adjust the path as necessary
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import ComputerIcon from '@material-ui/icons/Computer';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ComputerIcon from "@material-ui/icons/Computer";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {
   TextField,
   TableBody,
@@ -15,7 +15,6 @@ import {
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import swal from "sweetalert";
-
 
 import { Link as MaterialLink } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -131,9 +130,9 @@ export default class Alternative extends Component {
       method: "POST",
       body: formData,
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   };
 
   uploadAllFiles = async () => {
@@ -145,99 +144,108 @@ export default class Alternative extends Component {
     window.location.reload();
   };
 
-
-
   downloadCSV = () => {
-    axios
-      .get(baseUrl + '/get-allnew')
-      .then((response) => {
-        const { data } = response;
-        let csvContent = 'data:text/csv;charset=utf-8,';
+    axios.get(baseUrl + "/get-allnew").then((response) => {
+      const { data } = response;
+      let csvContent = "data:text/csv;charset=utf-8,";
 
-        // Define custom column names
-        const columnNames = ['School Name', 'EIIN', 'Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
+      // Define custom column names
+      const columnNames = [
+        "School Name",
+        "EIIN",
+        "Video Name",
+        "Location",
+        "Player Time",
+        "PC Time Start",
+        "Player End Time",
+        "PC End Time",
+        "Total Time",
+      ];
 
-        // Add column headers
-        csvContent += columnNames.join(',') + '\n';
+      // Add column headers
+      csvContent += columnNames.join(",") + "\n";
 
-        // Iterate over each user
-        data.forEach((user) => {
-          // Iterate over each school
-          user.school.forEach((school) => {
-            const schoolName = school.school_name;
-            const eiin = school.eiin;
+      // Iterate over each user
+      data.forEach((user) => {
+        // Iterate over each school
+        user.school.forEach((school) => {
+          const schoolName = school.school_name;
+          const eiin = school.eiin;
 
-            // Iterate over each video
-            user.video.forEach((video) => {
-              const row = [
-                schoolName,
-                eiin,
-                video.video_name.replace(/,/g, ';'),
-                video.location.replace(/,/g, ';'),
-                video.pl_start.replace(/,/g, ';'),
-                video.start_date_time.replace(/,/g, ';'),
-                video.pl_end.replace(/,/g, ';'),
-                video.end_date_time.replace(/,/g, ';'),
-                video.duration.replace(/,/g, ';')
-              ];
-              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
-            });
+          // Iterate over each video
+          user.video.forEach((video) => {
+            const row = [
+              schoolName,
+              eiin,
+              video.video_name.replace(/,/g, ";"),
+              video.location.replace(/,/g, ";"),
+              video.pl_start.replace(/,/g, ";"),
+              video.start_date_time.replace(/,/g, ";"),
+              video.pl_end.replace(/,/g, ";"),
+              video.end_date_time.replace(/,/g, ";"),
+              video.duration.replace(/,/g, ";"),
+            ];
+            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
         });
-
-        // Download the CSV file
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'my_data.csv');
-        document.body.appendChild(link);
-        link.click();
       });
-  }
+
+      // Download the CSV file
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "my_data.csv");
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
 
   downloadCSV1 = () => {
-    axios
-      .get(baseUrl +'/get-allnew')
-      .then((response) => {
-        const { data } = response;
-        let csvContent = 'data:text/csv;charset=utf-8,';
+    axios.get(baseUrl + "/get-allnew").then((response) => {
+      const { data } = response;
+      let csvContent = "data:text/csv;charset=utf-8,";
 
-        // Define custom column names
-        const columnNames = ['School Name', 'EIIN', 'Track Start Time', 'Track End Time', 'Track Total Time'];
-        // Add column headers
-        csvContent += columnNames.join(',') + '\n';
+      // Define custom column names
+      const columnNames = [
+        "School Name",
+        "EIIN",
+        "Track Start Time",
+        "Track End Time",
+        "Track Total Time",
+      ];
+      // Add column headers
+      csvContent += columnNames.join(",") + "\n";
 
-        // Iterate over each user
-        data.forEach((user) => {
-          // Iterate over each school
-          user.school.forEach((school) => {
-            const schoolName = school.school_name;
-            const eiin = school.eiin;
+      // Iterate over each user
+      data.forEach((user) => {
+        // Iterate over each school
+        user.school.forEach((school) => {
+          const schoolName = school.school_name;
+          const eiin = school.eiin;
 
-            // Iterate over each track
-            school.track.forEach((track) => {
-              const row = [
-                schoolName,
-                eiin,
-                track.start_time.replace(/,/g, ';'),
-                track.end_time.replace(/,/g, ';'),
-                track.total_time.replace(/,/g, ';')
-              ];
-              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
-            });
+          // Iterate over each track
+          school.track.forEach((track) => {
+            const row = [
+              schoolName,
+              eiin,
+              track.start_time.replace(/,/g, ";"),
+              track.end_time.replace(/,/g, ";"),
+              track.total_time.replace(/,/g, ";"),
+            ];
+            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
         });
-
-        // Download the CSV file
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'my_data.csv');
-        document.body.appendChild(link);
-        link.click();
       });
-  }
 
+      // Download the CSV file
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "my_data.csv");
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
 
   handleFileUploadvd = (event) => {
     const file = event.target.files[0];
@@ -297,8 +305,9 @@ export default class Alternative extends Component {
     const hours = Math.floor(totalTime / 60);
     const minutes = totalTime % 60;
     if (hours > 0) {
-      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${minutes > 1 ? "s" : ""
-        }`;
+      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${
+        minutes > 1 ? "s" : ""
+      }`;
     }
     return `${minutes} minute${minutes > 1 ? "s" : ""}`;
   }
@@ -418,7 +427,7 @@ export default class Alternative extends Component {
         });
         this.setState(
           { loading: false, beneficiaries: [], userinfo: [] },
-          () => { }
+          () => {}
         );
       });
   };
@@ -503,7 +512,7 @@ export default class Alternative extends Component {
   // };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value }, () => { });
+    this.setState({ [e.target.name]: e.target.value }, () => {});
 
     if (e.target.name === "search") {
       const needle = e.target.value;
@@ -567,7 +576,6 @@ export default class Alternative extends Component {
 
     return (
       <div>
-
         {this.state.openProductEditModal && (
           <EditBeneficiary
             beneficiary={this.state.currentBeneficiary}
@@ -613,14 +621,16 @@ export default class Alternative extends Component {
                   color="primary"
                   component="span"
                   startIcon={<CloudUploadIcon />} // Add this line
+                  style={{ fontSize: "13px" }}
                 >
                   Upload CSV
                 </Button>
               </label>
             </div>
-            <div style={{ paddingLeft: "20px"}} >            <Dropdownbutton />
-
-              </div>
+            <div style={{ paddingLeft: "20px" }}>
+              {" "}
+              <Dropdownbutton />
+            </div>
             {/* <IconButton>
               <SearchIcon style={{ color: "white" }} />
             </IconButton>
@@ -632,38 +642,13 @@ export default class Alternative extends Component {
                 placeholder: "Search by EIN & School",
               }}
             /> */}
-          &nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp; 
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp;
             {this.state?.filteredBeneficiary?.reverse().map((row, index) => (
               <div key={index}>
-                <Button variant="contained" color="primary" href="/video">
+                <Button variant="contained" color="primary" href="/video ">
                   PC INFO
                 </Button>
                 &nbsp; &nbsp;
@@ -682,21 +667,15 @@ export default class Alternative extends Component {
                   size="small"
                   onClick={this.downloadCSV}
                   startIcon={<CloudDownloadIcon />}
-
                 >
                   <b>Download Video Info</b>
                 </Button>
-
-
-
-                
                 &nbsp; &nbsp;
                 <Button
                   variant="contained"
                   size="small"
                   onClick={this.downloadCSV1}
                   startIcon={<CloudDownloadIcon />}
-
                 >
                   <b> Download Pc Info </b>
                 </Button>
@@ -705,26 +684,21 @@ export default class Alternative extends Component {
                   variant="contained"
                   color="primary"
                   size="small"
-                  style={{ width: "140px"}}
+                  style={{ width: "140px" }}
                   onClick={this.logOut}
                 >
-                      <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
-
-
+                  <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
                   <MaterialLink
                     style={{
                       textDecoration: "none",
                       color: "white",
-                      paddingTop: "3px"
+                      paddingTop: "3px",
                     }}
                     href="/"
                   >
-                  LOG OUT
+                    LOG OUT
                   </MaterialLink>
                 </Button>
-
-
-                
               </div>
             </div>
           </Toolbar>
@@ -763,7 +737,6 @@ export default class Alternative extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               <div style={{ flexGrow: 1 }}>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                 
                   <Button variant="contained" size="small">
                     <b>EIN: {row.beneficiaryId} </b>
                   </Button>
@@ -795,11 +768,9 @@ export default class Alternative extends Component {
 
         <div>
           <TableContainer>
-      
             <Table aria-label="simple table">
               <TableHead>
-                <TableRow>
-                </TableRow>
+                <TableRow></TableRow>
               </TableHead>
 
               <TableBody>

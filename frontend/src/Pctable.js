@@ -162,7 +162,7 @@ const Pctable = () => {
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: "370px" }}
+              style={{ width: "395px" }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
                 selectedSchool === school._id ? "active" : ""
@@ -233,70 +233,82 @@ const Pctable = () => {
             >
            
             </Button>{" "} */}
-            {selectedSchool === school._id && (
-              <div style={{ clear: "both" }}>
-                <br></br>
-                <table
-                  style={{
-                    width: "98%",
-                    borderCollapse: "collapse",
-                    border: "1px solid #000000",
-                    margin: "0 auto",
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th
-                        style={{ border: "1px solid #000000", padding: "5px" }}
-                      >
-                        Start Time
-                      </th>
-                      <th
-                        style={{ border: "1px solid  #000000", padding: "5px" }}
-                      >
-                        End Time
-                      </th>
-                      <th
-                        style={{ border: "1px solid #000000", padding: "5px" }}
-                      >
-                        Total Time
-                      </th>
-                    </tr>
-                  </thead>
+{selectedSchool === school._id && (
+  <div style={{ clear: "both" }}>
+    <br></br>
+    <table
+      style={{
+        width: "98%",
+        borderCollapse: "collapse",
+        border: "1px solid #000000",
+        margin: "0 auto",
+      }}
+    >
+      <thead>
+        <tr>
+          <th
+            style={{ border: "1px solid #000000", padding: "5px" }}
+          >
+            Start Time
+          </th>
+          <th
+            style={{ border: "1px solid  #000000", padding: "5px" }}
+          >
+            End Time
+          </th>
+          <th
+            style={{ border: "1px solid #000000", padding: "5px" }}
+          >
+            Total Time
+          </th>
+        </tr>
+      </thead>
 
-                  <tbody>
-                    {school.track.map((track) => (
-                      <tr key={track._id}>
-                        <td
-                          style={{
-                            border: "1px solid  #000000",
-                            padding: "5px",
-                          }}
-                        >
-                          {track.start_time}
-                        </td>
-                        <td
-                          style={{
-                            border: "1px solid  #000000",
-                            padding: "5px",
-                          }}
-                        >
-                          {track.end_time}
-                        </td>
-                        <td
-                          style={{
-                            border: "1px solid  #000000",
-                            padding: "5px",
-                          }}
-                        >
-                          {track.total_time}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+      <tbody>
+        {school.track
+          .reduce((unique, o) => {
+            if (!unique.some(obj => obj.start_time === o.start_time && obj.end_time === o.end_time && obj.total_time === o.total_time)) {
+              unique.push(o);
+            }
+            return unique;
+          }, [])
+          .sort((a, b) => new Date(b.start_time) - new Date(a.start_time))
+          .map((track, index) => (
+            <tr key={index}>
+              <td
+                style={{
+                  border: "1px solid  #000000",
+                  padding: "5px",
+                }}
+              >
+                {track.start_time}
+              </td>
+              <td
+                style={{
+                  border: "1px solid  #000000",
+                  padding: "5px",
+                }}
+              >
+                {track.end_time}
+              </td>
+              <td
+                style={{
+                  border: "1px solid  #000000",
+                  padding: "5px",
+                }}
+              >
+                {track.total_time}
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+
+
+
           </div>
         </div>
       ))}

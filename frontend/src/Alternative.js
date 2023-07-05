@@ -591,6 +591,26 @@ export default class Alternative extends Component {
             getBeneficiaries={this.getBeneficiaries}
           />
         )}
+
+<AppBar position="static" style={{ backgroundColor: "#1F8A7", height: "32px" }}>
+          <Toolbar>
+            <h5 style={{ paddingTop: "10px" }}>
+            </h5>
+            <h6
+              style={{
+                fontFamily: "Arial",
+                fontWeight: "bold",
+                paddingBottom: "20px"
+              }}
+            >
+              <b> SHEIKH RUSSEL DIGITAL LAB ADMIN PANEL
+               PC DASHBOARD </b>
+            </h6>
+            &nbsp; &nbsp;
+            
+          
+          </Toolbar>
+        </AppBar>
         <AppBar position="static" style={{ backgroundColor: "#1F8A70" }}>
           <Toolbar>
             <h5 style={{ paddingTop: "10px" }}>

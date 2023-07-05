@@ -182,7 +182,6 @@ const Videotable = () => {
                       "N/A"}
                   </Button>
 
-
                   <Button
                     className="button_style"
                     variant="contained"
@@ -191,7 +190,8 @@ const Videotable = () => {
                     style={{
                       // position: "absolute",
                       // right: "14.59%",
-                      width: "370px", // Add fixed width
+                      fontSize: "12px",
+                      width: "410px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -206,7 +206,7 @@ const Videotable = () => {
                           .locale("en-gb")
                           .format("LLL")
                       : "N/A"}
-                &nbsp;    <strong>Sync </strong> &nbsp;
+                    &nbsp; <strong>Sync </strong> &nbsp;
                     {user.video.find((video) => video.eiin === eiin)
                       ? moment(
                           user.video.find((video) => video.eiin === eiin)
@@ -291,72 +291,64 @@ const Videotable = () => {
                   </Button> */}
                   <br />
 
+
                   {showTable[eiin] && (
-                    <table
-                      style={{
-                        width: "98%",
-                        fontSize: "0.8rem",
-                        borderCollapse: "collapse",
-                        margin: "0 auto",
-                        marginTop: "30px",
-                      }}
-                    >
-                      <thead>
-                        <tr>
-                          <th style={{ border: "1px solid black" }}>
-                            Video Name
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            Location
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            Player Start Time
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            Start Time & Date
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            Player End Time
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            End Time & Date
-                          </th>
-                          <th style={{ border: "1px solid black" }}>
-                            Duration
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {user.video
-                          .filter((v) => v.eiin === eiin)
-                          .map((v) => (
-                            <tr key={v._id}>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.video_name}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.location}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.pl_start}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.start_date_time}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.pl_end}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.end_date_time}
-                              </td>
-                              <td style={{ border: "1px solid black" }}>
-                                {v.duration}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  )}
+  <table
+    style={{
+      width: "98%",
+      fontSize: "0.8rem",
+      borderCollapse: "collapse",
+      margin: "0 auto",
+      marginTop: "30px",
+    }}
+  >
+    <thead>
+      <tr>
+        <th style={{ border: "1px solid black" }}>Video Name</th>
+        <th style={{ border: "1px solid black" }}>Location</th>
+        <th style={{ border: "1px solid black" }}>Player Start Time</th>
+        <th style={{ border: "1px solid black" }}>Start Time & Date</th>
+        <th style={{ border: "1px solid black" }}>Player End Time</th>
+        <th style={{ border: "1px solid black" }}>End Time & Date</th>
+        <th style={{ border: "1px solid black" }}>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      {user.video
+        .filter((v) => v.eiin === eiin)
+        .reduce((acc, v) => {
+          const found = acc.find(
+            (item) =>
+              item.pl_start === v.pl_start &&
+              item.start_date_time === v.start_date_time &&
+              item.pl_end === v.pl_end &&
+              item.end_date_time === v.end_date_time &&
+              item.duration === v.duration
+          );
+          if (!found) {
+            acc.push(v);
+          }
+          return acc;
+        }, [])
+        .map((v) => (
+          <tr key={v._id}>
+            <td style={{ border: "1px solid black" }}>{v.video_name}</td>
+            <td style={{ border: "1px solid black" }}>{v.location}</td>
+            <td style={{ border: "1px solid black" }}>{v.pl_start}</td>
+            <td style={{ border: "1px solid black" }}>
+              {v.start_date_time}
+            </td>
+            <td style={{ border: "1px solid black" }}>{v.pl_end}</td>
+            <td style={{ border: "1px solid black" }}>{v.end_date_time}</td>
+            <td style={{ border: "1px solid black" }}>{v.duration}</td>
+          </tr>
+        ))}
+    </tbody>
+  </table>
+)}
+
+
+
                 </React.Fragment>
               ))}
           </div>

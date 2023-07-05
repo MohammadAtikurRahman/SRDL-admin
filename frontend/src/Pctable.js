@@ -162,7 +162,7 @@ const Pctable = () => {
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: "395px" }}
+              style={{ width: "410px" }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
                 selectedSchool === school._id ? "active" : ""

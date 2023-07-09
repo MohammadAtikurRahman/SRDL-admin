@@ -241,12 +241,12 @@ const Videotable = () => {
                         // Split start_date_time into separate date and time values
                         let start = moment(data.start_date_time);
                         data.start_date = start.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
-                        data.start_time = start.format("LT");
+                        data.start_time = start.format("HH:mm");
                     
                         // Split end_date_time into separate date and time values
                         let end = moment(data.end_date_time);
                         data.end_date = end.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
-                        data.end_time = end.format("LT");
+                        data.end_time = end.format("HH:mm");
                     
                         // Format duration as minutes
                         data.duration = Math.round(data.duration) + " minutes";
@@ -384,7 +384,7 @@ const Videotable = () => {
                               </td>
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.start_date_time).format("LT")}{" "}
+                                {moment(v.start_date_time).format("HH:mm")}{" "}
                                 {/* Display time */}
                               </td>
                               <td style={{ border: "1px solid black" }}>
@@ -398,11 +398,11 @@ const Videotable = () => {
 
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.end_date_time).format("LT")}{" "}
+                                {moment(v.end_date_time).format("HH:mm")}{" "}
                                 {/* Display time */}
                               </td>
                               <td style={{ border: "1px solid black" }}>
-                                {v.duration} <b>Minutes </b>
+                                {v.duration} minutes
                               </td>
                             </tr>
                           ))}

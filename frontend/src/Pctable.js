@@ -155,14 +155,11 @@ const Pctable = () => {
               {school.lab_id}
             </Button>{" "}
             &nbsp;
-            
-        
-
             <Button
               variant="contained"
               color="primary"
               size="small"
-              style={{ width: "410px" }}
+              style={{ width: "310px" }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
                 selectedSchool === school._id ? "active" : ""
@@ -175,12 +172,8 @@ const Pctable = () => {
                     .locale("en-gb")
                     .format("LLL")
                 : "N/A"}
-               &nbsp; <b>Sync</b> &nbsp;
-              {school.updatedAt
-                ? moment(school.updatedAt).tz("Asia/Dhaka").fromNow()
-                : "N/A"}
             </Button>{" "}
-            &nbsp; 
+            &nbsp;
             <Button
               variant="contained"
               color="primary"
@@ -190,13 +183,19 @@ const Pctable = () => {
                 width: "110px", // Add fixed width
               }}
               onClick={() => {
-                const csvData = school.track.map(
-                  ({ start_time, end_time, total_time }) => ({
-                    "Start Time": `"${start_time}"`,
-                    "End Time": `"${end_time}"`,
-                    "Total Time": `"${total_time}"`,
-                  })
-                );
+                const csvData = school.track.reverse().map(({ start_time, end_time }) => {
+                  const startTime = moment(start_time);
+                  const endTime = moment(end_time);
+                  const duration = endTime.diff(startTime, "minutes");
+
+                  return {
+                    "Start Date": `"${startTime.format("DD/MM/YYYY")}"`,
+                    "Start Time": `"${startTime.format("HH:mm")}"`,
+                    "End Date": `"${endTime.format("DD/MM/YYYY")}"`,
+                    "End Time": `"${endTime.format("HH:mm")}"`,
+                    "Total Time": `"${duration}  minutes"`,
+                  };
+                });
 
                 const fileName = `pc_info_${school.school_name.replace(
                   / /g,
@@ -219,96 +218,131 @@ const Pctable = () => {
             >
               <b>Download</b> &nbsp;
             </Button>
-            &nbsp;
-            &nbsp;
-            {/* <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              style={{ width: "460px" }}
-              onClick={() => handleButtonClick(school._id)}
-              className={`school-button ${
-                selectedSchool === school._id ? "active" : ""
-              }`}
-            >
-           
-            </Button>{" "} */}
-{selectedSchool === school._id && (
-  <div style={{ clear: "both" }}>
-    <br></br>
-    <table
-      style={{
-        width: "98%",
-        borderCollapse: "collapse",
-        border: "1px solid #000000",
-        margin: "0 auto",
-      }}
-    >
-      <thead>
-        <tr>
-          <th
-            style={{ border: "1px solid #000000", padding: "5px" }}
-          >
-            Start Time
-          </th>
-          <th
-            style={{ border: "1px solid  #000000", padding: "5px" }}
-          >
-            End Time
-          </th>
-          <th
-            style={{ border: "1px solid #000000", padding: "5px" }}
-          >
-            Total Time
-          </th>
-        </tr>
-      </thead>
+            &nbsp; &nbsp;
+            {selectedSchool === school._id && (
+              <div style={{ clear: "both" }}>
+                <br />
+                <table
+                  style={{
+                    width: "98%",
+                    borderCollapse: "collapse",
+                    border: "1px solid #000000",
+                    margin: "0 auto",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        style={{ border: "1px solid #000000", padding: "5px" }}
+                      >
+                        Start Date
+                      </th>
+                      <th
+                        style={{ border: "1px solid #000000", padding: "5px" }}
+                      >
+                        Start Time
+                      </th>
+                      <th
+                        style={{ border: "1px solid #000000", padding: "5px" }}
+                      >
+                        End Date
+                      </th>
+                      <th
+                        style={{ border: "1px solid #000000", padding: "5px" }}
+                      >
+                        End Time
+                      </th>
+                      <th
+                        style={{ border: "1px solid #000000", padding: "5px" }}
+                      >
+                        Total Time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {school.track
+                      .reduce((unique, o) => {
+                        if (
+                          !unique.some(
+                            (obj) =>
+                              obj.start_time === o.start_time &&
+                              obj.end_time === o.end_time
+                          )
+                        ) {
+                          unique.push(o);
+                        }
+                        return unique;
+                      }, [])
+                      .sort(
+                        (a, b) =>
+                          new Date(b.start_time) - new Date(a.start_time)
+                      )
+                      .map((track, index) => {
+                        const startTime = new Date(track.start_time);
+                        const endTime = new Date(track.end_time);
+                        const totalMinutes =
+                          (endTime.getTime() - startTime.getTime()) /
+                          (60 * 1000);
 
-      <tbody>
-        {school.track
-          .reduce((unique, o) => {
-            if (!unique.some(obj => obj.start_time === o.start_time && obj.end_time === o.end_time && obj.total_time === o.total_time)) {
-              unique.push(o);
-            }
-            return unique;
-          }, [])
-          .sort((a, b) => new Date(b.start_time) - new Date(a.start_time))
-          .map((track, index) => (
-            <tr key={index}>
-              <td
-                style={{
-                  border: "1px solid  #000000",
-                  padding: "5px",
-                }}
-              >
-                {track.start_time}
-              </td>
-              <td
-                style={{
-                  border: "1px solid  #000000",
-                  padding: "5px",
-                }}
-              >
-                {track.end_time}
-              </td>
-              <td
-                style={{
-                  border: "1px solid  #000000",
-                  padding: "5px",
-                }}
-              >
-                {track.total_time}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
-)}
+                        const formatDate = (date) => {
+                          const day = ("0" + date.getDate()).slice(-2);
+                          const month = ("0" + (date.getMonth() + 1)).slice(-2);
+                          const year = date.getFullYear();
+                          return `${day}/${month}/${year}`;
+                        };
 
-
-
-
+                        return (
+                          <tr key={index}>
+                            <td
+                              style={{
+                                border: "1px solid  #000000",
+                                padding: "5px",
+                              }}
+                            >
+                              {formatDate(startTime)}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid  #000000",
+                                padding: "5px",
+                              }}
+                            >
+                              {startTime
+                                .toTimeString()
+                                .split(" ")[0]
+                                .slice(0, 5)}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid  #000000",
+                                padding: "5px",
+                              }}
+                            >
+                              {formatDate(endTime)}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid  #000000",
+                                padding: "5px",
+                              }}
+                            >
+                              {endTime.toTimeString().split(" ")[0].slice(0, 5)}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid  #000000",
+                                padding: "5px",
+                              }}
+                            >
+                              {Math.round(totalMinutes)} minutes
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       ))}

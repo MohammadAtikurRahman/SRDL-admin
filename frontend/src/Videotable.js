@@ -38,16 +38,19 @@ const Videotable = () => {
     let seconds = Math.floor(milliseconds / 1000);
     let minutes = Math.floor(seconds / 60);
     let hours = Math.floor(minutes / 60);
-  
+
     seconds %= 60;
     minutes %= 60;
     hours %= 24;
-  
-    return (hours > 0 ? hours + ' hours, ' : '') +
-           (minutes > 0 ? minutes + ' minutes, ' : '') +
-           seconds + ' seconds ago';
+
+    return (
+      (hours > 0 ? hours + " hours, " : "") +
+      (minutes > 0 ? minutes + " minutes, " : "") +
+      seconds +
+      " seconds ago"
+    );
   }
-  
+
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -204,7 +207,7 @@ const Videotable = () => {
                       // position: "absolute",
                       // right: "14.59%",
                       fontSize: "12px",
-                      width: "410px", // Add fixed width
+                      width: "310px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -219,13 +222,7 @@ const Videotable = () => {
                           .locale("en-gb")
                           .format("LLL")
                       : "N/A"}
-                
                   </Button>
-
-
-
-
-
 
                   <Button
                     className="button_style"
@@ -234,16 +231,50 @@ const Videotable = () => {
                     size="small"
                     style={{
                       backgroundColor: "#2E8B57",
-                      // position: "absolute",
-                      // right: "3.9%",
-                      width: "110px", // Add fixed width
-                      height: "30px", // Add fixed height
+                      width: "110px",
+                      height: "30px",
                     }}
+
                     onClick={() => {
                       const csvData = user.video.filter((v) => v.eiin === eiin);
-                      const replacer = (key, value) =>
-                        value === null ? "" : value;
-                      const header = Object.keys(csvData[0]);
+                      
+                      csvData.forEach((data) => {
+                        // Split start_date_time into separate date and time values
+                        let start = moment(data.start_date_time);
+                        data.start_date = start.format('L');
+                        data.start_time = start.format('LT');
+                    
+                        // Split end_date_time into separate date and time values
+                        let end = moment(data.end_date_time);
+                        data.end_date = end.format('L');
+                        data.end_time = end.format('LT');
+                    
+                        // Format duration as minutes
+                        data.duration = Math.round(data.duration) + ' minutes';
+                      });
+                    
+                      const replacer = (key, value) => value === null ? "" : value;
+                    
+                      // Explicitly define the headers and their order
+                      const header = [
+                        "video_name",
+                        "location",
+                      
+                        "start_date",
+                        "start_time",
+                        "end_date",
+                        "end_time",
+                        "duration",
+                        "school_name",
+
+                        "pl_start",
+                        "pl_end",
+                        "pc_name",
+                        "eiin",
+                        "pc_id",
+                        "lab_id",
+                      ];
+                    
                       const csv = [
                         header.join(","),
                         ...csvData.map((row) =>
@@ -254,39 +285,34 @@ const Videotable = () => {
                             .join(",")
                         ),
                       ].join("\r\n");
-
-                      const schoolName =
-                        user.video.find((video) => video.eiin === eiin)
-                          ?.school_name || "Unknown";
-                      const fileName = `video_info_${schoolName.replace(
-                        / /g,
-                        "_"
-                      )}_${eiin}.csv`;
-
+                    
+                      const schoolName = user.video.find((video) => video.eiin === eiin)?.school_name || "Unknown";
+                      const fileName = `video_info_${schoolName.replace(/ /g, "_")}_${eiin}.csv`;
+                    
                       var link = document.createElement("a");
-                      link.setAttribute(
-                        "href",
-                        "data:text/csv;charset=utf-8," + encodeURIComponent(csv)
-                      );
+                      link.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(csv));
                       link.setAttribute("download", fileName);
                       document.body.appendChild(link);
                       link.click();
                       document.body.removeChild(link);
                     }}
+                    
+
                   >
                     <strong>Download </strong> &nbsp;
                   </Button>
-            
+
                   <br />
 
                   {showTable[eiin] && (
                     <table
                       style={{
                         width: "98%",
-                        fontSize: "0.8rem",
+                        fontSize: "1rem",
                         borderCollapse: "collapse",
                         margin: "0 auto",
                         marginTop: "30px",
+                        fontWeight: "500",
                       }}
                     >
                       <thead>
@@ -294,18 +320,24 @@ const Videotable = () => {
                           <th style={{ border: "1px solid black" }}>
                             Video Name
                           </th>
-                      
+
                           <th style={{ border: "1px solid black" }}>
                             Player Start Time
                           </th>
                           <th style={{ border: "1px solid black" }}>
-                            Start Time & Date
+                            Start Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Start Time
                           </th>
                           <th style={{ border: "1px solid black" }}>
                             Player End Time
                           </th>
                           <th style={{ border: "1px solid black" }}>
-                            End Time & Date
+                            End Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            End Time
                           </th>
                           <th style={{ border: "1px solid black" }}>
                             Duration
@@ -334,21 +366,31 @@ const Videotable = () => {
                               <td style={{ border: "1px solid black" }}>
                                 {v.video_name}
                               </td>
-                          
+
                               <td style={{ border: "1px solid black" }}>
                                 {v.pl_start}
                               </td>
                               <td style={{ border: "1px solid black" }}>
-                                {v.start_date_time}
+                                {moment(v.start_date_time).format("L")}{" "}
+                                {/* Display date */}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {moment(v.start_date_time).format("LT")}{" "}
+                                {/* Display time */}
                               </td>
                               <td style={{ border: "1px solid black" }}>
                                 {v.pl_end}
                               </td>
                               <td style={{ border: "1px solid black" }}>
-                                {v.end_date_time}
+                                {moment(v.end_date_time).format("L")}{" "}
+                                {/* Display date */}
                               </td>
                               <td style={{ border: "1px solid black" }}>
-                                {v.duration}
+                                {moment(v.end_date_time).format("LT")}{" "}
+                                {/* Display time */}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.duration} <b>Minutes </b>
                               </td>
                             </tr>
                           ))}

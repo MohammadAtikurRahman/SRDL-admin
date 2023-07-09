@@ -210,7 +210,7 @@ export default class Dashboard extends Component {
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "All Video info.csv");
+      link.setAttribute("download", "video log.csv");
       document.body.appendChild(link);
       link.click();
     });
@@ -267,7 +267,7 @@ export default class Dashboard extends Component {
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "All pc info.csv");
+      link.setAttribute("download", "pc log.csv");
       document.body.appendChild(link);
       link.click();
     });

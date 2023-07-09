@@ -237,7 +237,7 @@ const Videotable = () => {
                     onClick={() => {
                       const csvData = user.video.filter((v) => v.eiin === eiin);
 
-                      csvData.forEach((data) => {
+                      csvData.reverse().forEach((data) => {
                         // Split start_date_time into separate date and time values
                         let start = moment(data.start_date_time);
                         data.start_date = start.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
@@ -353,6 +353,8 @@ const Videotable = () => {
                       </thead>
                       <tbody>
                         {user.video
+                           .slice()
+                          .reverse()
                           .filter((v) => v.eiin === eiin)
                           .reduce((acc, v) => {
                             const found = acc.find(

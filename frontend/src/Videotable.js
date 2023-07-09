@@ -34,7 +34,20 @@ const Videotable = () => {
       [eiin]: !prevShowTable[eiin],
     }));
   };
-
+  function timeAgo(milliseconds) {
+    let seconds = Math.floor(milliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+  
+    seconds %= 60;
+    minutes %= 60;
+    hours %= 24;
+  
+    return (hours > 0 ? hours + ' hours, ' : '') +
+           (minutes > 0 ? minutes + ' minutes, ' : '') +
+           seconds + ' seconds ago';
+  }
+  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -206,16 +219,13 @@ const Videotable = () => {
                           .locale("en-gb")
                           .format("LLL")
                       : "N/A"}
-                    &nbsp; <strong>Sync </strong> &nbsp;
-                    {user.video.find((video) => video.eiin === eiin)
-                      ? moment(
-                          user.video.find((video) => video.eiin === eiin)
-                            .updatedAt
-                        )
-                          .tz("Asia/Dhaka")
-                          .fromNow()
-                      : "N/A"}
+                
                   </Button>
+
+
+
+
+
 
                   <Button
                     className="button_style"
@@ -266,89 +276,85 @@ const Videotable = () => {
                   >
                     <strong>Download </strong> &nbsp;
                   </Button>
-                  {/* <Button
-                    className="button_style"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{
-                      position: "absolute",
-                      right: "11.5%",
-                      width: "160px", // Add fixed width
-                      height: "30px", // Add fixed height
-                    }}
-                    onClick={() => toggleTable(eiin)}
-                  >
-                    <strong>Last Sync </strong> &nbsp;
-                    {user.video.find((video) => video.eiin === eiin)
-                      ? moment(
-                          user.video.find((video) => video.eiin === eiin)
-                            .updatedAt
-                        )
-                          .tz("Asia/Dhaka")
-                          .fromNow()
-                      : "N/A"}
-                  </Button> */}
+            
                   <br />
 
-
                   {showTable[eiin] && (
-  <table
-    style={{
-      width: "98%",
-      fontSize: "0.8rem",
-      borderCollapse: "collapse",
-      margin: "0 auto",
-      marginTop: "30px",
-    }}
-  >
-    <thead>
-      <tr>
-        <th style={{ border: "1px solid black" }}>Video Name</th>
-        <th style={{ border: "1px solid black" }}>Location</th>
-        <th style={{ border: "1px solid black" }}>Player Start Time</th>
-        <th style={{ border: "1px solid black" }}>Start Time & Date</th>
-        <th style={{ border: "1px solid black" }}>Player End Time</th>
-        <th style={{ border: "1px solid black" }}>End Time & Date</th>
-        <th style={{ border: "1px solid black" }}>Duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      {user.video
-        .filter((v) => v.eiin === eiin)
-        .reduce((acc, v) => {
-          const found = acc.find(
-            (item) =>
-              item.pl_start === v.pl_start &&
-              item.start_date_time === v.start_date_time &&
-              item.pl_end === v.pl_end &&
-              item.end_date_time === v.end_date_time &&
-              item.duration === v.duration
-          );
-          if (!found) {
-            acc.push(v);
-          }
-          return acc;
-        }, [])
-        .map((v) => (
-          <tr key={v._id}>
-            <td style={{ border: "1px solid black" }}>{v.video_name}</td>
-            <td style={{ border: "1px solid black" }}>{v.location}</td>
-            <td style={{ border: "1px solid black" }}>{v.pl_start}</td>
-            <td style={{ border: "1px solid black" }}>
-              {v.start_date_time}
-            </td>
-            <td style={{ border: "1px solid black" }}>{v.pl_end}</td>
-            <td style={{ border: "1px solid black" }}>{v.end_date_time}</td>
-            <td style={{ border: "1px solid black" }}>{v.duration}</td>
-          </tr>
-        ))}
-    </tbody>
-  </table>
-)}
-
-
-
+                    <table
+                      style={{
+                        width: "98%",
+                        fontSize: "0.8rem",
+                        borderCollapse: "collapse",
+                        margin: "0 auto",
+                        marginTop: "30px",
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ border: "1px solid black" }}>
+                            Video Name
+                          </th>
+                      
+                          <th style={{ border: "1px solid black" }}>
+                            Player Start Time
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Start Time & Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Player End Time
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            End Time & Date
+                          </th>
+                          <th style={{ border: "1px solid black" }}>
+                            Duration
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {user.video
+                          .filter((v) => v.eiin === eiin)
+                          .reduce((acc, v) => {
+                            const found = acc.find(
+                              (item) =>
+                                item.pl_start === v.pl_start &&
+                                item.start_date_time === v.start_date_time &&
+                                item.pl_end === v.pl_end &&
+                                item.end_date_time === v.end_date_time &&
+                                item.duration === v.duration
+                            );
+                            if (!found) {
+                              acc.push(v);
+                            }
+                            return acc;
+                          }, [])
+                          .map((v) => (
+                            <tr key={v._id}>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.video_name}
+                              </td>
+                          
+                              <td style={{ border: "1px solid black" }}>
+                                {v.pl_start}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.start_date_time}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.pl_end}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.end_date_time}
+                              </td>
+                              <td style={{ border: "1px solid black" }}>
+                                {v.duration}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  )}
                 </React.Fragment>
               ))}
           </div>

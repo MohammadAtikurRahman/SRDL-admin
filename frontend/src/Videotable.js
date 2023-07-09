@@ -170,7 +170,7 @@ const Videotable = () => {
                     style={{
                       // position: "absolute",
                       // right: "52.6%",
-                      width: "110px", // Add fixed width
+                      width: "250px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}
@@ -188,7 +188,7 @@ const Videotable = () => {
                     style={{
                       // position: "absolute",
                       // right: "41.99%",
-                      width: "110px", // Add fixed width
+                      width: "250px", // Add fixed width
                       height: "30px", // Add fixed height
                     }}
                     onClick={() => toggleTable(eiin)}

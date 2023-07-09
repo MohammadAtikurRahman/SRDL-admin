@@ -128,7 +128,7 @@ const Pctable = () => {
               color="primary"
               size="small"
               style={{
-                width: "110px", // Add fixed width
+                width: "250px", // Add fixed width
               }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${
@@ -144,7 +144,7 @@ const Pctable = () => {
               color="primary"
               size="small"
               style={{
-                width: "110px", // Add fixed width
+                width: "250px", // Add fixed width
               }}
               onClick={() => handleButtonClick(school._id)}
               className={`school-button ${

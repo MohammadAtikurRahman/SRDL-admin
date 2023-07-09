@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import logo from "./logo.png"; // adjust the path as necessary
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Sticky from "./Sticky";
+import moment from "moment";
 import {
   TextField,
   TableBody,
@@ -132,9 +133,9 @@ export default class Dashboard extends Component {
       method: "POST",
       body: formData,
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   };
 
   uploadAllFiles = async () => {
@@ -146,100 +147,132 @@ export default class Dashboard extends Component {
     window.location.reload();
   };
 
-
-
   downloadCSV = () => {
-    axios
-      .get(baseUrl +'/get-allnew')
-      .then((response) => {
-        const { data } = response;
-        let csvContent = 'data:text/csv;charset=utf-8,';
+    axios.get(baseUrl + "/get-allnew").then((response) => {
+      const { data } = response;
+      let csvContent = "data:text/csv;charset=utf-8,";
 
-        // Define custom column names
-        const columnNames = ['School Name', 'EIIN', 'Video Name', 'Location', 'Player Time', 'PC Time Start', 'Player End Time', 'PC End Time', 'Total Time'];
+      // Define custom column names
+      const columnNames = [
+        "School Name",
+        "EIIN",
+        "Video Name",
+        "Location",
+        "Player Start Time",
+        "PC Start Date",
+        "PC Start Time",
+        "Player End Time",
+        "PC End Date",
+        "PC End Time",
+        "Total Time",
+      ];
 
-        // Add column headers
-        csvContent += columnNames.join(',') + '\n';
+      // Add column headers
+      csvContent += columnNames.join(",") + "\n";
 
-        // Iterate over each user
-        data.forEach((user) => {
-          // Iterate over each school
-          user.school.forEach((school) => {
-            const schoolName = school.school_name;
-            const eiin = school.eiin;
+      // Iterate over each user
+      data.forEach((user) => {
+        // Iterate over each school
+        user.school.forEach((school) => {
+          const schoolName = school.school_name;
+          const eiin = school.eiin;
 
-            // Iterate over each video
-            user.video.forEach((video) => {
-              const row = [
-                schoolName,
-                eiin,
-                video.video_name.replace(/,/g, ';'),
-                video.location.replace(/,/g, ';'),
-                video.pl_start.replace(/,/g, ';'),
-                video.start_date_time.replace(/,/g, ';'),
-                video.pl_end.replace(/,/g, ';'),
-                video.end_date_time.replace(/,/g, ';'),
-                video.duration.replace(/,/g, ';')
-              ];
-              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
-            });
+          // Iterate over each video
+          user.video.forEach((video) => {
+            const pcStartTime = moment(video.start_date_time);
+            const pcEndTime = moment(video.end_date_time);
+            // Duration in minutes, including fractions of a minute
+            const duration = pcEndTime.diff(pcStartTime, "seconds") / 60;
+
+            console.log(`Start time: ${pcStartTime}`);
+            console.log(`End time: ${pcEndTime}`);
+            console.log(`Calculated duration: ${duration}`);
+
+            const row = [
+              schoolName,
+              eiin,
+              video.video_name.replace(/,/g, ";"),
+              video.location.replace(/,/g, ";"),
+              video.pl_start.replace(/,/g, ";"),
+              pcStartTime.format("DD/MM/YYYY"),
+              pcStartTime.format("HH:mm"),
+              video.pl_end.replace(/,/g, ";"),
+              pcEndTime.format("DD/MM/YYYY"),
+              pcEndTime.format("HH:mm"),
+              duration.toString().replace(/,/g, ";") + " minutes",
+            ];
+            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
         });
-
-        // Download the CSV file
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'All Video info.csv');
-        document.body.appendChild(link);
-        link.click();
       });
-  }
+
+      // Download the CSV file
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "All Video info.csv");
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
 
   downloadCSV1 = () => {
-    axios
-      .get( baseUrl + '/get-allnew')
-      .then((response) => {
-        const { data } = response;
-        let csvContent = 'data:text/csv;charset=utf-8,';
-
-        // Define custom column names
-        const columnNames = ['School Name', 'EIIN', 'Track Start Time', 'Track End Time', 'Track Total Time'];
-        // Add column headers
-        csvContent += columnNames.join(',') + '\n';
-
-        // Iterate over each user
-        data.forEach((user) => {
-          // Iterate over each school
-          user.school.forEach((school) => {
-            const schoolName = school.school_name;
-            const eiin = school.eiin;
-
-            // Iterate over each track
-            school.track.forEach((track) => {
-              const row = [
-                schoolName,
-                eiin,
-                track.start_time.replace(/,/g, ';'),
-                track.end_time.replace(/,/g, ';'),
-                track.total_time.replace(/,/g, ';')
-              ];
-              csvContent += row.map(value => `"${value}"`).join(',') + '\n';
-            });
+    axios.get(baseUrl + "/get-allnew").then((response) => {
+      const { data } = response;
+      let csvContent = "data:text/csv;charset=utf-8,";
+  
+      // Define custom column names
+      const columnNames = [
+        "School Name",
+        "EIIN",
+        "Track Start Date",
+        "Track Start Time",
+        "Track End Date",
+        "Track End Time",
+        "Track Total Time",
+      ];
+  
+      // Add column headers
+      csvContent += columnNames.join(",") + "\n";
+  
+      // Iterate over each user
+      data.forEach((user) => {
+        // Iterate over each school
+        user.school.forEach((school) => {
+          const schoolName = school.school_name;
+          const eiin = school.eiin;
+  
+          // Iterate over each track
+          school.track.forEach((track) => {
+            const startTime = moment(track.start_time);
+            const endTime = moment(track.end_time);
+            const totalMinutes = parseInt(track.total_time);
+  
+            const row = [
+              schoolName,
+              eiin,
+              startTime.format("DD/MM/YYYY"),
+              startTime.format("HH:mm"),
+              endTime.format("DD/MM/YYYY"),
+              endTime.format("HH:mm"),
+              totalMinutes.toString() + " minutes",
+            ];
+  
+            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
         });
-
-        // Download the CSV file
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'All pc info.csv');
-        document.body.appendChild(link);
-        link.click();
       });
-  }
-
-
+  
+      // Download the CSV file
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "All pc info.csv");
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
+  
 
   handleClick(event) {
     this.setState({ anchorEl: event.currentTarget });
@@ -278,8 +311,9 @@ export default class Dashboard extends Component {
     const hours = Math.floor(totalTime / 60);
     const minutes = totalTime % 60;
     if (hours > 0) {
-      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${minutes > 1 ? "s" : ""
-        }`;
+      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${
+        minutes > 1 ? "s" : ""
+      }`;
     }
     return `${minutes} minute${minutes > 1 ? "s" : ""}`;
   }
@@ -363,7 +397,7 @@ export default class Dashboard extends Component {
     };
 
     try {
-      const response = await axios.post( baseUrl + "/pcinfo", data);
+      const response = await axios.post(baseUrl + "/pcinfo", data);
       console.log(response.data);
       this.setState({ dataSent: true }, () => {
         window.location.reload();
@@ -399,7 +433,7 @@ export default class Dashboard extends Component {
         });
         this.setState(
           { loading: false, beneficiaries: [], userinfo: [] },
-          () => { }
+          () => {}
         );
       });
   };
@@ -484,7 +518,7 @@ export default class Dashboard extends Component {
   // };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value }, () => { });
+    this.setState({ [e.target.name]: e.target.value }, () => {});
 
     if (e.target.name === "search") {
       const needle = e.target.value;
@@ -548,8 +582,6 @@ export default class Dashboard extends Component {
 
     return (
       <div>
-      
-
         {this.state.openProductEditModal && (
           <EditBeneficiary
             beneficiary={this.state.currentBeneficiary}
@@ -565,27 +597,25 @@ export default class Dashboard extends Component {
             getBeneficiaries={this.getBeneficiaries}
           />
         )}
-          <AppBar position="static" style={{ backgroundColor: "#1F8A7", height: "32px" }}>
+        <AppBar
+          position="static"
+          style={{ backgroundColor: "#1F8A7", height: "32px" }}
+        >
           <Toolbar>
-            <h5 style={{ paddingTop: "10px" }}>
-            </h5>
+            <h5 style={{ paddingTop: "10px" }}></h5>
             <h6
               style={{
                 fontFamily: "Arial",
                 fontWeight: "bold",
-                paddingBottom: "20px"
+                paddingBottom: "20px",
               }}
             >
-              <b> SHEIKH RUSSEL DIGITAL LAB ADMIN PANEL
-               VIDEO DASHBOARD </b>
+              <b> SHEIKH RUSSEL DIGITAL LAB ADMIN PANEL VIDEO DASHBOARD </b>
             </h6>
             &nbsp; &nbsp;
-            
-          
           </Toolbar>
         </AppBar>
 
-        
         <AppBar position="static" style={{ backgroundColor: "#1F8A70" }}>
           <Toolbar>
             <h5 style={{ paddingTop: "10px" }}>
@@ -598,8 +628,7 @@ export default class Dashboard extends Component {
                 fontWeight: "bold",
               }}
             >
-              <b> SRDL 
-               Dashboard </b>
+              <b> SRDL Dashboard </b>
             </h6>
             &nbsp; &nbsp;
             <div>
@@ -617,14 +646,12 @@ export default class Dashboard extends Component {
                   color="primary"
                   component="span"
                   style={{ fontSize: "13px" }}
-
                   startIcon={<CloudUploadIcon />} // Add this line
                 >
                   Upload CSV
                 </Button>
               </label>
             </div>
-
             {/* <Button
               className="button_style"
               variant="contained"
@@ -635,45 +662,16 @@ export default class Dashboard extends Component {
             >
               Video Info
             </Button> */}
-            <div style={{ paddingLeft: "20px"}} >
-            <Sticky />
-
-              </div>
-            
+            <div style={{ paddingLeft: "20px" }}>
+              <Sticky />
+            </div>
             {/* <IconButton>
               <SearchIcon style={{ color: "white" }} />
             </IconButton> */}
-
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp; 
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-
-
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp;
             {/* <InputBase
               placeholder="Search..."
               style={{ marginLeft: 1, color: "white" }}
@@ -697,18 +695,21 @@ export default class Dashboard extends Component {
                 </Button>
               </label>
             </div> */}
-            {this.state?.filteredBeneficiary?.slice().reverse().map((row, index) => (
-              <div key={index}>
-                <Button variant="contained" color="primary" href="/video">
-                  PC INFO
-                </Button>
-                &nbsp; &nbsp;
-                <Button variant="contained" color="primary">
-                  {" "}
-                  {row.m_nm}{" "}
-                </Button>
-              </div>
-            ))}
+            {this.state?.filteredBeneficiary
+              ?.slice()
+              .reverse()
+              .map((row, index) => (
+                <div key={index}>
+                  <Button variant="contained" color="primary" href="/video">
+                    PC INFO
+                  </Button>
+                  &nbsp; &nbsp;
+                  <Button variant="contained" color="primary">
+                    {" "}
+                    {row.m_nm}{" "}
+                  </Button>
+                </div>
+              ))}
             {/* <div style={{ flexGrow: 1 }} /> */}
             <div style={{ flexGrow: 1 }}>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -727,7 +728,6 @@ export default class Dashboard extends Component {
                   size="small"
                   onClick={this.downloadCSV1}
                   startIcon={<CloudDownloadIcon />}
-
                 >
                   <b> Download Pc Info </b>
                 </Button>
@@ -736,22 +736,19 @@ export default class Dashboard extends Component {
                   variant="contained"
                   color="primary"
                   size="small"
-                  style={{ width: "140px"}}
+                  style={{ width: "140px" }}
                   onClick={this.logOut}
                 >
-                      <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
-
-
+                  <ExitToAppIcon fontSize="small" /> &nbsp; &nbsp;
                   <MaterialLink
                     style={{
                       textDecoration: "none",
                       color: "white",
-                      paddingTop: "3px"
-
+                      paddingTop: "3px",
                     }}
                     href="/"
                   >
-                  LOG OUT
+                    LOG OUT
                   </MaterialLink>
                 </Button>
               </div>
@@ -834,11 +831,8 @@ export default class Dashboard extends Component {
 
         <div>
           <TableContainer>
-           
             <Table aria-label="simple table">
-              <TableHead>
-             
-              </TableHead>
+              <TableHead></TableHead>
 
               <TableBody>
                 {this.state?.filteredBeneficiary
@@ -857,8 +851,6 @@ export default class Dashboard extends Component {
                       <TableCell align="center" component="th" scope="row">
                         {this.convertToHoursAndMinutes(ttime.total_time)}
                       </TableCell>
-
-                      
                     </TableRow>
                   ))}
               </TableBody>
@@ -866,7 +858,6 @@ export default class Dashboard extends Component {
 
             <div style={{ display: "inline" }}>
               <Videotable />
-
             </div>
 
             {/* <Previous /> */}
@@ -896,13 +887,6 @@ export default class Dashboard extends Component {
             <p>total_time: {lastData.total_time}</p>
           </div> */}
         </div>
-
-       
-     
-      
-     
-     
-     
       </div>
     );
   }

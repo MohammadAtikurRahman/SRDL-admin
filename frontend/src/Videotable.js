@@ -234,32 +234,33 @@ const Videotable = () => {
                       width: "110px",
                       height: "30px",
                     }}
-
                     onClick={() => {
                       const csvData = user.video.filter((v) => v.eiin === eiin);
-                      
+
                       csvData.forEach((data) => {
                         // Split start_date_time into separate date and time values
                         let start = moment(data.start_date_time);
-                        data.start_date = start.format('L');
-                        data.start_time = start.format('LT');
+                        data.start_date = start.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
+                        data.start_time = start.format("LT");
                     
                         // Split end_date_time into separate date and time values
                         let end = moment(data.end_date_time);
-                        data.end_date = end.format('L');
-                        data.end_time = end.format('LT');
+                        data.end_date = end.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
+                        data.end_time = end.format("LT");
                     
                         // Format duration as minutes
-                        data.duration = Math.round(data.duration) + ' minutes';
-                      });
+                        data.duration = Math.round(data.duration) + " minutes";
+                    });
                     
-                      const replacer = (key, value) => value === null ? "" : value;
-                    
+
+                      const replacer = (key, value) =>
+                        value === null ? "" : value;
+
                       // Explicitly define the headers and their order
                       const header = [
                         "video_name",
                         "location",
-                      
+
                         "start_date",
                         "start_time",
                         "end_date",
@@ -274,7 +275,7 @@ const Videotable = () => {
                         "pc_id",
                         "lab_id",
                       ];
-                    
+
                       const csv = [
                         header.join(","),
                         ...csvData.map((row) =>
@@ -285,19 +286,25 @@ const Videotable = () => {
                             .join(",")
                         ),
                       ].join("\r\n");
-                    
-                      const schoolName = user.video.find((video) => video.eiin === eiin)?.school_name || "Unknown";
-                      const fileName = `video_info_${schoolName.replace(/ /g, "_")}_${eiin}.csv`;
-                    
+
+                      const schoolName =
+                        user.video.find((video) => video.eiin === eiin)
+                          ?.school_name || "Unknown";
+                      const fileName = `video_info_${schoolName.replace(
+                        / /g,
+                        "_"
+                      )}_${eiin}.csv`;
+
                       var link = document.createElement("a");
-                      link.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(csv));
+                      link.setAttribute(
+                        "href",
+                        "data:text/csv;charset=utf-8," + encodeURIComponent(csv)
+                      );
                       link.setAttribute("download", fileName);
                       document.body.appendChild(link);
                       link.click();
                       document.body.removeChild(link);
                     }}
-                    
-
                   >
                     <strong>Download </strong> &nbsp;
                   </Button>
@@ -370,10 +377,12 @@ const Videotable = () => {
                               <td style={{ border: "1px solid black" }}>
                                 {v.pl_start}
                               </td>
+
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.start_date_time).format("L")}{" "}
-                                {/* Display date */}
+                                {moment(v.start_date_time).format("DD/MM/YYYY")}{" "}
+                                {/* Display date in UK format */}
                               </td>
+
                               <td style={{ border: "1px solid black" }}>
                                 {moment(v.start_date_time).format("LT")}{" "}
                                 {/* Display time */}
@@ -381,10 +390,13 @@ const Videotable = () => {
                               <td style={{ border: "1px solid black" }}>
                                 {v.pl_end}
                               </td>
+
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.end_date_time).format("L")}{" "}
+                                {moment(v.end_date_time).format("DD/MM/YYYY")}{" "}
                                 {/* Display date */}
                               </td>
+
+
                               <td style={{ border: "1px solid black" }}>
                                 {moment(v.end_date_time).format("LT")}{" "}
                                 {/* Display time */}

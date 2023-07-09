@@ -10,8 +10,8 @@ const videoSchema = new Schema({
   pc_name: String,
   eiin: Number,
   school_name: String,
-  pc_id: Number,
-  lab_id: Number,
+  pc_id: String,
+  lab_id: String,
   video_name: String,
   location: String,
   pl_start: String,
@@ -31,8 +31,8 @@ const schoolSchema = new Schema({
   pc_name: String,
   eiin: Number,
   school_name: String,
-  pc_id: Number,
-  lab_id: Number,
+  pc_id: String,
+  lab_id: String,
   track: [trackSchema],
    }  , { timestamps: true }  );
 

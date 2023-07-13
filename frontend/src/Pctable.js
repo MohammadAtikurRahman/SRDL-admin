@@ -197,7 +197,7 @@ const Pctable = () => {
                   };
                 });
 
-                const fileName = `pc_info_${school.school_name.replace(
+                const fileName = `pc_log_${school.school_name.replace(
                   / /g,
                   "_"
                 )}_${school.eiin}.csv`;

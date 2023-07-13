@@ -290,7 +290,7 @@ const Videotable = () => {
                       const schoolName =
                         user.video.find((video) => video.eiin === eiin)
                           ?.school_name || "Unknown";
-                      const fileName = `video_info_${schoolName.replace(
+                      const fileName = `vid_log_${schoolName.replace(
                         / /g,
                         "_"
                       )}_${eiin}.csv`;

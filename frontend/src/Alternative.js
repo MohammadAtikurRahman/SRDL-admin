@@ -155,9 +155,11 @@ export default class Alternative extends Component {
         "EIIN",
         "Video Name",
         "Location",
-        "Player Time",
-        "PC Time Start",
+        "Player Start Time",
+        "PC Start Date",
+        "PC Start Time",
         "Player End Time",
+        "PC End Date",
         "PC End Time",
         "Total Time",
       ];
@@ -174,16 +176,27 @@ export default class Alternative extends Component {
 
           // Iterate over each video
           user.video.forEach((video) => {
+            const pcStartTime = moment(video.start_date_time);
+            const pcEndTime = moment(video.end_date_time);
+            // Duration in minutes, including fractions of a minute
+            const duration = pcEndTime.diff(pcStartTime, "seconds") / 60;
+
+            console.log(`Start time: ${pcStartTime}`);
+            console.log(`End time: ${pcEndTime}`);
+            console.log(`Calculated duration: ${duration}`);
+
             const row = [
               schoolName,
               eiin,
               video.video_name.replace(/,/g, ";"),
               video.location.replace(/,/g, ";"),
               video.pl_start.replace(/,/g, ";"),
-              video.start_date_time.replace(/,/g, ";"),
+              pcStartTime.format("DD/MM/YYYY"),
+              pcStartTime.format("HH:mm"),
               video.pl_end.replace(/,/g, ";"),
-              video.end_date_time.replace(/,/g, ";"),
-              video.duration.replace(/,/g, ";"),
+              pcEndTime.format("DD/MM/YYYY"),
+              pcEndTime.format("HH:mm"),
+              duration.toString().replace(/,/g, ";") + " minutes",
             ];
             csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
@@ -194,7 +207,7 @@ export default class Alternative extends Component {
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "my_data.csv");
+      link.setAttribute("download", "video log.csv");
       document.body.appendChild(link);
       link.click();
     });
@@ -204,48 +217,59 @@ export default class Alternative extends Component {
     axios.get(baseUrl + "/get-allnew").then((response) => {
       const { data } = response;
       let csvContent = "data:text/csv;charset=utf-8,";
-
+  
       // Define custom column names
       const columnNames = [
         "School Name",
         "EIIN",
+        "Track Start Date",
         "Track Start Time",
+        "Track End Date",
         "Track End Time",
         "Track Total Time",
       ];
+  
       // Add column headers
       csvContent += columnNames.join(",") + "\n";
-
+  
       // Iterate over each user
       data.forEach((user) => {
         // Iterate over each school
         user.school.forEach((school) => {
           const schoolName = school.school_name;
           const eiin = school.eiin;
-
+  
           // Iterate over each track
           school.track.forEach((track) => {
+            const startTime = moment(track.start_time);
+            const endTime = moment(track.end_time);
+            const totalMinutes = parseInt(track.total_time);
+  
             const row = [
               schoolName,
               eiin,
-              track.start_time.replace(/,/g, ";"),
-              track.end_time.replace(/,/g, ";"),
-              track.total_time.replace(/,/g, ";"),
+              startTime.format("DD/MM/YYYY"),
+              startTime.format("HH:mm"),
+              endTime.format("DD/MM/YYYY"),
+              endTime.format("HH:mm"),
+              totalMinutes.toString() + " minutes",
             ];
+  
             csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
           });
         });
       });
-
+  
       // Download the CSV file
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "my_data.csv");
+      link.setAttribute("download", "pc log.csv");
       document.body.appendChild(link);
       link.click();
     });
   };
+
 
   handleFileUploadvd = (event) => {
     const file = event.target.files[0];

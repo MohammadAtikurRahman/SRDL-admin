@@ -150,9 +150,8 @@ export default class Dashboard extends Component {
   downloadCSV = () => {
     axios.get(baseUrl + "/get-allnew").then((response) => {
       const { data } = response;
-      let csvContent = "data:text/csv;charset=utf-8,";
-
-      // Define custom column names
+      let csvContent = "\uFEFF";
+  
       const columnNames = [
         "School Name",
         "EIIN",
@@ -166,55 +165,45 @@ export default class Dashboard extends Component {
         "PC End Time",
         "Total Time",
       ];
-
-      // Add column headers
+  
       csvContent += columnNames.join(",") + "\n";
-
-      // Iterate over each user
+  
       data.forEach((user) => {
-        // Iterate over each school
-        user.school.forEach((school) => {
-          const schoolName = school.school_name;
-          const eiin = school.eiin;
-
-          // Iterate over each video
-          user.video.forEach((video) => {
-            const pcStartTime = moment(video.start_date_time);
-            const pcEndTime = moment(video.end_date_time);
-            // Duration in minutes, including fractions of a minute
-            const duration = pcEndTime.diff(pcStartTime, "seconds") / 60;
-
-            console.log(`Start time: ${pcStartTime}`);
-            console.log(`End time: ${pcEndTime}`);
-            console.log(`Calculated duration: ${duration}`);
-
-            const row = [
-              schoolName,
-              eiin,
-              video.video_name.replace(/,/g, ";"),
-              video.location.replace(/,/g, ";"),
-              video.pl_start.replace(/,/g, ";"),
-              pcStartTime.format("DD/MM/YYYY"),
-              pcStartTime.format("HH:mm"),
-              video.pl_end.replace(/,/g, ";"),
-              pcEndTime.format("DD/MM/YYYY"),
-              pcEndTime.format("HH:mm"),
-              duration.toString().replace(/,/g, ";") + " minutes",
-            ];
-            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
-          });
+        user.video.forEach((video) => {
+          const pcStartTime = moment(video.start_date_time);
+          const pcEndTime = moment(video.end_date_time);
+          const duration = pcEndTime.diff(pcStartTime, "seconds") / 60;
+  
+          const row = [
+            video.school_name,
+            video.eiin,
+            video.location.split("/").pop().split(".")[0],
+            video.location,
+            video.pl_start,
+            pcStartTime.format("DD/MM/YYYY"),
+            pcStartTime.format("HH:mm"),
+            video.pl_end,
+            pcEndTime.format("DD/MM/YYYY"),
+            pcEndTime.format("HH:mm"),
+            (duration.toFixed(2)).toString() + " minutes",
+          ];
+          
+          csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
         });
       });
-
-      // Download the CSV file
-      const encodedUri = encodeURI(csvContent);
+  
+      const blob = new Blob(["\ufeff", csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
       const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "video log.csv");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "video_log.csv");
       document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
     });
   };
+  
 
   downloadCSV1 = () => {
     axios.get(baseUrl + "/get-allnew").then((response) => {
@@ -610,7 +599,7 @@ export default class Dashboard extends Component {
                 paddingBottom: "20px",
               }}
             >
-              <b> SHEIKH RUSSEL DIGITAL LAB ADMIN PANEL VIDEO DASHBOARD </b>
+              <b> D-Lab ADMIN PANEL VIDEO DASHBOARD </b>
             </h6>
             &nbsp; &nbsp;
           </Toolbar>
@@ -628,7 +617,7 @@ export default class Dashboard extends Component {
                 fontWeight: "bold",
               }}
             >
-              <b> SRDL Dashboard </b>
+              <b> D-Lab Dashboard </b>
             </h6>
             &nbsp; &nbsp;
             <div>

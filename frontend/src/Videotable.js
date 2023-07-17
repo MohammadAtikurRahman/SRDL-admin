@@ -235,39 +235,50 @@ const Videotable = () => {
                       height: "30px",
                     }}
                     onClick={() => {
-                      const csvData = user.video.filter((v) => v.eiin === eiin);
+                      let csvData = user.video.filter((v) => v.eiin === eiin);
 
-                      csvData.reverse().forEach((data) => {
-                        // Split start_date_time into separate date and time values
+                      csvData.forEach((data) => {
                         let start = moment(data.start_date_time);
-                        data.start_date = start.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
+                        data.start_date = start.format("DD/MM/YYYY");
                         data.start_time = start.format("HH:mm");
-                    
-                        // Split end_date_time into separate date and time values
+
                         let end = moment(data.end_date_time);
-                        data.end_date = end.format("DD/MM/YYYY"); // Explicitly format date as DD/MM/YYYY
+                        data.end_date = end.format("DD/MM/YYYY");
                         data.end_time = end.format("HH:mm");
-                    
-                        // Format duration as minutes
-                        data.duration = Math.round(data.duration) + " minutes";
-                    });
-                    
+
+                        data.duration =
+                          Math.round(data.duration * 100) / 100 + " minutes";
+
+                        data.video_name = data.location.includes("/")
+                          ? data.location
+                              .split("/")
+                              .pop()
+                              .split(".")
+                              .slice(0, -1)
+                              .join(".")
+                              .replace(/^[০১২৩৪৫৬৭৮৯]+\)/, "")
+                          : data.location.replace(/^[০১২৩৪৫৬৭৮৯]+\)/, "");
+                      });
+
+                      // Sort by end_date_time in descending order (most recent first)
+                      csvData.sort(
+                        (a, b) =>
+                          moment(b.end_date_time).valueOf() -
+                          moment(a.end_date_time).valueOf()
+                      );
 
                       const replacer = (key, value) =>
                         value === null ? "" : value;
 
-                      // Explicitly define the headers and their order
                       const header = [
                         "video_name",
                         "location",
-
                         "start_date",
                         "start_time",
                         "end_date",
                         "end_time",
                         "duration",
                         "school_name",
-
                         "pl_start",
                         "pl_end",
                         "pc_name",
@@ -276,7 +287,8 @@ const Videotable = () => {
                         "lab_id",
                       ];
 
-                      const csv = [
+                      let csvContent = "\uFEFF";
+                      csvContent += [
                         header.join(","),
                         ...csvData.map((row) =>
                           header
@@ -295,11 +307,11 @@ const Videotable = () => {
                         "_"
                       )}_${eiin}.csv`;
 
-                      var link = document.createElement("a");
-                      link.setAttribute(
-                        "href",
-                        "data:text/csv;charset=utf-8," + encodeURIComponent(csv)
-                      );
+                      const blob = new Blob(["\ufeff", csvContent], {
+                        type: "text/csv;charset=utf-8;",
+                      });
+                      const link = document.createElement("a");
+                      link.href = URL.createObjectURL(blob);
                       link.setAttribute("download", fileName);
                       document.body.appendChild(link);
                       link.click();
@@ -351,10 +363,10 @@ const Videotable = () => {
                           </th>
                         </tr>
                       </thead>
+
                       <tbody>
                         {user.video
-                           .slice()
-                          .reverse()
+                          .slice()
                           .filter((v) => v.eiin === eiin)
                           .reduce((acc, v) => {
                             const found = acc.find(
@@ -370,10 +382,24 @@ const Videotable = () => {
                             }
                             return acc;
                           }, [])
+                          // Add sorting operation here
+                          .sort(
+                            (a, b) =>
+                              moment(b.end_date_time).valueOf() -
+                              moment(a.end_date_time).valueOf()
+                          )
                           .map((v) => (
                             <tr key={v._id}>
                               <td style={{ border: "1px solid black" }}>
-                                {v.video_name}
+                                {v.location.includes("/")
+                                  ? v.location
+                                      .split("/")
+                                      .pop()
+                                      .split(".")
+                                      .slice(0, -1)
+                                      .join(".")
+                                      .replace(/^[০১২৩৪৫৬৭৮৯]+\)/, "")
+                                  : v.location.replace(/^[০১২৩৪৫৬৭৮৯]+\)/, "")}
                               </td>
 
                               <td style={{ border: "1px solid black" }}>
@@ -381,28 +407,25 @@ const Videotable = () => {
                               </td>
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.start_date_time).format("DD/MM/YYYY")}{" "}
-                                {/* Display date in UK format */}
+                                {moment(v.start_date_time).format("DD/MM/YYYY")}
                               </td>
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.start_date_time).format("HH:mm")}{" "}
-                                {/* Display time */}
+                                {moment(v.start_date_time).format("HH:mm")}
                               </td>
+
                               <td style={{ border: "1px solid black" }}>
                                 {v.pl_end}
                               </td>
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.end_date_time).format("DD/MM/YYYY")}{" "}
-                                {/* Display date */}
+                                {moment(v.end_date_time).format("DD/MM/YYYY")}
                               </td>
-
 
                               <td style={{ border: "1px solid black" }}>
-                                {moment(v.end_date_time).format("HH:mm")}{" "}
-                                {/* Display time */}
+                                {moment(v.end_date_time).format("HH:mm")}
                               </td>
+
                               <td style={{ border: "1px solid black" }}>
                                 {v.duration} minutes
                               </td>

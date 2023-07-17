@@ -259,6 +259,8 @@ const Pctable = () => {
                       </th>
                     </tr>
                   </thead>
+
+                  
                   <tbody>
                     {school.track
                       .reduce((unique, o) => {
@@ -340,6 +342,8 @@ const Pctable = () => {
                         );
                       })}
                   </tbody>
+
+
                 </table>
               </div>
             )}

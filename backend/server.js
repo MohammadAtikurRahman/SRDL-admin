@@ -220,7 +220,7 @@ app.get("/api", (req, res) => {
     });
 });
 
-app.post('/insert-data', (req, res) => {
+app.post('/insert-data', async (req, res) => {
     const { schoolData } = req.body;
 
     if (schoolData.length > 0) {
@@ -238,15 +238,19 @@ app.post('/insert-data', (req, res) => {
             })),
         };
 
-        // Insert the data into the database
-        user.create({ school: [newSchoolData] })
-            .then(() => {
-                res.status(200).json({ message: 'Data inserted successfully' });
-            })
-            .catch((error) => {
-                console.error('Error inserting data:', error);
-                res.status(500).json({ message: 'Error inserting data' });
-            });
+        try {
+            // Find a user with the same EIIN and update it, or create a new one if it doesn't exist
+            await user.findOneAndUpdate(
+                { 'school.eiin': newSchoolData.eiin },
+                { $set: { 'school.$': newSchoolData } },
+                { upsert: true, new: true, setDefaultsOnInsert: true }
+            );
+
+            res.status(200).json({ message: 'Data inserted/updated successfully' });
+        } catch (error) {
+            console.error('Error inserting/updating data:', error);
+            res.status(500).json({ message: 'Error inserting/updating data' });
+        }
     } else {
         res.status(400).json({ message: 'Invalid request body' });
     }
@@ -271,27 +275,26 @@ app.get("/get-allnew", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            // Map through the users array to construct new objects
             let modifiedUsers = users.map(user => {
-                // Initialize an empty object to store merged schools
                 let mergedSchools = {};
 
                 user.school.forEach(school => {
-                    // If this school has already been added, append new tracks
                     if (mergedSchools[school.school_name]) {
                         mergedSchools[school.school_name].track.push(...school.track);
-                    } 
-                    // If this school is new, add it to the object
-                    else {
-                        mergedSchools[school.school_name] = school;
+                    } else {
+                        // Create a deep copy of the school object
+                        mergedSchools[school.school_name] = JSON.parse(JSON.stringify(school));
                     }
                 });
 
+                // Convert mergedSchools object into an array of its values (the school objects)
+                let schoolsArray = Object.values(mergedSchools);
+
                 return {
                     username: user.username,
-                    password: user.password, // Be cautious about sending password in response
+                    password: user.password,
                     userId: user.userId,
-                    school: Object.values(mergedSchools), // Convert merged schools back into an array
+                    school: schoolsArray,
                     video: user.video.map(video => ({
                         video_name: video.video_name,
                         location: video.location,
@@ -306,7 +309,7 @@ app.get("/get-allnew", (req, res) => {
                         pc_id: video.pc_id,
                         lab_id: video.lab_id,
                     })),
-                }
+                };
             });
 
             res.json(modifiedUsers);

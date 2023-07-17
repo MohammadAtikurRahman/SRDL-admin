@@ -267,53 +267,14 @@ app.post('/insert-data', (req, res) => {
 // });
 
 app.get("/get-allnew", (req, res) => {
-    user.find((err, users) => {
+    user.find((err, val) => {
         if (err) {
             console.log(err);
         } else {
-            // Map through the users array to construct new objects
-            let modifiedUsers = users.map(user => {
-                // Initialize an empty object to store merged schools
-                let mergedSchools = {};
-
-                user.school.forEach(school => {
-                    // If this school has already been added, append new tracks
-                    if (mergedSchools[school.school_name]) {
-                        mergedSchools[school.school_name].track.push(...school.track);
-                    } 
-                    // If this school is new, add it to the object
-                    else {
-                        mergedSchools[school.school_name] = school;
-                    }
-                });
-
-                return {
-                    username: user.username,
-                    password: user.password, // Be cautious about sending password in response
-                    userId: user.userId,
-                    school: Object.values(mergedSchools), // Convert merged schools back into an array
-                    video: user.video.map(video => ({
-                        video_name: video.video_name,
-                        location: video.location,
-                        pl_start: video.pl_start,
-                        start_date_time: video.start_date_time,
-                        pl_end: video.pl_end,
-                        end_date_time: video.end_date_time,
-                        duration: video.duration,
-                        pc_name: video.pc_name,
-                        eiin: video.eiin,
-                        school_name: video.school_name,
-                        pc_id: video.pc_id,
-                        lab_id: video.lab_id,
-                    })),
-                }
-            });
-
-            res.json(modifiedUsers);
+            res.json(val);
         }
     });
 });
-
 
 // app.get("/get-vd", async (req, res) => {
 //     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

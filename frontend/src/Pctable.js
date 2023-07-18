@@ -171,6 +171,8 @@ const Pctable = () => {
                 {school.lab_id}
               </Button>{" "}
               &nbsp;
+
+
               <Button
                 variant="contained"
                 color="primary"
@@ -189,53 +191,65 @@ const Pctable = () => {
                       .format("LLL")
                   : "N/A"}
               </Button>{" "}
+
+
+
+
               &nbsp;
               <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                style={{
-                  backgroundColor: "#2E8B57",
-                  width: "110px", // Add fixed width
-                }}
-                onClick={() => {
-                  const csvData = school.track
-                    .reverse()
-                    .map(({ start_time, end_time }) => {
-                      const startTime = moment(start_time);
-                      const endTime = moment(end_time);
-                      const duration = endTime.diff(startTime, "minutes");
+  variant="contained"
+  color="primary"
+  size="small"
+  style={{
+    backgroundColor: "#2E8B57",
+    width: "110px", // Add fixed width
+  }}
+  onClick={() => {
+    const uniqueTracks = school.track.reduce((unique, track) => {
+      const existingTrack = unique.find(
+        (t) => t.start_time === track.start_time && t.end_time === track.end_time
+      );
+      if (!existingTrack) {
+        unique.push(track);
+      }
+      return unique;
+    }, []);
 
-                      return {
-                        "Start Date": `"${startTime.format("DD/MM/YYYY")}"`,
-                        "Start Time": `"${startTime.format("HH:mm")}"`,
-                        "End Date": `"${endTime.format("DD/MM/YYYY")}"`,
-                        "End Time": `"${endTime.format("HH:mm")}"`,
-                        "Total Time": `"${duration}  minutes"`,
-                      };
-                    });
+    const csvData = uniqueTracks.map(({ start_time, end_time }) => {
+      const startTime = moment(start_time);
+      const endTime = moment(end_time);
+      const duration = endTime.diff(startTime, "minutes");
 
-                  const fileName = `pc_log_${school.school_name.replace(
-                    / /g,
-                    "_"
-                  )}_${school.eiin}.csv`;
-                  let csvContent = "data:text/csv;charset=utf-8,";
-                  csvContent += [
-                    Object.keys(csvData[0]).join(","),
-                    ...csvData.map((row) => Object.values(row).join(",")),
-                  ].join("\r\n");
+      return {
+        "Start Date": `"${startTime.format("DD/MM/YYYY")}"`,
+        "Start Time": `"${startTime.format("HH:mm")}"`,
+        "End Date": `"${endTime.format("DD/MM/YYYY")}"`,
+        "End Time": `"${endTime.format("HH:mm")}"`,
+        "Total Time": `"${duration+1}  minutes"`,
+      };
+    });
 
-                  const encodedUri = encodeURI(csvContent);
-                  const link = document.createElement("a");
-                  link.setAttribute("href", encodedUri);
-                  link.setAttribute("download", fileName);
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }}
-              >
-                <b>Download</b> &nbsp;
-              </Button>
+    const fileName = `pc_log_${school.school_name.replace(/ /g, "_")}_${school.eiin}.csv`;
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += [Object.keys(csvData[0]).join(","), ...csvData.map((row) => Object.values(row).join(","))].join("\r\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }}
+>
+  <b>Download</b> &nbsp;
+</Button>
+
+
+
+
+
+
               &nbsp; &nbsp;
               {selectedSchool === school._id && (
                 <div style={{ clear: "both" }}>

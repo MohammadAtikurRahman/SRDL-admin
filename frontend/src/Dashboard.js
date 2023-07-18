@@ -174,21 +174,26 @@ export default class Dashboard extends Component {
           const pcEndTime = moment(video.end_date_time);
           const duration = pcEndTime.diff(pcStartTime, "seconds") / 60;
   
+          const videoLocationParts = video.location.split("/");
+          const videoNameWithExtension = videoLocationParts.pop();
+          const videoExtension = videoNameWithExtension.split(".").pop();
+          const videoName = videoNameWithExtension.slice(0, -videoExtension.length - 1);
+  
           const row = [
             video.school_name,
             video.eiin,
-            video.location.split("/").pop().split(".")[0],
-            video.location,
+            `"${videoName.trim()}"`,
+            `"${videoLocationParts.join("/")}"`,
             video.pl_start,
             pcStartTime.format("DD/MM/YYYY"),
             pcStartTime.format("HH:mm"),
             video.pl_end,
             pcEndTime.format("DD/MM/YYYY"),
             pcEndTime.format("HH:mm"),
-            (duration.toFixed(2)).toString() + " minutes",
+            `"${duration.toFixed(2)} minutes"`,
           ];
-          
-          csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
+  
+          csvContent += row.map((value) => `${value}`).join(",") + "\n";
         });
       });
   
@@ -204,13 +209,15 @@ export default class Dashboard extends Component {
     });
   };
   
+  
+  
 
   downloadCSV1 = () => {
     axios.get(baseUrl + "/get-allnew").then((response) => {
       const { data } = response;
+      const uniqueTracks = new Set();
       let csvContent = "data:text/csv;charset=utf-8,";
   
-      // Define custom column names
       const columnNames = [
         "School Name",
         "EIIN",
@@ -221,38 +228,39 @@ export default class Dashboard extends Component {
         "Track Total Time",
       ];
   
-      // Add column headers
       csvContent += columnNames.join(",") + "\n";
   
-      // Iterate over each user
       data.forEach((user) => {
-        // Iterate over each school
         user.school.forEach((school) => {
           const schoolName = school.school_name;
           const eiin = school.eiin;
   
-          // Iterate over each track
           school.track.forEach((track) => {
-            const startTime = moment(track.start_time);
-            const endTime = moment(track.end_time);
-            const totalMinutes = parseInt(track.total_time);
+            const trackKey = `${schoolName}-${eiin}-${track.start_time}-${track.end_time}`;
   
-            const row = [
-              schoolName,
-              eiin,
-              startTime.format("DD/MM/YYYY"),
-              startTime.format("HH:mm"),
-              endTime.format("DD/MM/YYYY"),
-              endTime.format("HH:mm"),
-              totalMinutes.toString() + " minutes",
-            ];
+            if (!uniqueTracks.has(trackKey)) {
+              const startTime = moment(track.start_time);
+              const endTime = moment(track.end_time);
+              const duration = moment.duration(endTime.diff(startTime));
+              const totalMinutes = Math.round(duration.asMinutes());
   
-            csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
+              const row = [
+                schoolName,
+                eiin,
+                startTime.format("DD/MM/YYYY"),
+                startTime.format("HH:mm"),
+                endTime.format("DD/MM/YYYY"),
+                endTime.format("HH:mm"),
+                totalMinutes + " minutes",
+              ];
+  
+              csvContent += row.map((value) => `"${value}"`).join(",") + "\n";
+              uniqueTracks.add(trackKey);
+            }
           });
         });
       });
   
-      // Download the CSV file
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);

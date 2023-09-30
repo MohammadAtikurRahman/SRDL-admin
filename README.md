@@ -9,7 +9,7 @@ Web app using React, Node.js, Express & MongoDB.
 - npm
 
 ## Setup
-1. Clone: `git clone https://github.com/your-username/your-repo.git && cd your-repo`
+1. Clone: `git clone https://github.com/MohammadAtikurRahman/SRDL-admin`
 2. Backend deps: `cd backend && npm install`
 3. Frontend deps: `cd frontend && npm install`
 4. MongoDB: Ensure it's running. Adjust backend config if needed.
